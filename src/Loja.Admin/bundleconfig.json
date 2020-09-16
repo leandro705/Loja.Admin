@@ -1,0 +1,89 @@
+[
+  {
+    "outputFileName": "wwwroot/css/site.min.css",
+    "inputFiles": [
+      "wwwroot/css/site.css"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/site.min.js",
+    "inputFiles": [
+      "wwwroot/lib/knockout/knockout-3.5.1.js",
+      "wwwroot/lib/jquery/jquery.slim.min.js",
+      "wwwroot/lib/bootstrap/js/bootstrap.bundle.min.js"
+    ],
+    "minify": {
+      "enabled": false,
+      "renameLocals": false
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/login.min.js",
+    "inputFiles": [
+      "wwwroot/pages/login/pages.login.model.js",
+      "wwwroot/pages/login/pages.login.services.js",
+      "wwwroot/pages/login/pages.login.viewModel.js"
+    ],
+    "minify": {
+      "enabled": false,
+      "renameLocals": false
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/recuperarSenha.min.js",
+    "inputFiles": [
+      "wwwroot/pages/recuperarSenha/pages.recuperarSenha.services.js",
+      "wwwroot/pages/recuperarSenha/pages.recuperarSenha.viewModel.js"
+    ],
+    "minify": {
+      "enabled": false,
+      "renameLocals": false
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/config.min.js",
+    "inputFiles": [
+      "wwwroot/lib/jquery/jquery.min.js",
+      "wwwroot/lib/knockout/knockout-3.5.1.js",
+      "wwwroot/lib/bootbox/bootbox.min.js",
+      "wwwroot/pages/config.js",
+      "wwwroot/pages/prototype.js",
+      "wwwroot/pages/pages.interceptor.js",
+      "wwwroot/pages/pages.metadata.js",
+      "wwwroot/pages/pages.utils.js",
+      "wwwroot/pages/pages.dataServices.js"
+    ],
+    "minify": {
+      "enabled": false,
+      "renameLocals": false
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/configPublic.min.js",
+    "inputFiles": [
+      "wwwroot/lib/jquery/jquery.min.js",
+      "wwwroot/lib/bootstrap/js/bootstrap.bundle.min.js",
+      "wwwroot/lib/knockout/knockout-3.5.1.js",
+      "wwwroot/lib/bootbox/bootbox.min.js",
+      "wwwroot/pages/config.js",
+      "wwwroot/pages/prototype.js",
+      "wwwroot/pages/pages.metadata.js",
+      "wwwroot/pages/pages.utils.js",
+      "wwwroot/pages/pages.dataServices.js"
+    ],
+    "minify": {
+      "enabled": false,
+      "renameLocals": false
+    },
+    "sourceMap": false
+  }
+]
