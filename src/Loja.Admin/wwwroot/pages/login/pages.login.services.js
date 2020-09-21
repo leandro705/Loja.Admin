@@ -14,6 +14,16 @@ pages.login.services = function () {
         return pages.dataServices.postAjax(url, parametro);
     }
 
+    var loginFacebook = function (parametro) {
+        var url = pages.metadata.actionUrl("/api/authentication/facebook");
+        return pages.dataServices.postAjax(url, parametro);
+    }
+
+    var loginGoogle = function (parametro) {
+        var url = pages.metadata.actionUrl("/api/authentication/google");
+        return pages.dataServices.postAjax(url, parametro);
+    }    
+
     var salvar = function (parametro) {
         var url = pages.metadata.actionUrl("/api/authentication");
         return pages.dataServices.postAjax(url, parametro);
@@ -27,6 +37,8 @@ pages.login.services = function () {
     return {
         ETelaLogin,
         login,
+        loginFacebook,
+        loginGoogle,
         salvar,
         recuperarSenha
     };

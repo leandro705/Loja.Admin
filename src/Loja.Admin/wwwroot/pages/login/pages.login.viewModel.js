@@ -15,6 +15,7 @@ pages.login.viewModel = function () {
         var self = this;
 
         pages.utils.initDataPassword();
+        renderButton();
         self.ETelaLogin = service.ETelaLogin;
         self.telaAtual = ko.observable(service.ETelaLogin.LOGIN);
         self.nome = ko.observable();
@@ -32,8 +33,10 @@ pages.login.viewModel = function () {
         self.alterarTela = function (telaAtual) {
             self.telaAtual(telaAtual);
             pages.utils.initDataPassword();
+            fbAsyncInit();
+            renderButton();
         }
-
+        
         self.validarLogin = function () {
             var mensagens = [];
 
@@ -55,7 +58,7 @@ pages.login.viewModel = function () {
 
             var parametro = {
                 email: self.email(),
-                password: self.senha()             
+                senha: self.senha()             
             };
 
             service.login(parametro).then(function (result) {
@@ -96,7 +99,7 @@ pages.login.viewModel = function () {
             var parametro = {
                 nome: self.nome(),
                 email: self.email(),
-                password: self.senha()
+                senha: self.senha()
             };
 
             service.salvar(parametro).then(function () {
@@ -140,7 +143,7 @@ pages.login.viewModel = function () {
             }).finally(function () {
 
             });
-        };        
+        };  
 
     }, binding);
 }();

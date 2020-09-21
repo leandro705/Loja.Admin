@@ -1,0 +1,53 @@
+﻿#customBtn {
+    background-color: #4285f4;
+    color: #fff;
+    width: 100%;
+    height: 40px;
+    border: thin solid #888;
+    box-shadow: 1px 1px 1px grey;
+    white-space: nowrap;
+    display: flex;
+}
+
+#customBtn:hover {
+    cursor: pointer;
+}
+
+span.label {
+    font-family: serif;
+    font-weight: normal;
+}
+
+.divIcon {
+    background-color: #fff;
+    padding: 10px;
+    width: 38px;
+    height: 38px;
+    align-content: center;
+    align-items: center;
+    display: flex;
+}
+
+span.icon {
+    background-color: #fff;
+    background: url('../images/google.png') transparent 5px 50% no-repeat;
+    padding: 10px;
+    float: left;
+    width: 38px;
+    height: 38px;    
+    vertical-align: middle;
+}
+
+.divText {
+    align-content: center;
+    align-items: center;
+    align-self: center;
+    width: 100%;
+}
+
+span.buttonText {    
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 14px;
+    font-weight: 500;   
+}

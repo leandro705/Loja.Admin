@@ -28,6 +28,8 @@
     "inputFiles": [
       "wwwroot/pages/login/pages.login.model.js",
       "wwwroot/pages/login/pages.login.services.js",
+      "wwwroot/pages/login/pages.login.googleViewModel.js",
+      "wwwroot/pages/login/pages.login.facebookViewModel.js",
       "wwwroot/pages/login/pages.login.viewModel.js"
     ],
     "minify": {
