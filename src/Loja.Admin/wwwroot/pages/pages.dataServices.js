@@ -31,6 +31,28 @@ pages.dataServices = function () {
                     falha(resposta.errors.join("</br>") || "Erro ao realizar operação.");
             }, "json");
         });
+    }    
+
+    var putAjax = function (url, parametros) {
+        if (!parametros) parametros = {};
+        return new Promise(function (sucesso, falha) {
+            $.ajax({
+                type: "PUT",
+                dataType: "JSON",
+                contentType: "application/json; charset=utf-8",
+                url: url,
+                data: JSON.stringify(parametros),
+                success: function (resposta) {
+                    if (resposta.statusCode === 200)
+                        sucesso(resposta.data);
+                    else
+                        falha(resposta.errors.join("</br>") || "Erro ao realizar operação.");
+                },
+                error: function (resposta) {
+                    falha(resposta.errors.join("</br>") || "Erro ao realizar operação.");
+                }
+            });
+        });
     }
 
     var postAjax = function (url, parametros) {
@@ -58,6 +80,7 @@ pages.dataServices = function () {
     return {
         get,
         post,
+        putAjax,
         postAjax
     };
 }();

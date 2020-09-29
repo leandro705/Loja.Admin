@@ -1,0 +1,203 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section contents {
+
+}
+
+<!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <h4 class="page-title">Meus Dados</h4>
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item active">Meus Dados</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+
+    <div class="col-lg-12 col-xl-12">
+        <div class="card">
+            <div class="card-body" data-bind="with:dadosUsuario">
+                <ul class="nav nav-pills navtab-bg">
+                    <li class="nav-item">
+                        <a href="#geral" data-toggle="tab" aria-expanded="true" class="nav-link active ml-0">
+                            <i class="mdi mdi-face-profile mr-1"></i>Geral
+                        </a>
+                    </li>
+                   
+                    <!-- ko if:  !loginSocial() -->
+                    <li class="nav-item">
+                        <a href="#alterarSenha" data-toggle="tab" aria-expanded="false" class="nav-link">
+                            <i class="mdi mdi-key mr-1"></i>Alterar Senha
+                        </a>
+                    </li>
+                    <!-- /ko-->
+                </ul>
+
+                <div class="tab-content">
+
+                    <div class="tab-pane show active" id="geral">
+                        <h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-account-circle mr-1"></i> Informações Gerais</h5>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="nome">Nome</label>
+                                    <input type="text" class="form-control" id="nome" data-bind="value: nome" placeholder="Informe o nome">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="email">E-mail</label>
+                                    <input type="email" class="form-control" id="email" data-bind="value: email, disable:true" placeholder="Informe o e-mail">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="celular">Celular</label>
+                                    <input type="text" class="form-control" id="celular" data-bind="value: celular" placeholder="Informe o celular">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="telefone">Telefone</label>
+                                    <input type="text" class="form-control" id="telefone" data-bind="value: telefone" placeholder="Informe o telefone">
+                                </div>
+                            </div>
+                        </div>
+
+                        <h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-home-city mr-1"></i> Informações de Endereço</h5>
+                      
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="logradouro">Logradouro</label>
+                                    <input type="text" class="form-control" id="logradouro" data-bind="value: endereco().logradouro" placeholder="Informe o logradouro">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="numero">Número</label>
+                                    <input type="text" class="form-control" id="numero" data-bind="value: endereco().numero" placeholder="Informe o número">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="cep">CEP</label>
+                                    <input type="text" class="form-control" id="cep" data-bind="value: endereco().cep" placeholder="Informe o cep">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="bairro">Bairro</label>
+                                    <input type="text" class="form-control" id="bairro" data-bind="value: endereco().bairro" placeholder="Informe o bairro">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="complemento">Complemento</label>
+                                    <input type="text" class="form-control" id="complemento" data-bind="value: endereco().complemento" placeholder="Informe o Complemento">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="estado">Estado</label>
+                                    <select id="estado" class="form-control" data-toggle="select2" 
+                                            data-bind="value: endereco().estadoId, options: $root.estados, optionsText: 'nome', optionsValue: 'estadoId', valueAllowUnset: true, select2: { placeholder: 'Selecione um estado', tags: false }">
+                                    </select>                                    
+                                </div>                                
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="municipio">Município</label>
+                                    <select id="municipio" class="form-control" data-toggle="select2"
+                                            data-bind="value: endereco().municipioId, options: $root.municipios, optionsText: 'nome', optionsValue: 'municipioId', valueAllowUnset: true, select2: { placeholder: 'Selecione um município', tags: false }">
+                                    </select>                                    
+                                </div>
+                            </div>
+                        </div>                      
+                        <div class="row">
+                            <div class="col-lg-12 col-xl-12 text-right">
+                                <button type="button" class="btn btn-success waves-effect waves-light mt-2" data-bind="click: $root.salvar"><i class="mdi mdi-content-save"></i> Salvar</button>
+                            </div>
+                        </div>
+                    </div>
+     
+                    <div class="tab-pane" id="alterarSenha">
+                        <!-- ko with: alterarSenha -->
+                        <h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-key mr-1"></i> Alterar Senha</h5>
+                        <div class="row">
+                            <div class="offset-3 col-md-6">
+                                <div class="form-group">
+                                    <label for="senhaAtual">Senha Atual</label>
+                                    <div class="input-group input-group-merge">
+                                        <input type="password" id="senhaAtual" class="form-control" data-bind="value: senhaAtual" placeholder="Informe a senha atual">
+                                        <div class="input-group-append" data-password="false">
+                                            <div class="input-group-text">
+                                                <span class="password-eye"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="offset-3 col-md-6">
+                                <div class="form-group">
+                                    <label for="novaSenha">Nova Senha</label>
+                                    <div class="input-group input-group-merge">
+                                        <input type="password" id="novaSenha" class="form-control" data-bind="value: novaSenha" placeholder="Informe a nova senha">
+                                        <div class="input-group-append" data-password="false">
+                                            <div class="input-group-text">
+                                                <span class="password-eye"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="offset-3 col-md-6">
+                                <div class="form-group">
+                                    <label for="confirmarSenha">Confirmar Senha</label>
+                                    <div class="input-group input-group-merge">
+                                        <input type="password" id="confirmarSenha" class="form-control" data-bind="value: confirmarSenha" placeholder="Confirme a nova senha">
+                                        <div class="input-group-append" data-password="false">
+                                            <div class="input-group-text">
+                                                <span class="password-eye"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /ko -->
+                        <div class="row">
+                            <div class="col-lg-12 col-xl-12 text-right">
+                                <button type="button" class="btn btn-success waves-effect waves-light mt-2" data-bind="click: $root.atualizarSenhaUsuario"><i class="mdi mdi-content-save"></i> Alterar Senha</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>                
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script src="~/js/perfil.min.js"></script>
+}

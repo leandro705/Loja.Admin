@@ -15,3 +15,25 @@ Array.prototype.any = function (exp) {
         return this.filter(exp).length > 0;
     return false;
 };
+
+Array.prototype.firstOrDefault = function (filtro) {
+    if (this.length === 0)
+        return null;
+
+    if (window.isNullOrEmpty(filtro))
+        return this[0];
+
+    var filtrado = this.filter(filtro);
+    return filtrado.length === 0 ? null : filtrado[0];
+};
+
+Array.prototype.lastOrDefault = function (filtro) {
+    if (this.length === 0)
+        return null;
+
+    if (window.isNullOrEmpty(filtro))
+        return this[this.length - 1];
+
+    var filtrado = this.filter(filtro);
+    return filtrado.length === 0 ? null : filtrado[filtrado.length - 1];
+};

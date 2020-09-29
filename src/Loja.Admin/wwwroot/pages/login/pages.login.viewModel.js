@@ -62,7 +62,9 @@ pages.login.viewModel = function () {
             };
 
             service.login(parametro).then(function (result) {
-                bootbox.alert("Usuario autenticado!");
+                console.log(result)
+                localStorage.setItem("token", JSON.stringify(result));
+                window.location.href = "/Home/Index";
             }).catch(function (mensagem) {
                 bootbox.alert(mensagem);
             }).finally(function () {
@@ -145,5 +147,5 @@ pages.login.viewModel = function () {
             });
         };  
 
-    }, binding);
+    }, bindingBody);
 }();

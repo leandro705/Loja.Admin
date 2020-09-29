@@ -2,20 +2,11 @@
   {
     "outputFileName": "wwwroot/css/site.min.css",
     "inputFiles": [
-      "wwwroot/css/site.css"
-    ],
-    "minify": {
-      "enabled": true,
-      "renameLocals": true
-    },
-    "sourceMap": false
-  },
-  {
-    "outputFileName": "wwwroot/js/site.min.js",
-    "inputFiles": [
-      "wwwroot/lib/knockout/knockout-3.5.1.js",
-      "wwwroot/lib/jquery/jquery.slim.min.js",
-      "wwwroot/lib/bootstrap/js/bootstrap.bundle.min.js"
+      "wwwroot/assets/css/bootstrap.min.css",
+      "wwwroot/assets/css/app.min.css",
+      "wwwroot/assets/css/icons.min.css",
+      "wwwroot/lib/select2/css/select2.min.css",
+      "wwwroot/assets/css/site.css"
     ],
     "minify": {
       "enabled": false,
@@ -51,11 +42,34 @@
     "sourceMap": false
   },
   {
+    "outputFileName": "wwwroot/js/configPublic.min.js",
+    "inputFiles": [
+      "wwwroot/lib/jquery/jquery.min.js",
+      "wwwroot/lib/bootstrap/js/bootstrap.bundle.min.js",
+      "wwwroot/lib/knockout/knockout-3.5.1.js",
+      "wwwroot/lib/bootbox/bootbox.min.js",
+      "wwwroot/pages/config.js",
+      "wwwroot/pages/prototype.js",
+      "wwwroot/pages/pages.metadata.js",
+      "wwwroot/pages/pages.utils.js",
+      "wwwroot/pages/pages.dataServices.js"
+    ],
+    "minify": {
+      "enabled": false,
+      "renameLocals": false
+    },
+    "sourceMap": false
+  },
+  {
     "outputFileName": "wwwroot/js/config.min.js",
     "inputFiles": [
       "wwwroot/lib/jquery/jquery.min.js",
+      "wwwroot/lib/bootstrap/js/bootstrap.bundle.min.js",
       "wwwroot/lib/knockout/knockout-3.5.1.js",
+      "wwwroot/lib/knockout/knockout.custom.bindings.js",
       "wwwroot/lib/bootbox/bootbox.min.js",
+      "wwwroot/lib/select2/js/select2.min.js",
+      "wwwroot/assets/js/app.js",
       "wwwroot/pages/config.js",
       "wwwroot/pages/prototype.js",
       "wwwroot/pages/pages.interceptor.js",
@@ -70,17 +84,24 @@
     "sourceMap": false
   },
   {
-    "outputFileName": "wwwroot/js/configPublic.min.js",
+    "outputFileName": "wwwroot/js/menu.min.js",
     "inputFiles": [
-      "wwwroot/lib/jquery/jquery.min.js",
-      "wwwroot/lib/bootstrap/js/bootstrap.bundle.min.js",
-      "wwwroot/lib/knockout/knockout-3.5.1.js",
-      "wwwroot/lib/bootbox/bootbox.min.js",
-      "wwwroot/pages/config.js",
-      "wwwroot/pages/prototype.js",
-      "wwwroot/pages/pages.metadata.js",
-      "wwwroot/pages/pages.utils.js",
-      "wwwroot/pages/pages.dataServices.js"
+      "wwwroot/pages/menu/pages.menu.model.js",
+      "wwwroot/pages/menu/pages.menu.services.js",
+      "wwwroot/pages/menu/pages.menu.viewModel.js"
+    ],
+    "minify": {
+      "enabled": false,
+      "renameLocals": false
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/perfil.min.js",
+    "inputFiles": [
+      "wwwroot/pages/perfil/pages.perfil.model.js",
+      "wwwroot/pages/perfil/pages.perfil.services.js",
+      "wwwroot/pages/perfil/pages.perfil.viewModel.js"
     ],
     "minify": {
       "enabled": false,
