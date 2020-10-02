@@ -7,6 +7,15 @@
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
   <ItemGroup>
+    <Content Remove="wwwroot\js\servico.min.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\js\servico.min.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\js\servico.min.js" />
     <None Include="wwwroot\lib\datatables.net-bs4\js\dataTables.bootstrap4.min.js" />
     <None Include="wwwroot\lib\datatables.net-buttons-bs4\js\buttons.bootstrap4.min.js" />
     <None Include="wwwroot\lib\datatables.net-buttons\js\buttons.colVis.min.js" />

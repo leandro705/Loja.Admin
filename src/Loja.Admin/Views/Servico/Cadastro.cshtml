@@ -1,0 +1,53 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section contents {
+    
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <h4 class="page-title">Cadastro de Serviço</h4>
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a asp-controller="Servico" asp-action="Index">Serviços</a></li>
+                    <li class="breadcrumb-item active">Cadastrar</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <form data-bind="with:servico">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="nome" class="col-form-label">Nome<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="nome" data-bind="value: nome" placeholder="Informe o nome">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="valor" class="col-form-label">Valor<span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" id="valor" data-bind="value: valor" placeholder="Informe o valor">
+                        </div>
+                    </div>                    
+                   
+                    <div class="form-group float-right">
+                        <button type="button" class="btn btn-secondary mr-1" data-bind="click: $parent.voltar">Voltar</button>
+                        <button type="button" class="btn btn-primary" data-bind="click: $parent.salvar, disable: $parent.bloqueiaSalvar()">Salvar</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {   
+    <script src="~/js/servicoCadastro.min.js"></script>
+}

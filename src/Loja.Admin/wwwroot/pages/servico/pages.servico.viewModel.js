@@ -1,30 +1,30 @@
 ﻿var pages = pages || {};
-pages.estabelecimento = pages.estabelecimento || {};
-pages.estabelecimento.model = pages.estabelecimento.model || {};
-pages.estabelecimento.services = pages.estabelecimento.services || {};
+pages.servico = pages.servico || {};
+pages.servico.model = pages.servico.model || {};
+pages.servico.services = pages.servico.services || {};
 
 pages.metadata = pages.metadata || {};
 pages.dataServices = pages.dataServices || {};
 pages.utils = pages.utils || {};
 
-pages.estabelecimento.viewModel = function () {   
-    var model = pages.estabelecimento.model;
-    var service = pages.estabelecimento.services;
+pages.servico.viewModel = function () {   
+    var model = pages.servico.model;
+    var service = pages.servico.services;
    
     ko.applyBindings(new function () {
         var self = this;       
         
-        self.estabelecimentos = ko.observableArray([]);
+        self.servicos = ko.observableArray([]);
         self.datatable = ko.observable();
 
         self.init = function () {            
-            self.obterEstabelecimentos();            
+            self.obterServicos();            
         };
 
-        self.obterEstabelecimentos = function () {
+        self.obterServicos = function () {
             service.obterTodos().then(function (result) {
                 result.forEach(function (item) {
-                    self.estabelecimentos.push(new model.vmEstabelecimento(item));
+                    self.servicos.push(new model.vmServico(item));
                 });
                 self.inicializarDatatable();
             }).catch(function (mensagem) {
@@ -35,7 +35,7 @@ pages.estabelecimento.viewModel = function () {
         };
       
         self.inicializarDatatable = function () {
-            var table = $('#datatable-estabelecimento').DataTable({
+            var table = $('#datatable-servico').DataTable({
                 lengthChange: false,
                 order: [[1, 'asc']],
                 responsive: true,
@@ -47,7 +47,7 @@ pages.estabelecimento.viewModel = function () {
                     visible: false
                 },
                 {
-                    targets: [6],
+                    targets: [5],
                     orderable: false,
                     searchable: false,
                     className: "text-center"
@@ -55,24 +55,24 @@ pages.estabelecimento.viewModel = function () {
                 buttons: [
                     {
                         extend: 'pdfHtml5',
-                        title: 'Listagem Estabelecimentos'
+                        title: 'Listagem Serviços'
                     },
                 ],
                 language: pages.utils.languageDataTablePtBr               
             });
 
-            table.buttons().container().appendTo('#datatable-estabelecimento_wrapper .col-md-6:eq(0)');            
+            table.buttons().container().appendTo('#datatable-servico_wrapper .col-md-6:eq(0)');            
             self.datatable(table);
         }; 
 
         self.editar = function (item) {
-            window.location.href = "/Estabelecimento/Edicao/" + item.estabelecimentoId();
+            window.location.href = "/Servico/Edicao/" + item.servicoId();
         };
 
         self.excluir = function (item) {
             bootbox.dialog({
                 closeButton: false,
-                message: "Confirma a exclusão do estabelecimento <strong>" + item.nome() + "</strong>!",               
+                message: "Confirma a exclusão do serviço <strong>" + item.nome() + "</strong>!",               
                 buttons: {
                     nao: {
                         label: "NÃO",
@@ -82,11 +82,11 @@ pages.estabelecimento.viewModel = function () {
                         label: "SIM",
                         className: "btn-sm btn-primary",
                         callback: function () {
-                            service.deletar(item.estabelecimentoId()).then(function () {
-                                bootbox.alert("Estabelecimento excluído com sucesso!", function () {  
-                                    var rowIdx = self.datatable().column(0).data().indexOf(item.estabelecimentoId().toString());
+                            service.deletar(item.servicoId()).then(function () {
+                                bootbox.alert("Serviço excluído com sucesso!", function () {  
+                                    var rowIdx = self.datatable().column(0).data().indexOf(item.servicoId().toString());
                                     self.datatable().row(rowIdx).remove().draw(false);
-                                    self.estabelecimentos.remove(item);                                                                        
+                                    self.servicos.remove(item);                                                                        
                                 });                                 
                             }).catch(function (mensagem) {
                                 bootbox.alert(mensagem);

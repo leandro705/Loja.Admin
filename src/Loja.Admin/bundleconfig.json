@@ -179,5 +179,44 @@
       "renameLocals": false
     },
     "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/servico.min.js",
+    "inputFiles": [
+      "wwwroot/pages/servico/pages.servico.model.js",
+      "wwwroot/pages/servico/pages.servico.services.js",
+      "wwwroot/pages/servico/pages.servico.viewModel.js"
+    ],
+    "minify": {
+      "enabled": false,
+      "renameLocals": false
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/servicoCadastro.min.js",
+    "inputFiles": [
+      "wwwroot/pages/servico/pages.servico.model.js",
+      "wwwroot/pages/servico/pages.servico.services.js",
+      "wwwroot/pages/servico/pages.servico.cadastroViewModel.js"
+    ],
+    "minify": {
+      "enabled": false,
+      "renameLocals": false
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/servicoEdicao.min.js",
+    "inputFiles": [
+      "wwwroot/pages/servico/pages.servico.model.js",
+      "wwwroot/pages/servico/pages.servico.services.js",
+      "wwwroot/pages/servico/pages.servico.edicaoViewModel.js"
+    ],
+    "minify": {
+      "enabled": false,
+      "renameLocals": false
+    },
+    "sourceMap": false
   }
 ]
