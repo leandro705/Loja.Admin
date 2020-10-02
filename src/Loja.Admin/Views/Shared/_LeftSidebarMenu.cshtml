@@ -35,19 +35,60 @@
                 <!-- ko if:  exibeMenuDashboard -->
                 <li>
                     <a href="#Dashboard">
-                        <i class="ri-dashboard-line"></i>
+                        <i class="ri-bar-chart-box-line"></i>
                         <span> Dashboard </span>
+                    </a>
+                </li>
+                <!-- /ko-->
+                <!-- ko if:  exibeMenuEstabelecimento -->
+                <li>
+                    <a asp-controller="Estabelecimento" asp-action="Index">
+                        <i class="ri-hotel-line"></i>
+                        <span> Estabelecimentos </span>
                     </a>
                 </li>
                 <!-- /ko-->
                 <!-- ko if:  exibeMenuCalendario -->
                 <li>
-                    <a href="#Calendario">
+                    <a asp-controller="Agendamento" asp-action="Calendario">
                         <i class="ri-calendar-2-line"></i>
                         <span> Calendário </span>
                     </a>
                 </li>
                 <!-- /ko-->
+                <!-- ko if:  exibeMenuAgendamento -->
+                <li>
+                    <a asp-controller="Agendamento" asp-action="Index">
+                        <i class="ri-time-line"></i>
+                        <span> Agendamentos </span>
+                    </a>
+                </li>
+                <!-- /ko-->
+                <!-- ko if:  exibeMenuAtendimento -->
+                <li>
+                    <a asp-controller="Atendimento" asp-action="Index">
+                        <i class="ri-file-list-line"></i>
+                        <span> Atendimentos </span>
+                    </a>
+                </li>
+                <!-- /ko-->
+                <!-- ko if:  exibeMenuServico -->
+                <li>
+                    <a asp-controller="Servico" asp-action="Index">
+                        <i class="ri-inbox-line"></i>
+                        <span> Serviços </span>
+                    </a>
+                </li>
+                <!-- /ko-->
+                <!-- ko if:  exibeMenuUsuario -->
+                <li>
+                    <a asp-controller="Servico" asp-action="Index">
+                        <i class="ri-account-box-line"></i>
+                        <span> Usuários </span>
+                    </a>
+                </li>
+                <!-- /ko-->
+
             </ul>
 
         </div>

@@ -77,10 +77,31 @@ pages.dataServices = function () {
         });
     }
 
+    var deleteAjax = function (url) {        
+        return new Promise(function (sucesso, falha) {
+            $.ajax({
+                type: "DELETE",
+                dataType: "JSON",
+                contentType: "application/json; charset=utf-8",
+                url: url,                
+                success: function (resposta) {
+                    if (resposta.statusCode === 200)
+                        sucesso(resposta.data);
+                    else
+                        falha(resposta.errors.join("</br>") || "Erro ao realizar operação.");
+                },
+                error: function (resposta) {
+                    falha(resposta.errors.join("</br>") || "Erro ao realizar operação.");
+                }
+            });
+        });
+    }
+
     return {
         get,
         post,
         putAjax,
-        postAjax
+        postAjax,
+        deleteAjax
     };
 }();

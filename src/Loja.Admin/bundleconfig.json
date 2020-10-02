@@ -15,6 +15,19 @@
     "sourceMap": false
   },
   {
+    "outputFileName": "wwwroot/css/datatable.min.css",
+    "inputFiles": [
+      "wwwroot/lib/datatables.net-bs4/css/dataTables.bootstrap4.min.css",
+      "wwwroot/lib/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css",
+      "wwwroot/lib/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css"
+    ],
+    "minify": {
+      "enabled": false,
+      "renameLocals": false
+    },
+    "sourceMap": false
+  },
+  {
     "outputFileName": "wwwroot/js/login.min.js",
     "inputFiles": [
       "wwwroot/pages/login/pages.login.model.js",
@@ -84,6 +97,25 @@
     "sourceMap": false
   },
   {
+    "outputFileName": "wwwroot/js/datatable.min.js",
+    "inputFiles": [
+      "wwwroot/lib/datatables.net/jquery.dataTables.min.js",
+      "wwwroot/lib/datatables.net-bs4/js/dataTables.bootstrap4.min.js",
+      "wwwroot/lib/datatables.net-buttons/js/dataTables.buttons.min.js",
+      "wwwroot/lib/datatables.net-buttons/js/buttons.html5.min.js",
+      "wwwroot/lib/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js",
+      "wwwroot/lib/datatables.net-responsive/dataTables.responsive.min.js",
+      "wwwroot/lib/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js",
+      "wwwroot/lib/pdfmake/pdfmake.min.js",
+      "wwwroot/lib/pdfmake/vfs_fonts.js"
+    ],
+    "minify": {
+      "enabled": false,
+      "renameLocals": false
+    },
+    "sourceMap": false
+  },
+  {
     "outputFileName": "wwwroot/js/menu.min.js",
     "inputFiles": [
       "wwwroot/pages/menu/pages.menu.model.js",
@@ -102,6 +134,45 @@
       "wwwroot/pages/perfil/pages.perfil.model.js",
       "wwwroot/pages/perfil/pages.perfil.services.js",
       "wwwroot/pages/perfil/pages.perfil.viewModel.js"
+    ],
+    "minify": {
+      "enabled": false,
+      "renameLocals": false
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/estabelecimento.min.js",
+    "inputFiles": [
+      "wwwroot/pages/estabelecimento/pages.estabelecimento.model.js",
+      "wwwroot/pages/estabelecimento/pages.estabelecimento.services.js",
+      "wwwroot/pages/estabelecimento/pages.estabelecimento.viewModel.js"
+    ],
+    "minify": {
+      "enabled": false,
+      "renameLocals": false
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/estabelecimentoCadastro.min.js",
+    "inputFiles": [
+      "wwwroot/pages/estabelecimento/pages.estabelecimento.model.js",
+      "wwwroot/pages/estabelecimento/pages.estabelecimento.services.js",
+      "wwwroot/pages/estabelecimento/pages.estabelecimento.cadastroViewModel.js"
+    ],
+    "minify": {
+      "enabled": false,
+      "renameLocals": false
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/estabelecimentoEdicao.min.js",
+    "inputFiles": [
+      "wwwroot/pages/estabelecimento/pages.estabelecimento.model.js",
+      "wwwroot/pages/estabelecimento/pages.estabelecimento.services.js",
+      "wwwroot/pages/estabelecimento/pages.estabelecimento.edicaoViewModel.js"
     ],
     "minify": {
       "enabled": false,

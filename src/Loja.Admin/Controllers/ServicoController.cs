@@ -2,9 +2,9 @@
 
 namespace Loja.Admin.Controllers
 {    
-    public class PerfilController : Controller
+    public class ServicoController : Controller
     {       
-        public IActionResult Index(string id)
+        public IActionResult Index()
         {
             return View();
         }

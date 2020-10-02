@@ -7,15 +7,16 @@
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
   <ItemGroup>
-    <Content Remove="wwwroot\js\configLogin.min.js" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="wwwroot\js\configLogin.min.js" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="wwwroot\js\configLogin.min.js" />
+    <None Include="wwwroot\lib\datatables.net-bs4\js\dataTables.bootstrap4.min.js" />
+    <None Include="wwwroot\lib\datatables.net-buttons-bs4\js\buttons.bootstrap4.min.js" />
+    <None Include="wwwroot\lib\datatables.net-buttons\js\buttons.colVis.min.js" />
+    <None Include="wwwroot\lib\datatables.net-buttons\js\buttons.flash.min.js" />
+    <None Include="wwwroot\lib\datatables.net-buttons\js\buttons.html5.min.js" />
+    <None Include="wwwroot\lib\datatables.net-buttons\js\buttons.print.min.js" />
+    <None Include="wwwroot\lib\datatables.net-buttons\js\dataTables.buttons.min.js" />
+    <None Include="wwwroot\lib\datatables.net-buttons\swf\flashExport.swf" />
+    <None Include="wwwroot\lib\datatables.net-responsive-bs4\js\responsive.bootstrap4.min.js" />
+    <None Include="wwwroot\lib\datatables.net-responsive\dataTables.responsive.min.js" />
     <None Include="wwwroot\lib\select2\js\i18n\af.js" />
     <None Include="wwwroot\lib\select2\js\i18n\ar.js" />
     <None Include="wwwroot\lib\select2\js\i18n\az.js" />
@@ -82,10 +83,6 @@
   <ItemGroup>
     <PackageReference Include="BuildBundlerMinifier" Version="3.2.449" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.8" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\css\" />
   </ItemGroup>
 
 </Project>
