@@ -15,30 +15,53 @@ pages.servico.cadastroViewModel = function () {
     ko.applyBindings(new function () {
         var self = this;       
         
-        self.servico = ko.observable();       
+        self.servico = ko.observable();     
+        self.estabelecimentos = ko.observableArray();
         self.bloqueiaSalvar = ko.observable(false);
-        self.init = function () {                   
-            self.obterServicoPorId(id);                      
+        self.usuarioLogado = ko.observable(new pages.menu.model.vmUsuarioLogado(getDataToken()));
+
+        self.init = function () {     
+            if (self.usuarioLogado().isAdministrador())
+                self.obterTodosEstabelecimentos();
+
+            self.obterServicoPorId(id);            
         };
 
-        self.obterServicoPorId = function (servicoId) {            
+        self.obterTodosEstabelecimentos = function () {
+            pages.dataServices.bloquearTela();
+            service.obterTodosEstabelecimentos().then(function (result) {
+                result.forEach(function (item) {
+                    self.estabelecimentos.push(new model.vmEstabelecimento(item));
+                });
+            }).catch(function (mensagem) {
+                bootbox.alert(mensagem);
+            }).finally(function () {
+                pages.dataServices.desbloquearTela();
+            });
+        };
+
+        self.obterServicoPorId = function (servicoId) {      
+            pages.dataServices.bloquearTela();
             service.obterPorId(servicoId).then(function (result) {
                 self.servico(new model.vmServico(result));                             
             }).catch(function (mensagem) {
                 bootbox.alert(mensagem);              
             }).finally(function () {
-
+                pages.dataServices.desbloquearTela();
             });            
         };
 
         self.validar = function () {
             var mensagens = [];
 
-            if (isNullEmptyOrWriteSpace(self.servico().nome()))
+            if (isNullOrEmptyOrWriteSpace(self.servico().nome()))
                 mensagens.push("<strong>Nome</strong> é obrigatório!");
 
-            if (isNullEmptyOrWriteSpace(self.servico().valor()))
+            if (isNullOrEmptyOrWriteSpace(self.servico().valor()))
                 mensagens.push("<strong>Valor</strong> é obrigatório!");
+
+            if (isNullOrEmpty(self.servico().duracao()))
+                mensagens.push("<strong>Duração</strong> é obrigatório!");
 
             if (mensagens.any()) {
                 bootbox.alert(mensagens.join("</br>"));
@@ -54,10 +77,13 @@ pages.servico.cadastroViewModel = function () {
             var parametro = {
                 servicoId: self.servico().servicoId(),
                 nome: self.servico().nome(),
-                valor: self.servico().valor()
+                valor: pages.utils.formataDecimal(self.servico().valor()),
+                duracao: self.servico().duracao(),
+                estabelecimentoId: self.usuarioLogado().isAdministrador() ? self.servico().estabelecimentoId() : self.usuarioLogado().estabelecimentoId()
             };
 
             self.bloqueiaSalvar(true);
+            pages.dataServices.bloquearTela();
             service.atualizar(id, parametro).then(function () {
                 bootbox.alert("Serviço atualizado com sucesso!", function () {
                     self.voltar();
@@ -66,7 +92,7 @@ pages.servico.cadastroViewModel = function () {
                 bootbox.alert(mensagem);
                 self.bloqueiaSalvar(false);
             }).finally(function () {
-
+                pages.dataServices.desbloquearTela();
             });
         };
 

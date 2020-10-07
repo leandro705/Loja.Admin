@@ -25,6 +25,10 @@ pages.menu.viewModel = function () {
             self.usuarioLogado().nome(nome);
         };
 
+        self.obterUsuarioLogado = function () {            
+            return self.usuarioLogado();
+        };
+
         self.exibeMenuDashboard = ko.computed(function () {            
             if (self.usuarioLogado() &&
                 (

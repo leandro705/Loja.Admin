@@ -14,17 +14,40 @@ pages.servico.cadastroViewModel = function () {
     ko.applyBindings(new function () {
         var self = this;       
         
-        self.servico = ko.observable(new model.vmServico());       
-        self.bloqueiaSalvar = ko.observable(false);        
+        self.servico = ko.observable(new model.vmServico());  
+        self.estabelecimentos = ko.observableArray();
+        self.bloqueiaSalvar = ko.observable(false);  
+        self.usuarioLogado = ko.observable(new pages.menu.model.vmUsuarioLogado(getDataToken()));
+
+        self.init = function () {
+            if(self.usuarioLogado().isAdministrador())
+                self.obterTodosEstabelecimentos();            
+        };
+
+        self.obterTodosEstabelecimentos = function () {
+            pages.dataServices.bloquearTela();
+            service.obterTodosEstabelecimentos().then(function (result) {
+                result.forEach(function (item) {
+                    self.estabelecimentos.push(new model.vmEstabelecimento(item));
+                });
+            }).catch(function (mensagem) {
+                bootbox.alert(mensagem);
+            }).finally(function () {
+                pages.dataServices.desbloquearTela();
+            });
+        };
 
         self.validar = function () {
             var mensagens = [];
 
-            if (isNullEmptyOrWriteSpace(self.servico().nome()))
+            if (isNullOrEmptyOrWriteSpace(self.servico().nome()))
                 mensagens.push("<strong>Nome</strong> é obrigatório!");
 
-            if (isNullEmptyOrWriteSpace(self.servico().valor()))
+            if (isNullOrEmptyOrWriteSpace(self.servico().valor()))
                 mensagens.push("<strong>Valor</strong> é obrigatório!");
+
+            if (isNullOrEmpty(self.servico().duracao()))
+                mensagens.push("<strong>Duração</strong> é obrigatório!");
 
             if (mensagens.any()) {
                 bootbox.alert(mensagens.join("</br>"));
@@ -39,10 +62,13 @@ pages.servico.cadastroViewModel = function () {
 
             var parametro = {
                 nome: self.servico().nome(),
-                email: self.servico().valor()               
+                valor: pages.utils.formataDecimal(self.servico().valor()),
+                duracao: self.servico().duracao(),
+                estabelecimentoId: self.usuarioLogado().isAdministrador() ? self.servico().estabelecimentoId() : self.usuarioLogado().estabelecimentoId()
             };
 
             self.bloqueiaSalvar(true);
+            pages.dataServices.bloquearTela();
             service.salvar(parametro).then(function () {
                 bootbox.alert("Serviço salvo com sucesso!", function () {
                     self.voltar();
@@ -51,13 +77,15 @@ pages.servico.cadastroViewModel = function () {
                 bootbox.alert(mensagem);
                 self.bloqueiaSalvar(false);
             }).finally(function () {
-
+                pages.dataServices.desbloquearTela();
             });
         };
 
         self.voltar = function () {
             window.location.href = "/Servico/Index";
         };
+
+        self.init();
 
     }, bindingBody);
 }();

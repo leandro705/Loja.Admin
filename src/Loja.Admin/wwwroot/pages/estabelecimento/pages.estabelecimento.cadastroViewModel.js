@@ -20,16 +20,19 @@ pages.estabelecimento.cadastroViewModel = function () {
         self.validar = function () {
             var mensagens = [];
 
-            if (isNullEmptyOrWriteSpace(self.estabelecimento().nome()))
+            if (isNullOrEmptyOrWriteSpace(self.estabelecimento().nome()))
                 mensagens.push("<strong>Nome</strong> é obrigatório!");
 
-            if (isNullEmptyOrWriteSpace(self.estabelecimento().email()))
+            if (isNullOrEmptyOrWriteSpace(self.estabelecimento().email()))
                 mensagens.push("<strong>E-Mail</strong> é obrigatório!");
 
-            if (isNullEmptyOrWriteSpace(self.estabelecimento().celular()))
+            if (isNullOrEmptyOrWriteSpace(self.estabelecimento().url()))
+                mensagens.push("<strong>Url</strong> é obrigatório!");
+
+            if (isNullOrEmptyOrWriteSpace(self.estabelecimento().celular()))
                 mensagens.push("<strong>Celular</strong> é obrigatório!");
 
-            if (isNullEmptyOrWriteSpace(self.estabelecimento().descricao()))
+            if (isNullOrEmptyOrWriteSpace(self.estabelecimento().descricao()))
                 mensagens.push("<strong>Descrição</strong> é obrigatório!");
 
             if (mensagens.any()) {
@@ -47,6 +50,7 @@ pages.estabelecimento.cadastroViewModel = function () {
                 nome: self.estabelecimento().nome(),
                 email: self.estabelecimento().email(),
                 descricao: self.estabelecimento().descricao(),
+                url: self.estabelecimento().url(),
                 celular: self.estabelecimento().celular(),
                 telefone: self.estabelecimento().telefone(),
                 instagram: self.estabelecimento().instagram(),

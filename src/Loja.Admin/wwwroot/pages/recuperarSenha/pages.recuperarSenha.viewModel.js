@@ -19,9 +19,9 @@ pages.recuperarSenha.viewModel = function () {
         self.validar = function () {
             var mensagens = [];
            
-            if (isNullEmptyOrWriteSpace(self.senha()))
+            if (isNullOrEmptyOrWriteSpace(self.senha()))
                 mensagens.push("<strong>Senha</strong> é obrigatório!");
-            if (isNullEmptyOrWriteSpace(self.confirmarSenha()))
+            if (isNullOrEmptyOrWriteSpace(self.confirmarSenha()))
                 mensagens.push("<strong>Confirmar Senha</strong> é obrigatório!");
             if (self.senha() !== self.confirmarSenha())
                 mensagens.push("<strong>Senha</strong> e <strong>Confirmar Senha</strong> devem ser iguais!");

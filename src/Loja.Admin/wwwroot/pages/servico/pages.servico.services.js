@@ -3,6 +3,11 @@ pages.servico = pages.servico || {};
 
 pages.servico.services = function () {  
 
+    var obterTodosEstabelecimentos = function () {
+        var url = pages.metadata.actionUrl("/api/estabelecimentos");
+        return pages.dataServices.get(url);
+    }
+
     var obterTodos = function () {
         var url = pages.metadata.actionUrl("/api/servicos");
         return pages.dataServices.get(url);
@@ -28,7 +33,8 @@ pages.servico.services = function () {
         return pages.dataServices.putAjax(url, parametro);
     } 
 
-    return {       
+    return {    
+        obterTodosEstabelecimentos,
         obterTodos,
         obterPorId,
         atualizar,

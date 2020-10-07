@@ -97,11 +97,29 @@ pages.dataServices = function () {
         });
     }
 
+    var bloquearTela = function () {
+
+        $.blockUI({
+            css: {                
+                border: 'none',
+                backgroundColor: 'transparent'
+            },
+            message: '<img src="/assets/images/ajax-loader.gif" />',
+            baseZ: 99999
+        });
+    }
+
+    var desbloquearTela = function () {
+        $(document).ajaxStop($.unblockUI());
+    }
+
     return {
         get,
         post,
         putAjax,
         postAjax,
-        deleteAjax
+        deleteAjax,
+        bloquearTela,
+        desbloquearTela
     };
 }();

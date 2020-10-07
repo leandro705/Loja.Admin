@@ -28,6 +28,18 @@
     "sourceMap": false
   },
   {
+    "outputFileName": "wwwroot/js/loginAdmin.min.js",
+    "inputFiles": [
+      "wwwroot/pages/loginAdmin/pages.loginAdmin.services.js",
+      "wwwroot/pages/loginAdmin/pages.loginAdmin.viewModel.js"
+    ],
+    "minify": {
+      "enabled": false,
+      "renameLocals": false
+    },
+    "sourceMap": false
+  },
+  {
     "outputFileName": "wwwroot/js/login.min.js",
     "inputFiles": [
       "wwwroot/pages/login/pages.login.model.js",
@@ -82,6 +94,8 @@
       "wwwroot/lib/knockout/knockout.custom.bindings.js",
       "wwwroot/lib/bootbox/bootbox.min.js",
       "wwwroot/lib/select2/js/select2.min.js",
+      "wwwroot/lib/jquery-mask-plugin/jquery.mask.min.js",
+      "wwwroot/lib/jquery.blockUI/jquery.blockUI.js",
       "wwwroot/assets/js/app.js",
       "wwwroot/pages/config.js",
       "wwwroot/pages/prototype.js",

@@ -3,7 +3,7 @@
     else { return false; }
 };
 
-var isNullEmptyOrWriteSpace = function (x) {
+var isNullOrEmptyOrWriteSpace = function (x) {
     if ((x === undefined) || (x === null) || x === "" || x.replace(/\s/g, "").length < 1) { return true; }
     else { return false; }
 };

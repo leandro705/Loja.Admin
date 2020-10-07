@@ -19,3 +19,7 @@
     width: 34px;
     right: 3px;
 }
+
+.select2-container .select2-selection--single, .select2-dropdown {
+    border: 1px solid #ced4da;
+}

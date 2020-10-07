@@ -9,7 +9,8 @@ pages.estabelecimento.model = function () {
         self.estabelecimentoId = ko.observable();
         self.nome = ko.observable();
         self.email = ko.observable();
-        self.descricao = ko.observable();
+        self.descricao = ko.observable();        
+        self.url = ko.observable();
         self.telefone = ko.observable();
         self.celular = ko.observable();
         self.instagram = ko.observable();
@@ -22,6 +23,7 @@ pages.estabelecimento.model = function () {
             self.nome(estabelecimento.nome);
             self.email(estabelecimento.email);
             self.descricao(estabelecimento.descricao);
+            self.url(estabelecimento.url);
             self.telefone(estabelecimento.telefone);
             self.celular(estabelecimento.celular);
             self.instagram(estabelecimento.instagram);

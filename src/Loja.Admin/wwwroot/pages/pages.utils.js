@@ -23,6 +23,10 @@ pages.utils = function () {
         return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
     };
 
+    function formataDecimal(valor) {        
+        return valor.replaceAll(".", "").replace(',', '.');
+    };
+
     var languageDataTablePtBr = {
         "sEmptyTable": "Nenhum registro encontrado",
         "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
@@ -64,6 +68,7 @@ pages.utils = function () {
     return {
         initDataPassword,
         getUrlParameter,
-        languageDataTablePtBr
+        languageDataTablePtBr,
+        formataDecimal
     };
 }();

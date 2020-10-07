@@ -10,18 +10,34 @@ pages.utils = pages.utils || {};
 pages.login.viewModel = function () {
     var model = pages.login.model;
     var service = pages.login.services;
+    var nomeUrl = window.location.href.split("/").lastOrDefault();
 
     ko.applyBindings(new function () {
         var self = this;
-
-        pages.utils.initDataPassword();
-        renderButton();
+        
         self.ETelaLogin = service.ETelaLogin;
         self.telaAtual = ko.observable(service.ETelaLogin.LOGIN);
         self.nome = ko.observable();
         self.email = ko.observable();
         self.senha = ko.observable();
         self.confirmarSenha = ko.observable();
+        self.estabelecimento = ko.observable();    
+
+        self.init = function () {
+            self.obterEstabelecimentoPorNomeUrl(nomeUrl);
+            pages.utils.initDataPassword();
+            renderButton();
+        };
+
+        self.obterEstabelecimentoPorNomeUrl = function (nomeUrl) {
+            service.obterEstabelecimentoPorNomeUrl(nomeUrl).then(function (result) {
+                self.estabelecimento(new model.vmEstabelecimento(result[0]));
+            }).catch(function (mensagem) {
+                bootbox.alert(mensagem);
+            }).finally(function () {
+
+            });
+        };
 
         self.limpar = function () {
             self.nome('');
@@ -40,9 +56,9 @@ pages.login.viewModel = function () {
         self.validarLogin = function () {
             var mensagens = [];
 
-            if (isNullEmptyOrWriteSpace(self.email()))
+            if (isNullOrEmptyOrWriteSpace(self.email()))
                 mensagens.push("<strong>E-mail</strong> é obrigatório!");
-            if (isNullEmptyOrWriteSpace(self.senha()))
+            if (isNullOrEmptyOrWriteSpace(self.senha()))
                 mensagens.push("<strong>Senha</strong> é obrigatório!");
            
             if (mensagens.any()) {
@@ -53,12 +69,13 @@ pages.login.viewModel = function () {
         }
 
         self.login = function () {
-
+            document.getElementById('bt-logar').classList.toggle('running')
             if (!self.validarLogin()) { return; }
 
             var parametro = {
                 email: self.email(),
-                senha: self.senha()             
+                senha: self.senha(),
+                estabelecimentoId: self.estabelecimento().estabelecimentoId()
             };
 
             service.login(parametro).then(function (result) {
@@ -76,13 +93,13 @@ pages.login.viewModel = function () {
         self.validarCadastro = function () {
             var mensagens = [];
 
-            if (isNullEmptyOrWriteSpace(self.nome()))
+            if (isNullOrEmptyOrWriteSpace(self.nome()))
                 mensagens.push("<strong>Nome</strong> é obrigatório!");
-            if (isNullEmptyOrWriteSpace(self.email()))
+            if (isNullOrEmptyOrWriteSpace(self.email()))
                 mensagens.push("<strong>E-mail</strong> é obrigatório!");
-            if (isNullEmptyOrWriteSpace(self.senha()))
+            if (isNullOrEmptyOrWriteSpace(self.senha()))
                 mensagens.push("<strong>Senha</strong> é obrigatório!");
-            if (isNullEmptyOrWriteSpace(self.confirmarSenha()))
+            if (isNullOrEmptyOrWriteSpace(self.confirmarSenha()))
                 mensagens.push("<strong>Confirmar Senha</strong> é obrigatório!");
             if (self.senha() !== self.confirmarSenha())
                 mensagens.push("<strong>Senha</strong> e <strong>Confirmar Senha</strong> devem ser iguais!");
@@ -101,7 +118,8 @@ pages.login.viewModel = function () {
             var parametro = {
                 nome: self.nome(),
                 email: self.email(),
-                senha: self.senha()
+                senha: self.senha(),
+                estabelecimentoId: self.estabelecimento().estabelecimentoId()
             };
 
             service.salvar(parametro).then(function () {
@@ -118,7 +136,7 @@ pages.login.viewModel = function () {
         self.validarRecuperarSenha = function () {
             var mensagens = [];
             
-            if (isNullEmptyOrWriteSpace(self.email()))
+            if (isNullOrEmptyOrWriteSpace(self.email()))
                 mensagens.push("<strong>E-mail</strong> é obrigatório!");            
 
             if (mensagens.any()) {
@@ -145,7 +163,9 @@ pages.login.viewModel = function () {
             }).finally(function () {
 
             });
-        };  
+        }; 
+
+        self.init();
 
     }, bindingBody);
 }();

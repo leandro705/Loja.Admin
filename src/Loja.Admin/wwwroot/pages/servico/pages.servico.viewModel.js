@@ -15,22 +15,23 @@ pages.servico.viewModel = function () {
         var self = this;       
         
         self.servicos = ko.observableArray([]);
-        self.datatable = ko.observable();
+        self.datatable = ko.observable();        
 
         self.init = function () {            
             self.obterServicos();            
         };
-
+        
         self.obterServicos = function () {
+            pages.dataServices.bloquearTela();
             service.obterTodos().then(function (result) {
                 result.forEach(function (item) {
                     self.servicos.push(new model.vmServico(item));
-                });
-                self.inicializarDatatable();
+                });                
             }).catch(function (mensagem) {
                 console.log(mensagem);
             }).finally(function () {
-
+                self.inicializarDatatable();
+                pages.dataServices.desbloquearTela();
             });
         };
       
@@ -47,7 +48,7 @@ pages.servico.viewModel = function () {
                     visible: false
                 },
                 {
-                    targets: [5],
+                    targets: [7],
                     orderable: false,
                     searchable: false,
                     className: "text-center"
@@ -66,6 +67,7 @@ pages.servico.viewModel = function () {
         }; 
 
         self.editar = function (item) {
+            pages.dataServices.bloquearTela()
             window.location.href = "/Servico/Edicao/" + item.servicoId();
         };
 
@@ -82,6 +84,7 @@ pages.servico.viewModel = function () {
                         label: "SIM",
                         className: "btn-sm btn-primary",
                         callback: function () {
+                            pages.dataServices.bloquearTela();
                             service.deletar(item.servicoId()).then(function () {
                                 bootbox.alert("Serviço excluído com sucesso!", function () {  
                                     var rowIdx = self.datatable().column(0).data().indexOf(item.servicoId().toString());
@@ -91,7 +94,7 @@ pages.servico.viewModel = function () {
                             }).catch(function (mensagem) {
                                 bootbox.alert(mensagem);
                             }).finally(function () {
-
+                                pages.dataServices.desbloquearTela();
                             });                            
                         }
                     }                    

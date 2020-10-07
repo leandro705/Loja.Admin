@@ -44,3 +44,61 @@ ko.bindingHandlers.select2 = {
         $(el).trigger("change");
     }
 };
+
+ko.bindingHandlers.masked = {
+    init: function (element, valueAccessor, allBindingsAccessor) {
+        var mask = allBindingsAccessor().mask || {};
+        var telefone = allBindingsAccessor().telefone || false;
+        var maskOptions = allBindingsAccessor().maskOptions || {};
+
+        if (telefone) {
+            var behavior = function (val) {
+                return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-00009';
+            },
+            options = {
+                onKeyPress: function (val, e, field, options) {
+                    field.mask(behavior.apply({}, arguments), options);
+                }
+            };
+
+            $(element).mask(behavior, options);
+        }
+        else
+            $(element).mask(mask, maskOptions);
+
+        ko.utils.registerEventHandler(element, 'focusout', function () {
+            var observable = valueAccessor();
+            var valor = $(element).val(); 
+            observable(valor);
+        });        
+    },
+    update: function (element, valueAccessor) {
+        var value = ko.utils.unwrapObservable(valueAccessor());
+        $(element).val(value);
+    }
+};
+
+//ko.bindingHandlers.maskMoney = {
+//    init: function (element, valueAccessor, allBindingsAccessor) {
+//        var options = allBindingsAccessor().maskMoneyOptions || {};
+//        $(element).maskMoney(options);
+
+//        ko.utils.registerEventHandler(element, 'focusout', function () {
+//            var observable = valueAccessor();
+//            var teste = $(element).val();
+//            var numericVal = parseFloat($(element).val().replace(/[^\.\d]/g, '')).toFixed(2);
+//            numericVal = isNaN(numericVal) ? 0 : numericVal;
+
+//            observable(numericVal);
+//        });
+
+//        ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
+//            $(element).unmaskMoney();
+//        });
+//    },
+
+//    update: function (element, valueAccessor) {
+//        var value = ko.utils.unwrapObservable(valueAccessor());
+//        $(element).val(value);        
+//    }
+//};

@@ -2,11 +2,11 @@
 
 namespace Loja.Admin.Controllers
 {
-    public class LoginController : Controller
+    public class AdminController : Controller
     {
-        public IActionResult Index(string id)
+        public IActionResult Index()
         {
             return View();
-        }        
+        }
     }
 }

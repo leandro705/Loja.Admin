@@ -31,7 +31,7 @@ pages.perfil.viewModel = function () {
             service.obterUsuarioPorId(userId).then(async function (result) {
                 let usuario = new model.vmUsuario(result);
                                 
-                if (result.endereco.estadoId)
+                if (result.endereco?.estadoId)
                     await self.obterMunicipiosPorEstadoId(result.endereco.estadoId);
                                 
                 self.dadosUsuario(usuario);
@@ -81,7 +81,7 @@ pages.perfil.viewModel = function () {
         self.validarAtualizacao = function () {
             var mensagens = [];
 
-            if (isNullEmptyOrWriteSpace(self.dadosUsuario().nome()))
+            if (isNullOrEmptyOrWriteSpace(self.dadosUsuario().nome()))
                 mensagens.push("<strong>Nome</strong> é obrigatório!");
 
             if (mensagens.any()) {
@@ -125,11 +125,11 @@ pages.perfil.viewModel = function () {
 
             var dadosAlterarSenha = self.dadosUsuario().alterarSenha();
 
-            if (isNullEmptyOrWriteSpace(dadosAlterarSenha.senhaAtual()))
+            if (isNullOrEmptyOrWriteSpace(dadosAlterarSenha.senhaAtual()))
                 mensagens.push("<strong>Senha Atual</strong> é obrigatório!");
-            if (isNullEmptyOrWriteSpace(dadosAlterarSenha.novaSenha()))
+            if (isNullOrEmptyOrWriteSpace(dadosAlterarSenha.novaSenha()))
                 mensagens.push("<strong>Nova Senha</strong> é obrigatório!");
-            if (isNullEmptyOrWriteSpace(dadosAlterarSenha.confirmarSenha()))
+            if (isNullOrEmptyOrWriteSpace(dadosAlterarSenha.confirmarSenha()))
                 mensagens.push("<strong>Confirmar Senha</strong> é obrigatório!");
             if (dadosAlterarSenha.novaSenha() !== dadosAlterarSenha.confirmarSenha())
                 mensagens.push("<strong>Nova Senha</strong> e <strong>Confirmar Senha</strong> devem ser iguais!");

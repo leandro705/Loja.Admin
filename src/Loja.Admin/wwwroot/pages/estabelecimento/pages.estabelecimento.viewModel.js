@@ -25,12 +25,11 @@ pages.estabelecimento.viewModel = function () {
             service.obterTodos().then(function (result) {
                 result.forEach(function (item) {
                     self.estabelecimentos.push(new model.vmEstabelecimento(item));
-                });
-                self.inicializarDatatable();
+                });                
             }).catch(function (mensagem) {
                 console.log(mensagem);
             }).finally(function () {
-
+                self.inicializarDatatable();
             });
         };
       

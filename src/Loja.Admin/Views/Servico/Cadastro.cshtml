@@ -33,10 +33,24 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label for="valor" class="col-form-label">Valor<span class="text-danger">*</span></label>
-                            <input type="number" class="form-control" id="valor" data-bind="value: valor" placeholder="Informe o valor">
+                            <input type="text" class="form-control" id="valor" maxlength="11" placeholder="Informe o valor"
+                                   data-bind="masked: valor, mask: '#.##0,00', maskOptions: { reverse: true}">
                         </div>
-                    </div>                    
-                   
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="duracao" class="col-form-label">Duração (minutos)<span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" id="duracao" data-bind="value: duracao" placeholder="Informe a duração">
+                        </div>   
+                        <div class="form-group col-md-6">
+                            <label for="estabelecimento" class="col-form-label">Estabelecimento<span class="text-danger">*</span></label>
+                            <select id="estabelecimento" class="form-control" data-toggle="select2"
+                                    data-bind="value: estabelecimentoId, options: $root.estabelecimentos, optionsText: 'nome', optionsValue: 'estabelecimentoId', valueAllowUnset: true, select2: { placeholder: 'Selecione um estabelecimento', tags: false }">
+                            </select>
+                        </div>                       
+                    </div>
+
                     <div class="form-group float-right">
                         <button type="button" class="btn btn-secondary mr-1" data-bind="click: $parent.voltar">Voltar</button>
                         <button type="button" class="btn btn-primary" data-bind="click: $parent.salvar, disable: $parent.bloqueiaSalvar()">Salvar</button>

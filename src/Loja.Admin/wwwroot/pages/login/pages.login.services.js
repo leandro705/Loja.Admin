@@ -8,6 +8,10 @@ pages.login.services = function () {
         CADASTRO: 2,
         RECUPERACAO: 3
     };  
+    var obterEstabelecimentoPorNomeUrl = function (nomeUrl) {
+        var url = pages.metadata.actionUrl("/api/estabelecimentos?url=" + nomeUrl);
+        return pages.dataServices.get(url);
+    }
 
     var login = function (parametro) {
         var url = pages.metadata.actionUrl("/api/authentication/login");
@@ -36,6 +40,7 @@ pages.login.services = function () {
 
     return {
         ETelaLogin,
+        obterEstabelecimentoPorNomeUrl,
         login,
         loginFacebook,
         loginGoogle,

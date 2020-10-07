@@ -10,7 +10,8 @@ pages.menu.model = function () {
         self.nome = ko.observable(usuarioLogado.nome);
         self.email = ko.observable(usuarioLogado.email);
         self.perfil = ko.observable(usuarioLogado.role);
-        
+        self.estabelecimentoId = ko.observable(usuarioLogado.estabelecimentoId);
+        self.isAdministrador = ko.observable(usuarioLogado.isAdministrador);        
     };
 
     return {       
