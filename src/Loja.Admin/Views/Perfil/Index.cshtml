@@ -65,13 +65,15 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="celular">Celular</label>
-                                    <input type="text" class="form-control" id="celular" data-bind="value: celular" placeholder="Informe o celular">
+                                    <input type="text" class="form-control" id="celular" maxlength="15" placeholder="Informe o celular"
+                                           data-bind="masked: celular, telefone: true">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="telefone">Telefone</label>
-                                    <input type="text" class="form-control" id="telefone" data-bind="value: telefone" placeholder="Informe o telefone">
+                                    <input type="text" class="form-control" id="telefone" maxlength="15" placeholder="Informe o telefone"
+                                           data-bind="masked: telefone, telefone: true">
                                 </div>
                             </div>
                         </div>

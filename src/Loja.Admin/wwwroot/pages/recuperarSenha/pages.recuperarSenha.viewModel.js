@@ -43,6 +43,7 @@ pages.recuperarSenha.viewModel = function () {
                 novaSenha: self.senha()
             };
 
+            pages.dataServices.bloquearTela();
             service.recuperarSenha(parametro).then(function () {
                 bootbox.alert("Senha alterada com sucesso!", function () {
                     window.location.href = URL_SITE;
@@ -50,7 +51,7 @@ pages.recuperarSenha.viewModel = function () {
             }).catch(function (mensagem) {
                 bootbox.alert(mensagem);
             }).finally(function () {
-
+                pages.dataServices.desbloquearTela();
             });
         };       
 

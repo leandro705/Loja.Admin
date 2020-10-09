@@ -34,8 +34,7 @@ pages.loginAdmin.viewModel = function () {
             return true;
         }
 
-        self.login = function () {
-            document.getElementById('bt-logar').classList.toggle('running')
+        self.login = function () {            
             if (!self.validarLogin()) { return; }
 
             var parametro = {
@@ -43,6 +42,7 @@ pages.loginAdmin.viewModel = function () {
                 senha: self.senha()
             };
 
+            pages.dataServices.bloquearTela();
             service.login(parametro).then(function (result) {
                 console.log(result)
                 localStorage.setItem("token", JSON.stringify(result));
@@ -50,7 +50,7 @@ pages.loginAdmin.viewModel = function () {
             }).catch(function (mensagem) {
                 bootbox.alert(mensagem);
             }).finally(function () {
-                
+                pages.dataServices.desbloquearTela();
             });
         };
 

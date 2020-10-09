@@ -21,13 +21,14 @@ pages.estabelecimento.cadastroViewModel = function () {
             self.obterEstabelecimentoPorId(id);                      
         };
 
-        self.obterEstabelecimentoPorId = function (estabelecimentoId) {            
+        self.obterEstabelecimentoPorId = function (estabelecimentoId) {  
+            pages.dataServices.bloquearTela();
             service.obterPorId(estabelecimentoId).then(function (result) {
                 self.estabelecimento(new model.vmEstabelecimento(result));                             
             }).catch(function (mensagem) {
                 bootbox.alert(mensagem);              
             }).finally(function () {
-
+                pages.dataServices.desbloquearTela();
             });            
         };
 
@@ -73,6 +74,7 @@ pages.estabelecimento.cadastroViewModel = function () {
             };
 
             self.bloqueiaSalvar(true);
+            pages.dataServices.bloquearTela();
             service.atualizar(id, parametro).then(function () {
                 bootbox.alert("Estabelecimento atualizado com sucesso!", function () {
                     self.voltar();
@@ -81,11 +83,12 @@ pages.estabelecimento.cadastroViewModel = function () {
                 bootbox.alert(mensagem);
                 self.bloqueiaSalvar(false);
             }).finally(function () {
-
+                pages.dataServices.desbloquearTela();
             });
         };
 
         self.voltar = function () {
+            pages.dataServices.bloquearTela();
             window.location.href = "/Estabelecimento/Index";
         };
 

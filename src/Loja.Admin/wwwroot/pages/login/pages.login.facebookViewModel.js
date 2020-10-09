@@ -49,6 +49,7 @@ getFbUserData = function() {
 }        
 
 loginFacebook = function (parametro) {
+    pages.dataServices.bloquearTela();
     service.loginFacebook(parametro).then(function (result) {
         console.log(result)
         localStorage.setItem("token", JSON.stringify(result));
@@ -56,7 +57,7 @@ loginFacebook = function (parametro) {
     }).catch(function (mensagem) {
         bootbox.alert(mensagem);
     }).finally(function () {
-                
+        pages.dataServices.desbloquearTela();
     });
 };      
    

@@ -17,6 +17,7 @@ pages.menu.viewModel = function () {
         self.usuarioLogado = ko.observable(new model.vmUsuarioLogado(getDataToken()));          
 
         self.redirecionarPerfil = function () {
+            pages.dataServices.bloquearTela();
             window.location.href = "/Perfil/Index/" + self.usuarioLogado().id();
         };
 

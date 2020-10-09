@@ -28,6 +28,7 @@ pages.perfil.viewModel = function () {
         };
 
         self.obterUsuarioPorId = function (userId) {
+            pages.dataServices.bloquearTela();
             service.obterUsuarioPorId(userId).then(async function (result) {
                 let usuario = new model.vmUsuario(result);
                                 
@@ -45,11 +46,12 @@ pages.perfil.viewModel = function () {
             }).catch(function (mensagem) {
                 bootbox.alert(mensagem);
             }).finally(function () {
-
+                pages.dataServices.desbloquearTela();
             });
         };
 
         self.obterEstados = function () {
+            pages.dataServices.bloquearTela();
             service.obterEstados().then(function (result) {
                 result.forEach(function (item) {
                     self.estados.push(new model.vmEstado(item));
@@ -57,13 +59,14 @@ pages.perfil.viewModel = function () {
             }).catch(function (mensagem) {
                 bootbox.alert(mensagem);
             }).finally(function () {
-
+                pages.dataServices.desbloquearTela();
             });
         };
 
         self.obterMunicipiosPorEstadoId = function (estadoId) {
             return new Promise(function (sucesso, falha) {
-                self.municipios([]);            
+                self.municipios([]);  
+                pages.dataServices.bloquearTela();
                 service.obterMunicipioPorEstadoId(estadoId).then(function (result) {
                     result.forEach(function (item) {
                         self.municipios.push(new model.vmMunicipio(item));
@@ -73,7 +76,7 @@ pages.perfil.viewModel = function () {
                     bootbox.alert(mensagem);
                     falha();
                 }).finally(function () {
-                    
+                    pages.dataServices.desbloquearTela();
                 });
             });
         };
@@ -110,13 +113,14 @@ pages.perfil.viewModel = function () {
                 }
             };
 
+            pages.dataServices.bloquearTela();
             service.atualizarUsuario(self.dadosUsuario().id(), parametro).then(function () {
                 bootbox.alert("Usuario atualizado com sucesso!");                   
                 //pages.menu.viewModel.atualizaNome(self.dadosUsuario().nome());
             }).catch(function (mensagem) {
                 bootbox.alert(mensagem);
             }).finally(function () {
-
+                pages.dataServices.desbloquearTela();
             });
         };
 
@@ -151,12 +155,13 @@ pages.perfil.viewModel = function () {
                 novaSenha: self.dadosUsuario().alterarSenha().novaSenha()                
             };
 
+            pages.dataServices.bloquearTela();
             service.atualizarSenhaUsuario(self.dadosUsuario().id(), parametro).then(function () {
                 bootbox.alert("Senha alterada com sucesso!");                
             }).catch(function (mensagem) {
                 bootbox.alert(mensagem);
             }).finally(function () {
-
+                pages.dataServices.desbloquearTela();
             });
         }; 
 

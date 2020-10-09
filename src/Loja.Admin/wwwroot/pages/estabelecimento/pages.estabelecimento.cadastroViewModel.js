@@ -58,6 +58,7 @@ pages.estabelecimento.cadastroViewModel = function () {
             };
 
             self.bloqueiaSalvar(true);
+            pages.dataServices.bloquearTela();
             service.salvar(parametro).then(function () {
                 bootbox.alert("Estabelecimento salvo com sucesso!", function () {
                     self.voltar();
@@ -66,11 +67,12 @@ pages.estabelecimento.cadastroViewModel = function () {
                 bootbox.alert(mensagem);
                 self.bloqueiaSalvar(false);
             }).finally(function () {
-
+                pages.dataServices.desbloquearTela();
             });
         };
 
         self.voltar = function () {
+            pages.dataServices.bloquearTela();
             window.location.href = "/Estabelecimento/Index";
         };
 

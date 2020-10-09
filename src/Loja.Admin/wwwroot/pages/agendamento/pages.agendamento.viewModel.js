@@ -1,31 +1,31 @@
 ﻿var pages = pages || {};
-pages.estabelecimento = pages.estabelecimento || {};
-pages.estabelecimento.model = pages.estabelecimento.model || {};
-pages.estabelecimento.services = pages.estabelecimento.services || {};
+pages.agendamento = pages.agendamento || {};
+pages.agendamento.model = pages.agendamento.model || {};
+pages.agendamento.services = pages.agendamento.services || {};
 
 pages.metadata = pages.metadata || {};
 pages.dataServices = pages.dataServices || {};
 pages.utils = pages.utils || {};
 
-pages.estabelecimento.viewModel = function () {   
-    var model = pages.estabelecimento.model;
-    var service = pages.estabelecimento.services;
+pages.agendamento.viewModel = function () {   
+    var model = pages.agendamento.model;
+    var service = pages.agendamento.services;
    
     ko.applyBindings(new function () {
         var self = this;       
         
-        self.estabelecimentos = ko.observableArray([]);
-        self.datatable = ko.observable();
+        self.agendamentos = ko.observableArray([]);
+        self.datatable = ko.observable();        
 
         self.init = function () {            
-            self.obterEstabelecimentos();            
+            self.obterAgendamentos();            
         };
-
-        self.obterEstabelecimentos = function () {
+        
+        self.obterAgendamentos = function () {
             pages.dataServices.bloquearTela();
             service.obterTodos().then(function (result) {
                 result.forEach(function (item) {
-                    self.estabelecimentos.push(new model.vmEstabelecimento(item));
+                    self.agendamentos.push(new model.vmAgendamento(item));
                 });                
             }).catch(function (mensagem) {
                 console.log(mensagem);
@@ -36,7 +36,7 @@ pages.estabelecimento.viewModel = function () {
         };
       
         self.inicializarDatatable = function () {
-            var table = $('#datatable-estabelecimento').DataTable({
+            var table = $('#datatable-agendamento').DataTable({
                 lengthChange: false,
                 order: [[1, 'asc']],
                 responsive: true,
@@ -56,25 +56,25 @@ pages.estabelecimento.viewModel = function () {
                 buttons: [
                     {
                         extend: 'pdfHtml5',
-                        title: 'Listagem Estabelecimentos'
+                        title: 'Listagem Agendamentos'
                     },
                 ],
                 language: pages.utils.languageDataTablePtBr               
             });
 
-            table.buttons().container().appendTo('#datatable-estabelecimento_wrapper .col-md-6:eq(0)');            
+            table.buttons().container().appendTo('#datatable-agendamento_wrapper .col-md-6:eq(0)');            
             self.datatable(table);
         }; 
 
         self.editar = function (item) {
-            pages.dataServices.bloquearTela();
-            window.location.href = "/Estabelecimento/Edicao/" + item.estabelecimentoId();
+            pages.dataServices.bloquearTela()
+            window.location.href = "/Agendamento/Edicao/" + item.agendamentoId();
         };
 
         self.excluir = function (item) {
             bootbox.dialog({
                 closeButton: false,
-                message: "Confirma a exclusão do estabelecimento <strong>" + item.nome() + "</strong>!",               
+                message: "Confirma a exclusão do agendamento <strong>" + item.dataAgendamento() + "</strong>!",               
                 buttons: {
                     nao: {
                         label: "NÃO",
@@ -85,11 +85,11 @@ pages.estabelecimento.viewModel = function () {
                         className: "btn-sm btn-primary",
                         callback: function () {
                             pages.dataServices.bloquearTela();
-                            service.deletar(item.estabelecimentoId()).then(function () {
-                                bootbox.alert("Estabelecimento excluído com sucesso!", function () {  
-                                    var rowIdx = self.datatable().column(0).data().indexOf(item.estabelecimentoId().toString());
+                            service.deletar(item.agendamentoId()).then(function () {
+                                bootbox.alert("Agendamento excluído com sucesso!", function () {  
+                                    var rowIdx = self.datatable().column(0).data().indexOf(item.agendamentoId().toString());
                                     self.datatable().row(rowIdx).remove().draw(false);
-                                    self.estabelecimentos.remove(item);                                                                        
+                                    self.agendamentos.remove(item);                                                                        
                                 });                                 
                             }).catch(function (mensagem) {
                                 bootbox.alert(mensagem);

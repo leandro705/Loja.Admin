@@ -1,0 +1,90 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section contents {
+    
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <h4 class="page-title">Edição de Agendamento</h4>
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a asp-controller="Agendamento" asp-action="Index">Agendamentos</a></li>
+                    <li class="breadcrumb-item active">Editar</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <form data-bind="with:agendamento">
+                    <div class="form-row">
+                        <!-- ko if:  $root.estabelecimentos().length > 0 -->
+                        <div class="form-group col-md-6">
+                            <label for="estabelecimento" class="col-form-label">Estabelecimento<span class="text-danger">*</span></label>
+                            <select id="estabelecimento" class="form-control" data-toggle="select2"
+                                    data-bind="value: estabelecimentoId, options: $root.estabelecimentos, optionsText: 'nome', optionsValue: 'estabelecimentoId', valueAllowUnset: true, select2: { placeholder: 'Selecione um estabelecimento', tags: false }">
+                            </select>
+                        </div>
+                        <!-- /ko-->
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="cliente" class="col-form-label">Cliente<span class="text-danger">*</span></label>
+                            <select id="cliente" class="form-control" data-toggle="select2"
+                                    data-bind="value: userId, options: $root.clientes, optionsText: 'nome', optionsValue: 'userId', valueAllowUnset: true, select2: { placeholder: 'Selecione um cliente', tags: false }">
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="servico" class="col-form-label">Serviço<span class="text-danger">*</span></label>
+                            <select id="servico" class="form-control" data-toggle="select2"
+                                    data-bind="value: servicoId, options: $root.servicos, optionsText: 'nome', optionsValue: 'servicoId', valueAllowUnset: true, select2: { placeholder: 'Selecione um serviço', tags: false }">
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="dataAgendamento" class="col-form-label">Data Agendamento<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="dataAgendamento" placeholder="Informe a data agendamento"
+                                   data-bind="datepicker: dataAgendamentoDP, datepickerOptions: { startDate: new Date() }, mask: '99/99/9999', value: dataAgendamento" autocomplete="off" />
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="horaInicial" class="col-form-label">Horário Inicial<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="horaInicial" data-bind="masked: horaInicial, horario:true" placeholder="Informe o horário inicial">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="horaFinal" class="col-form-label">Horário Final<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="horaFinal" data-bind="masked: horaFinal, horario:true" placeholder="Informe o horário final">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="observacao" class="col-form-label">Observação</label>
+                            <textarea class="form-control" id="observacao" rows="5" data-bind="value: observacao" placeholder="Informe a observação"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group float-right">
+                        <button type="button" class="btn btn-secondary mr-1" data-bind="click: $parent.voltar">Voltar</button>
+                        <button type="button" class="btn btn-primary" data-bind="click: $parent.salvar, disable: $parent.bloqueiaSalvar()">Salvar</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {   
+    <script src="~/js/agendamentoEdicao.min.js"></script>
+}

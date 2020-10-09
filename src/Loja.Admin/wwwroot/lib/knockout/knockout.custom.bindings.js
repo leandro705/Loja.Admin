@@ -49,6 +49,7 @@ ko.bindingHandlers.masked = {
     init: function (element, valueAccessor, allBindingsAccessor) {
         var mask = allBindingsAccessor().mask || {};
         var telefone = allBindingsAccessor().telefone || false;
+        var horario = allBindingsAccessor().horario || false;
         var maskOptions = allBindingsAccessor().maskOptions || {};
 
         if (telefone) {
@@ -62,6 +63,19 @@ ko.bindingHandlers.masked = {
             };
 
             $(element).mask(behavior, options);
+        }
+        else if (horario) {
+            var patternTime = {
+                'translation': {
+                    'H': {
+                        pattern: /[0-23]/
+                    },
+                    'M': {
+                        pattern: /[0-59]/
+                    }
+                }
+            };
+            $(element).mask("HH:MM", patternTime);                
         }
         else
             $(element).mask(mask, maskOptions);
@@ -78,27 +92,72 @@ ko.bindingHandlers.masked = {
     }
 };
 
-//ko.bindingHandlers.maskMoney = {
-//    init: function (element, valueAccessor, allBindingsAccessor) {
-//        var options = allBindingsAccessor().maskMoneyOptions || {};
-//        $(element).maskMoney(options);
+ko.bindingHandlers.datepicker = {
+    init: function (element, valueAccessor, allBindingsAccessor) {
+        var $el = $(element);
 
-//        ko.utils.registerEventHandler(element, 'focusout', function () {
-//            var observable = valueAccessor();
-//            var teste = $(element).val();
-//            var numericVal = parseFloat($(element).val().replace(/[^\.\d]/g, '')).toFixed(2);
-//            numericVal = isNaN(numericVal) ? 0 : numericVal;
+        //initialize datepicker with some optional options
+        var options = ko.bindingHandlers.datepicker.optionsDefault;
+        var local = {};
 
-//            observable(numericVal);
-//        });
+        ko.utils.extend(local, options);
+        ko.utils.extend(local, allBindingsAccessor().datepickerOptions || {});
 
-//        ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
-//            $(element).unmaskMoney();
-//        });
-//    },
+        if (local.dataMesAno) {
+            var dataMesAnoOptions = {
+                dateFormat: 'mm/yy',
+                format: {
+                    toDisplay: function (date, format, language) {
+                        var d = new Date(date);
+                        var UTCZone = d.getTimezoneOffset() / 60;
+                        d.setHours(d.getHours() + UTCZone);
+                        return [(d.getMonth() + 1).toString().padStart(2, "0"), d.getFullYear()].join("/");
+                    },
+                    toValue: function (date, format, language) {
+                        if (date.length == 7) {
+                            var separado = date.split("/");
+                            var mes = parseInt(separado[0]) - 1;
+                            var ano = parseInt(separado[1]);
+                            return new Date(ano, mes, 1);
+                        }
+                    }
+                }
+            }
 
-//    update: function (element, valueAccessor) {
-//        var value = ko.utils.unwrapObservable(valueAccessor());
-//        $(element).val(value);        
-//    }
-//};
+            ko.utils.extend(local, dataMesAnoOptions);
+        }
+
+        $el.datepicker(local);
+
+        var masked = allBindingsAccessor().mask || null;
+
+        if (masked) {
+            $el.mask(masked);
+        }
+        
+        ko.utils.registerEventHandler(element, "change", function () {
+            var observable = valueAccessor();
+            observable($el.datepicker("getDate"));
+        });
+        
+        ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
+            $el.datepicker("destroy");
+        });
+
+    },
+    optionsDefault: {
+        dateFormat: 'dd/mm/yyyy',
+        buttonImageOnly: true,
+        language: 'pt-BR',
+        autoclose: true
+    },
+    update: function (element, valueAccessor, allBindingsAccessor) {
+        var value = ko.utils.unwrapObservable(valueAccessor()),
+            $el = $(element),
+            current = $el.datepicker("getDate");
+
+        if (value - current !== 0) {
+            $el.datepicker("setDate", value);
+        }
+    }
+};

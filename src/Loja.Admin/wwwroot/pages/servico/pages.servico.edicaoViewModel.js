@@ -16,7 +16,7 @@ pages.servico.cadastroViewModel = function () {
         var self = this;       
         
         self.servico = ko.observable();     
-        self.estabelecimentos = ko.observableArray();
+        self.estabelecimentos = ko.observableArray([]);
         self.bloqueiaSalvar = ko.observable(false);
         self.usuarioLogado = ko.observable(new pages.menu.model.vmUsuarioLogado(getDataToken()));
 
@@ -97,6 +97,7 @@ pages.servico.cadastroViewModel = function () {
         };
 
         self.voltar = function () {
+            pages.dataServices.bloquearTela();
             window.location.href = "/Servico/Index";
         };
 

@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <None Include="wwwroot\js\servico.min.js" />
+    <None Include="wwwroot\lib\bootstrap-datepicker\js\bootstrap-datepicker.min.js" />
     <None Include="wwwroot\lib\datatables.net-bs4\js\dataTables.bootstrap4.min.js" />
     <None Include="wwwroot\lib\datatables.net-buttons-bs4\js\buttons.bootstrap4.min.js" />
     <None Include="wwwroot\lib\datatables.net-buttons\js\buttons.colVis.min.js" />

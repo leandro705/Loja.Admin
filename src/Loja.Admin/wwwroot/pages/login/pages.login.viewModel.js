@@ -30,12 +30,13 @@ pages.login.viewModel = function () {
         };
 
         self.obterEstabelecimentoPorNomeUrl = function (nomeUrl) {
+            pages.dataServices.bloquearTela();
             service.obterEstabelecimentoPorNomeUrl(nomeUrl).then(function (result) {
                 self.estabelecimento(new model.vmEstabelecimento(result[0]));
             }).catch(function (mensagem) {
                 bootbox.alert(mensagem);
             }).finally(function () {
-
+                pages.dataServices.desbloquearTela();
             });
         };
 
@@ -69,7 +70,7 @@ pages.login.viewModel = function () {
         }
 
         self.login = function () {
-            document.getElementById('bt-logar').classList.toggle('running')
+            
             if (!self.validarLogin()) { return; }
 
             var parametro = {
@@ -78,6 +79,7 @@ pages.login.viewModel = function () {
                 estabelecimentoId: self.estabelecimento().estabelecimentoId()
             };
 
+            pages.dataServices.bloquearTela();
             service.login(parametro).then(function (result) {
                 console.log(result)
                 localStorage.setItem("token", JSON.stringify(result));
@@ -85,7 +87,7 @@ pages.login.viewModel = function () {
             }).catch(function (mensagem) {
                 bootbox.alert(mensagem);
             }).finally(function () {
-                
+                pages.dataServices.desbloquearTela();
             });
         };
 
@@ -122,6 +124,7 @@ pages.login.viewModel = function () {
                 estabelecimentoId: self.estabelecimento().estabelecimentoId()
             };
 
+            pages.dataServices.bloquearTela();
             service.salvar(parametro).then(function () {
                 bootbox.alert("Usuario cadastrado com sucesso!");
                 self.limpar();
@@ -129,7 +132,7 @@ pages.login.viewModel = function () {
             }).catch(function (mensagem) {
                 bootbox.alert(mensagem);
             }).finally(function () {
-
+                pages.dataServices.desbloquearTela();
             });
         };
 
@@ -154,6 +157,7 @@ pages.login.viewModel = function () {
                 email: self.email()
             };
 
+            pages.dataServices.bloquearTela();
             service.recuperarSenha(parametro).then(function () {
                 bootbox.alert("Enviado e-mail para cadastrar nova senha!");
                 self.limpar();
@@ -161,7 +165,7 @@ pages.login.viewModel = function () {
             }).catch(function (mensagem) {
                 bootbox.alert(mensagem);
             }).finally(function () {
-
+                pages.dataServices.desbloquearTela();
             });
         }; 
 
