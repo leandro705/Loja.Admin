@@ -5,7 +5,7 @@
       "wwwroot/assets/css/bootstrap.min.css",
       "wwwroot/assets/css/app.min.css",
       "wwwroot/assets/css/icons.min.css",
-      "wwwroot/lib/select2/css/select2.min.css",      
+      "wwwroot/lib/select2/css/select2.min.css",
       "wwwroot/lib/bootstrap-datepicker/css/bootstrap-datepicker.standalone.min.css",
       "wwwroot/assets/css/site.css"
     ],
@@ -269,6 +269,45 @@
       "wwwroot/pages/agendamento/pages.agendamento.model.js",
       "wwwroot/pages/agendamento/pages.agendamento.services.js",
       "wwwroot/pages/agendamento/pages.agendamento.edicaoViewModel.js"
+    ],
+    "minify": {
+      "enabled": false,
+      "renameLocals": false
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/atendimento.min.js",
+    "inputFiles": [
+      "wwwroot/pages/atendimento/pages.atendimento.model.js",
+      "wwwroot/pages/atendimento/pages.atendimento.services.js",
+      "wwwroot/pages/atendimento/pages.atendimento.viewModel.js"
+    ],
+    "minify": {
+      "enabled": false,
+      "renameLocals": false
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/atendimentoCadastro.min.js",
+    "inputFiles": [
+      "wwwroot/pages/atendimento/pages.atendimento.model.js",
+      "wwwroot/pages/atendimento/pages.atendimento.services.js",
+      "wwwroot/pages/atendimento/pages.atendimento.cadastroViewModel.js"
+    ],
+    "minify": {
+      "enabled": false,
+      "renameLocals": false
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/atendimentoEdicao.min.js",
+    "inputFiles": [
+      "wwwroot/pages/atendimento/pages.atendimento.model.js",
+      "wwwroot/pages/atendimento/pages.atendimento.services.js",
+      "wwwroot/pages/atendimento/pages.atendimento.edicaoViewModel.js"
     ],
     "minify": {
       "enabled": false,

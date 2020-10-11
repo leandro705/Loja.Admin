@@ -7,14 +7,17 @@
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
   <ItemGroup>
+    <Content Remove="wwwroot\js\atendimento.min.js" />
     <Content Remove="wwwroot\js\servico.min.js" />
   </ItemGroup>
 
   <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\js\atendimento.min.js" />
     <_ContentIncludedByDefault Remove="wwwroot\js\servico.min.js" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\js\atendimento.min.js" />
     <None Include="wwwroot\js\servico.min.js" />
     <None Include="wwwroot\lib\bootstrap-datepicker\js\bootstrap-datepicker.min.js" />
     <None Include="wwwroot\lib\datatables.net-bs4\js\dataTables.bootstrap4.min.js" />

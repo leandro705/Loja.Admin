@@ -1,0 +1,146 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section contents {
+    
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <h4 class="page-title">Edição de Atendimento</h4>
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a asp-controller="Atendimento" asp-action="Index">Atendimentos</a></li>
+                    <li class="breadcrumb-item active">Editar</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<form>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card" data-bind="with:atendimento">
+                <div class="card-body">
+
+                    <div class="form-row">
+                        <!-- ko if:  $root.estabelecimentos().length > 0 -->
+                        <div class="form-group col-md-6">
+                            <label for="estabelecimento" class="col-form-label">Estabelecimento<span class="text-danger">*</span></label>
+                            <select id="estabelecimento" class="form-control" data-toggle="select2"
+                                    data-bind="value: estabelecimentoId, options: $root.estabelecimentos, optionsText: 'nome', optionsValue: 'estabelecimentoId', valueAllowUnset: true, select2: { placeholder: 'Selecione um estabelecimento', tags: false }">
+                            </select>
+                        </div>
+                        <!-- /ko-->
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="dataAtendimento" class="col-form-label">Data Atendimento<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="dataAtendimento" placeholder="Informe a data atendimento"
+                                   data-bind="datepicker: dataAtendimentoDP, datepickerOptions: { startDate: new Date() }, mask: '99/99/9999', value: dataAtendimento" autocomplete="off" />
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="cliente" class="col-form-label">Cliente<span class="text-danger">*</span></label>
+                            <select id="cliente" class="form-control" data-toggle="select2"
+                                    data-bind="value: userId, options: $root.clientes, optionsText: 'nome', optionsValue: 'userId', valueAllowUnset: true, select2: { placeholder: 'Selecione um cliente', tags: false }">
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="observacao" class="col-form-label">Observação</label>
+                            <textarea class="form-control" id="observacao" rows="5" data-bind="value: observacao" placeholder="Informe a observação"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="servico" class="col-form-label">Serviço<span class="text-danger">*</span></label>
+                            <select id="servico" class="form-control" data-toggle="select2"
+                                    data-bind="value: servicoId, options: servicos, optionsText: 'nome', optionsValue: 'servicoId', valueAllowUnset: true, select2: { placeholder: 'Selecione um serviço', tags: false }">
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="valorItem" class="col-form-label">Valor<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="valorItem" maxlength="11" placeholder="Informe o valor"
+                                   data-bind="masked: valor, mask: '#.##0,00', maskOptions: { reverse: true}">
+                        </div>
+                        <div class="form-group ccol-md-3 form-inline align-items-end">
+                            <button type="button" class="btn btn-primary" data-bind="click: adicionar">Adicionar</button>
+                        </div>
+                    </div>
+                    <!-- ko if:  atendimento() && atendimento().atendimentoItens().length > 0 -->
+                    <div class="form-row table-responsive-sm">
+                        <table class="table table-sm table-bordered mb-0 col-md-8">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Serviço</th>
+                                    <th>Valor</th>
+                                    <th>Opções</th>
+                                </tr>
+                            </thead>
+                            <tbody data-bind="foreach: atendimento().atendimentoItens()">
+                                <tr>
+                                    <td data-bind="text: servicoNome"></td>
+                                    <td data-bind="text: valor"></td>
+                                    <td>
+                                        <button type="button" class="btn-xs btn-danger waves-effect waves-light"
+                                                data-bind="click: $parent.remover">
+                                            <i class="mdi mdi-trash-can-outline"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /ko-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card" data-bind="with:atendimento">
+                <div class="card-body">
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                            <label for="valor" class="col-form-label">Valor<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="valor" maxlength="11" placeholder="Informe o valor"
+                                   data-bind="masked: valor, mask: '#.##0,00', maskOptions: { reverse: true}">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="desconto" class="col-form-label">Desconto</label>
+                            <input type="text" class="form-control" id="desconto" maxlength="11" placeholder="Informe o desconto"
+                                   data-bind="masked: desconto, mask: '#.##0,00', maskOptions: { reverse: true}">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="valorTotal" class="col-form-label">Valor Total<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="valorTotal" maxlength="11" placeholder="0,00"
+                                   data-bind="masked: valorTotal, mask: '#.##0,00', maskOptions: { reverse: true}, disable: true">
+                        </div>
+                        <div class="form-group ccol-md-3 form-inline align-items-end">
+                            <button type="button" class="btn btn-secondary mr-1" data-bind="click: $parent.voltar">Cancelar</button>
+                            <button type="button" class="btn btn-primary" data-bind="click: $parent.salvar, disable: $parent.bloqueiaSalvar()">Salvar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section scripts {   
+    <script src="~/js/atendimentoEdicao.min.js"></script>
+}

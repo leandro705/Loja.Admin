@@ -3,7 +3,7 @@
 }
 
 @section contents {
-
+    <link href="~/css/datatable.min.css" rel="stylesheet" type="text/css" />
 }
 
 <div class="row">
@@ -11,14 +11,63 @@
         <div class="page-title-box">
             <h4 class="page-title">Atendimentos</h4>
             <div class="page-title-right">
-                <ol class="breadcrumb m-0">                                      
+                <ol class="breadcrumb m-0">
                     <li class="breadcrumb-item active">Atendimentos</li>
                 </ol>
             </div>
         </div>
     </div>
 </div>
+<div class="row">
+    <div class="col-12">
+        <div class="float-right">
+            <a asp-controller="Atendimento" asp-action="Cadastro" class="btn btn-primary waves-effect waves-light mb-3">
+                <i class="fa fa-plus-circle mr-1"></i> Novo
+            </a>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <table id="datatable-atendimento" class="table table-striped dt-responsive nowrap w-100">
+                            <thead>
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Data Atendimento</th>
+                                    <th>Cliente</th>
+                                    <th>Valor Total</th>
+                                    <th>Situação</th>
+                                    <th>Estabelecimento</th>
+                                    <th>Opções</th>
+                                </tr>
+                            </thead>
+                            <tbody data-bind="foreach: atendimentos">
+                                <tr>
+                                    <td data-bind="text: atendimentoId"></td>
+                                    <td data-bind="text: dataAtendimento"></td>
+                                    <td data-bind="text: usuarioNome"></td>
+                                    <td data-bind="text: valorTotal"></td>                                    
+                                    <td data-bind="text: situacao"></td>
+                                    <td data-bind="text: estabelecimentoNome"></td>
+                                    <td>
+                                        <button type="button" class="btn btn-warning waves-effect waves-light" data-bind="click: $parent.editar"><i class="mdi mdi-pencil-outline"></i></button>
+                                        <button type="button" class="btn btn-danger waves-effect waves-light" data-bind="click: $parent.excluir"><i class="mdi mdi-trash-can-outline"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>                
+            </div>
+        </div>
+    </div>
+</div>
 
 @section scripts {
-
+    <script src="~/js/datatable.min.js"></script>
+    <script src="~/js/atendimento.min.js"></script>
 }
