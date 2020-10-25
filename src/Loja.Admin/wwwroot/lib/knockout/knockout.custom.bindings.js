@@ -65,17 +65,22 @@ ko.bindingHandlers.masked = {
             $(element).mask(behavior, options);
         }
         else if (horario) {
-            var patternTime = {
-                'translation': {
-                    'H': {
-                        pattern: /[0-23]/
-                    },
-                    'M': {
-                        pattern: /[0-59]/
-                    }
+            var behavior = function (val) {
+                return val.replace(/\D/g, '')[0] === '2' ? 'AE:CD' : 'AB:CD';
+            },
+            options = {
+                onKeyPress: function (val, e, field, options) {
+                    field.mask(behavior.apply({}, arguments), options);
+                },
+                translation: {
+                    "A": { pattern: /[0-2]/, optional: false },
+                    "B": { pattern: /[0-9]/, optional: false },
+                    "C": { pattern: /[0-5]/, optional: false },
+                    "D": { pattern: /[0-9]/, optional: false },
+                    "E": { pattern: /[0-3]/, optional: false }
                 }
             };
-            $(element).mask("HH:MM", patternTime);                
+            $(element).mask(behavior, options);              
         }
         else
             $(element).mask(mask, maskOptions);
@@ -158,6 +163,43 @@ ko.bindingHandlers.datepicker = {
 
         if (value - current !== 0) {
             $el.datepicker("setDate", value);
+        }
+    }
+};
+
+ko.bindingHandlers.modal = {
+    init: function (element, valueAccessor) {
+        $(element).modal({
+            show: false
+        });
+
+        var value = valueAccessor();
+
+        $.prototype.modal = (function (modal) {
+            return function (config) {
+                try {
+                    return modal.call(this, config);
+                } catch (ex) {
+                    if (ex instanceof TypeError && config === "destroy") {
+                        $('body').removeClass('modal-open');
+                        $('.modal-backdrop').remove();
+                        return modal.call(this, "dispose");
+                    }
+                }
+            };
+        })($.prototype.modal);
+
+        ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
+            $(element).modal("destroy");
+        });
+
+    },
+    update: function (element, valueAccessor) {
+        var value = valueAccessor();
+        if (ko.utils.unwrapObservable(value)) {
+            $(element).modal('show');
+        } else {
+            $(element).modal('hide');
         }
     }
 };

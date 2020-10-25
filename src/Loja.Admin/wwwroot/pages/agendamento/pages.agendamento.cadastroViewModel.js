@@ -82,7 +82,7 @@ pages.agendamento.cadastroViewModel = function () {
         self.validar = function () {
             var mensagens = [];
 
-            if (isNullOrEmpty(self.agendamento().dataAgendamento()))
+            if (isNullOrEmpty(self.agendamento().dataAgendamentoStr()))
                 mensagens.push("<strong>Data Agendamento</strong> é obrigatório!");
 
             if (isNullOrEmpty(self.agendamento().horaInicial()))
@@ -109,8 +109,8 @@ pages.agendamento.cadastroViewModel = function () {
             if (!self.validar()) { return; }
 
             var parametro = {
-                dataAgendamento: self.agendamento().dataAgendamento() + ' ' + self.agendamento().horaInicial(),
-                dataFinalAgendamento: self.agendamento().dataAgendamento() + ' ' + self.agendamento().horaFinal(),                
+                dataAgendamentoStr: self.agendamento().dataAgendamentoStr() + ' ' + self.agendamento().horaInicial(),
+                dataFinalAgendamentoStr: self.agendamento().dataAgendamentoStr() + ' ' + self.agendamento().horaFinal(),                
                 servicoId: self.agendamento().servicoId(),
                 userId: self.agendamento().userId(),
                 observacao: self.agendamento().observacao(),

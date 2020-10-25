@@ -48,7 +48,7 @@ pages.agendamento.viewModel = function () {
                     visible: false
                 },
                 {
-                    targets: [6],
+                    targets: [7],
                     orderable: false,
                     searchable: false,
                     className: "text-center"
@@ -74,7 +74,7 @@ pages.agendamento.viewModel = function () {
         self.excluir = function (item) {
             bootbox.dialog({
                 closeButton: false,
-                message: "Confirma a exclusão do agendamento <strong>" + item.dataAgendamento() + ' ' + item.horaInicial() + "</strong>!",               
+                message: "Confirma a exclusão do agendamento <strong>" + item.dataAgendamentoStr() + ' ' + item.horaInicial() + "</strong>!",               
                 buttons: {
                     nao: {
                         label: "NÃO",

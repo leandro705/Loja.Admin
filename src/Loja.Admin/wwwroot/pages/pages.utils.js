@@ -2,6 +2,9 @@
 
 pages.utils = function () {
 
+    const monthNames = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"]
+    const dayOfWeekNames = ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sabado"]
+
     function initDataPassword() {
         $("[data-password]").on('click', function () {
             if ($(this).attr('data-password') == "false") {
@@ -25,6 +28,45 @@ pages.utils = function () {
 
     function formataDecimal(valor) {        
         return valor.replaceAll(".", "").replace(',', '.');
+    };
+
+    function format(date, formato) {
+        if (date == null || date == "")
+            return "";
+
+        if (formato == null)
+            formato = "dd/MM/yyyy HH:mm:ss";
+
+        var yearFull = date.getFullYear();
+        var yearMin = yearFull.toString().substring(2);
+        var month = date.getMonth() + 1;
+        var monthName = monthNames[month - 1];
+        var day = date.getDate();
+        var dayOfWeekName = dayOfWeekNames[date.getDay()];
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var seconds = date.getSeconds();
+
+        if (day < 10)
+            day = "0" + day;
+
+        if (month < 10)
+            month = "0" + month;
+
+        if (hours < 10)
+            hours = "0" + hours;
+
+        if (minutes < 10)
+            minutes = "0" + minutes;
+
+        if (seconds < 10)
+            seconds = "0" + seconds;
+
+        return formato.replace("yyyy", yearFull).replace("yy", yearMin)
+            .replace("MMMM", monthName).replace("MM", month)
+            .replace("dd", day).replace("EEEE", dayOfWeekName)
+            .replace("HH", hours).replace("mm", minutes)
+            .replace("ss", seconds);
     };
 
     var languageDataTablePtBr = {
@@ -69,6 +111,7 @@ pages.utils = function () {
         initDataPassword,
         getUrlParameter,
         languageDataTablePtBr,
-        formataDecimal
+        formataDecimal,
+        format
     };
 }();

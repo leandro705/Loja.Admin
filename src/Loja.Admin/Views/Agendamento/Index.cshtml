@@ -38,8 +38,9 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Data Agendamento</th>
-                                    <th>Data Final Agendamento</th>                                    
-                                    <th>Serviço</th>                                    
+                                    <th>Data Final Agendamento</th>
+                                    <th>Cliente</th>
+                                    <th>Serviço</th>
                                     <th>Situação</th>
                                     <th>Estabelecimento</th>
                                     <th>Opções</th>
@@ -48,9 +49,10 @@
                             <tbody data-bind="foreach: agendamentos">
                                 <tr>
                                     <td data-bind="text: agendamentoId"></td>
-                                    <td data-bind="text: dataAgendamento() + ' ' + horaInicial()"></td>
-                                    <td data-bind="text: dataFinalAgendamento"></td>
-                                    <td data-bind="text: servicoNome"></td>                                    
+                                    <td data-bind="text: dataAgendamentoStr() + ' ' + horaInicial()"></td>
+                                    <td data-bind="text: dataFinalAgendamentoStr"></td>
+                                    <td data-bind="text: usuarioNome"></td>
+                                    <td data-bind="text: servicoNome"></td>
                                     <td data-bind="text: situacao"></td>
                                     <td data-bind="text: estabelecimentoNome"></td>
                                     <td>

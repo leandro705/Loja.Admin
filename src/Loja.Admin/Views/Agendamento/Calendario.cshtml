@@ -3,7 +3,7 @@
 }
 
 @section contents {
-
+    <link href="~/css/fullcalendar.min.css" rel="stylesheet" type="text/css" />
 }
 
 <div class="row">
@@ -11,7 +11,7 @@
         <div class="page-title-box">
             <h4 class="page-title">Calendário</h4>
             <div class="page-title-right">
-                <ol class="breadcrumb m-0">                                      
+                <ol class="breadcrumb m-0">
                     <li class="breadcrumb-item active">Calendário</li>
                 </ol>
             </div>
@@ -19,6 +19,220 @@
     </div>
 </div>
 
-@section scripts {
+<div class="row">
+    <div class="col-12">
+        <div class="form-row">
+            <!-- ko if:  estabelecimentos().length > 0 -->
+            <div class="form-group col-md-6">
+                <label for="estabelecimento" class="col-form-label">Estabelecimento<span class="text-danger">*</span></label>
+                <select id="estabelecimento" class="form-control" data-toggle="select2"
+                        data-bind="value: estabelecimentoIdFiltro, options: estabelecimentos, optionsText: 'nome', optionsValue: 'estabelecimentoId', valueAllowUnset: true, select2: { placeholder: 'Selecione um estabelecimento', tags: false }">
+                </select>
+            </div>
+            <!-- /ko-->
+            <!-- ko if:  clientes().length > 0 -->
+            <div class="form-group col-md-6">
+                <label for="cliente" class="col-form-label">Cliente<span class="text-danger">*</span></label>
+                <select id="cliente" class="form-control" data-toggle="select2"
+                        data-bind="value: usuarioIdFiltro, options: clientes, optionsText: 'nome', optionsValue: 'userId', valueAllowUnset: true, select2: { placeholder: 'Selecione um cliente', tags: false }">
+                </select>
+            </div>
+            <!-- /ko-->
+        </div>
+    </div>
+</div>
 
+<div class="row">
+    <div class="col-12">
+
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="mt-4 mt-lg-0">
+                            <div id="calendar"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-bind="modal: modalAgendamento">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Agendamento</h4>
+                        <button type="button" class="close" data-bind="click: fecharModalAgendamento" aria-hidden="true">×</button>
+                    </div>
+                    <div class="modal-body p-4">
+                        <form data-bind="with:agendamento">
+                            <div class="form-row">
+                                <!-- ko if:  $root.exibeDropEstabelecimento() && !$root.estabelecimentoIdFiltro()-->
+                                <div class="form-group col-md-12">
+                                    <label for="estabelecimentoCadastro" class="col-form-label">Estabelecimento<span class="text-danger">*</span></label>
+                                    <select id="estabelecimentoCadastro" class="form-control" data-toggle="select2"
+                                            data-bind="value: estabelecimentoId, options: $root.estabelecimentos, optionsText: 'nome', optionsValue: 'estabelecimentoId', valueAllowUnset: true, select2: { placeholder: 'Selecione um estabelecimento', tags: false }">
+                                    </select>
+                                </div>
+                                <!-- /ko-->
+                            </div>
+                            <div class="form-row">
+                                <!-- ko if:  $root.exibeDropCliente() && !$root.usuarioIdFiltro() -->
+                                <div class="form-group col-md-6">
+                                    <label for="clienteCadastro" class="col-form-label">Cliente<span class="text-danger">*</span></label>
+                                    <select id="clienteCadastro" class="form-control" data-toggle="select2"
+                                            data-bind="value: userId, options: $root.clientesCadastro, optionsText: 'nome', optionsValue: 'userId', valueAllowUnset: true, select2: { placeholder: 'Selecione um cliente', tags: false }">
+                                    </select>
+                                </div>
+                                <!-- /ko-->
+                                <!-- ko if: !$root.exibeDropCliente() || ($root.exibeDropCliente() && $root.usuarioIdFiltro()) -->
+                                <div class="form-group col-md-6">
+                                    <label for="clienteNome" class="col-form-label">Cliente<span class="text-danger">*</span></label>
+                                    <input id="clienteNome" class="form-control" data-bind="value: usuarioNome, disable:true" readonly />
+                                </div>
+                                <!-- /ko-->
+                                <div class="form-group col-md-6">
+                                    <label for="servico" class="col-form-label">Serviço<span class="text-danger">*</span></label>
+                                    <select id="servico" class="form-control" data-toggle="select2"
+                                            data-bind="value: servicoId, options: $root.servicosCadastro, optionsText: 'nome', optionsValue: 'servicoId', valueAllowUnset: true, select2: { placeholder: 'Selecione um serviço', tags: false }">
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label for="dataAgendamento" class="col-form-label">Data Agendamento<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="dataAgendamento" placeholder="Informe a data agendamento"
+                                           data-bind="datepicker: dataAgendamentoDP, datepickerOptions: { startDate: new Date() }, mask: '99/99/9999', value: dataAgendamentoStr, disable:true" autocomplete="off" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="horaInicial" class="col-form-label">Horário Inicial<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="horaInicial" data-bind="masked: horaInicial, horario:true" placeholder="Informe o horário inicial">
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="horaFinal" class="col-form-label">Horário Final<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="horaFinal" data-bind="masked: horaFinal, horario:true" placeholder="Informe o horário final">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <label for="observacao" class="col-form-label">Observação</label>
+                                    <textarea class="form-control" id="observacao" rows="5" data-bind="value: observacao" placeholder="Informe a observação"></textarea>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger waves-effect waves-light" 
+                                data-bind="click: abrirModalExcluir, visible: agendamento().agendamentoId()">
+                            Excluir
+                        </button>
+                        <button type="button" class="btn btn-secondary waves-effect" data-bind="click: fecharModalAgendamento">Fechar</button>
+                        <button type="button" class="btn btn-info waves-effect waves-light"
+                                data-bind="click: salvar, disable: bloqueiaSalvar()">
+                            Salvar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-bind="modal: modalVisualizar">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Visualizar Agendamento</h4>
+                        <button type="button" class="close" data-bind="click: fecharModalVisualizar" aria-hidden="true">×</button>
+                    </div>
+                    <div class="modal-body p-4">
+                        <form data-bind="with:agendamentoVisualizar">
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <label for="estabelecimentoVisualizar" class="col-form-label">Estabelecimento</label>
+                                    <input id="estabelecimentoVisualizar" class="form-control" data-bind="value: estabelecimentoNome, disable:true" readonly />
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="clienteVisualizar" class="col-form-label">Cliente</label>
+                                    <input id="clienteVisualizar" class="form-control" data-bind="value: usuarioNome, disable:true" readonly />
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label for="servicoVisualizar" class="col-form-label">Serviço</label>
+                                    <input id="servicoVisualizar" class="form-control" data-bind="value: servicoNome, disable:true" readonly />
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label for="dataAgendamentoVisualizar" class="col-form-label">Data Agendamento</label>
+                                    <input id="dataAgendamentoVisualizar" class="form-control" data-bind="value: dataAgendamentoStr, disable:true" readonly />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="horaInicialVisualizar" class="col-form-label">Horário Inicial</label>
+                                    <input id="horaInicialVisualizar" class="form-control" data-bind="value: horaInicial, disable:true" readonly />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="horaFinalVisualizar" class="col-form-label">Horário Final</label>
+                                    <input id="horaFinalVisualizar" class="form-control" data-bind="value: horaFinal, disable:true" readonly />
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <label for="observacaoVisualizar" class="col-form-label">Observação</label>
+                                    <input id="observacaoVisualizar" class="form-control" data-bind="text: observacao, disable:true" readonly />
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary waves-effect" data-bind="click: fecharModalVisualizar">Fechar</button>
+                        @*<button type="button" class="btn btn-info waves-effect waves-light"
+                                data-bind="click: salvar, disable: bloqueiaSalvar()">
+                            Salvar
+                        </button>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-bind="modal: modalMensagem">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <span data-bind="html: mensagem"></span>
+                        <button type="button" class="close" data-bind="click: fecharModalMensagem" aria-hidden="true">×</button>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-info waves-effect" data-bind="click: fecharModalMensagem">Ok</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-bind="modal: modalExcluir">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <span data-bind="html: mensagem"></span>
+                        <button type="button" class="close" data-bind="click: fecharModalExcluir" aria-hidden="true">×</button>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary waves-effect" data-bind="click: fecharModalExcluir">Fechar</button>
+                         <button type="button" class="btn btn-info waves-effect waves-light"
+                                data-bind="click: excluir">
+                            OK
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script src="~/js/fullcalendar.min.js"></script>
+    <script src="~/js/calendario.min.js"></script>   
+    
 }

@@ -7,7 +7,7 @@ pages.metadata = pages.metadata || {};
 pages.dataServices = pages.dataServices || {};
 pages.utils = pages.utils || {};
 
-pages.agendamento.cadastroViewModel = function () {   
+pages.agendamento.edicaoViewModel = function () {   
     var model = pages.agendamento.model;
     var service = pages.agendamento.services;
     var id = window.location.href.split("/").lastOrDefault();
@@ -111,7 +111,7 @@ pages.agendamento.cadastroViewModel = function () {
         self.validar = function () {
             var mensagens = [];
 
-            if (isNullOrEmpty(self.agendamento().dataAgendamento()))
+            if (isNullOrEmpty(self.agendamento().dataAgendamentoStr()))
                 mensagens.push("<strong>Data Agendamento</strong> é obrigatório!");
 
             if (isNullOrEmpty(self.agendamento().horaInicial()))
@@ -139,8 +139,8 @@ pages.agendamento.cadastroViewModel = function () {
 
             var parametro = {
                 agendamentoId: self.agendamento().agendamentoId(),
-                dataAgendamento: self.agendamento().dataAgendamento() + ' ' + self.agendamento().horaInicial(),
-                dataFinalAgendamento: self.agendamento().dataAgendamento() + ' ' + self.agendamento().horaFinal(),
+                dataAgendamentoStr: self.agendamento().dataAgendamentoStr() + ' ' + self.agendamento().horaInicial(),
+                dataFinalAgendamentoStr: self.agendamento().dataAgendamentoStr() + ' ' + self.agendamento().horaFinal(),
                 servicoId: self.agendamento().servicoId(),
                 userId: self.agendamento().userId(),
                 observacao: self.agendamento().observacao(),

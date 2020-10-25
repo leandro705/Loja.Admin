@@ -3,6 +3,13 @@ pages.agendamento = pages.agendamento || {};
 
 pages.agendamento.services = function () {  
 
+    var EPerfil = {
+        ADMINISTRADOR: "Administrador",
+        GERENTE: "Gerente",
+        CLIENTE: "Cliente",
+        FUNCIONARIO: "Funcionario"
+    }; 
+
     var obterTodosEstabelecimentos = function () {
         var url = pages.metadata.actionUrl("/api/estabelecimentos");
         return pages.dataServices.get(url);
@@ -43,7 +50,8 @@ pages.agendamento.services = function () {
         return pages.dataServices.putAjax(url, parametro);
     } 
 
-    return {    
+    return {  
+        EPerfil,
         obterTodosEstabelecimentos,
         obterTodosServicosPorEstabelecimentoId,
         obterTodosClientesPorEstabelecimentoId,

@@ -29,6 +29,29 @@
     "sourceMap": false
   },
   {
+    "outputFileName": "wwwroot/css/fullcalendar.min.css",
+    "inputFiles": [
+      "wwwroot/lib/fullcalendar/main.css"
+    ],
+    "minify": {
+      "enabled": false,
+      "renameLocals": false
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/fullcalendar.min.js",
+    "inputFiles": [
+      "wwwroot/lib/fullcalendar/main.js",
+      "wwwroot/lib/fullcalendar/pt-br.js"
+    ],
+    "minify": {
+      "enabled": false,
+      "renameLocals": false
+    },
+    "sourceMap": false
+  },
+  {
     "outputFileName": "wwwroot/js/loginAdmin.min.js",
     "inputFiles": [
       "wwwroot/pages/loginAdmin/pages.loginAdmin.services.js",
@@ -71,7 +94,7 @@
     "outputFileName": "wwwroot/js/configPublic.min.js",
     "inputFiles": [
       "wwwroot/lib/jquery/jquery.min.js",
-      "wwwroot/lib/bootstrap/js/bootstrap.bundle.min.js",
+      "wwwroot/lib/bootstrap/js/bootstrap.min.js",
       "wwwroot/lib/knockout/knockout-3.5.1.js",
       "wwwroot/lib/bootbox/bootbox.min.js",
       "wwwroot/lib/jquery.blockUI/jquery.blockUI.js",
@@ -91,15 +114,15 @@
     "outputFileName": "wwwroot/js/config.min.js",
     "inputFiles": [
       "wwwroot/lib/jquery/jquery.min.js",
-      "wwwroot/lib/bootstrap/js/bootstrap.bundle.min.js",
+      "wwwroot/lib/bootstrap/js/bootstrap.min.js",
       "wwwroot/lib/knockout/knockout-3.5.1.js",
       "wwwroot/lib/knockout/knockout.custom.bindings.js",
-      "wwwroot/lib/bootbox/bootbox.min.js",
       "wwwroot/lib/select2/js/select2.min.js",
       "wwwroot/lib/jquery-mask-plugin/jquery.mask.min.js",
       "wwwroot/lib/jquery.blockUI/jquery.blockUI.js",
       "wwwroot/lib/bootstrap-datepicker/js/bootstrap-datepicker.min.js",
       "wwwroot/lib/bootstrap-datepicker/js/bootstrap-datepicker.pt-BR.min.js",
+      "wwwroot/lib/bootbox/bootbox.js",
       "wwwroot/assets/js/app.js",
       "wwwroot/pages/config.js",
       "wwwroot/pages/prototype.js",
@@ -230,6 +253,19 @@
       "wwwroot/pages/servico/pages.servico.model.js",
       "wwwroot/pages/servico/pages.servico.services.js",
       "wwwroot/pages/servico/pages.servico.edicaoViewModel.js"
+    ],
+    "minify": {
+      "enabled": false,
+      "renameLocals": false
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/calendario.min.js",
+    "inputFiles": [
+      "wwwroot/pages/agendamento/pages.agendamento.model.js",
+      "wwwroot/pages/agendamento/pages.agendamento.services.js",
+      "wwwroot/pages/agendamento/pages.agendamento.calendarioViewModel.js"
     ],
     "minify": {
       "enabled": false,

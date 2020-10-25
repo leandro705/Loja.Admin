@@ -29,8 +29,10 @@ pages.agendamento.model = function () {
 
         self.agendamentoId = ko.observable();
         self.dataAgendamento = ko.observable();
-        self.dataFinalAgendamento = ko.observable();
+        self.dataAgendamentoStr = ko.observable();
         self.dataAgendamentoDP = ko.observable();
+        self.dataFinalAgendamento = ko.observable();        
+        self.dataFinalAgendamentoStr = ko.observable();        
         self.horaInicial = ko.observable();
         self.horaFinal = ko.observable();
         self.servicoId = ko.observable();        
@@ -39,29 +41,59 @@ pages.agendamento.model = function () {
         self.dataCadastro = ko.observable();
         self.situacao = ko.observable();
         self.userId = ko.observable();
+        self.usuarioNome = ko.observable();
         self.estabelecimentoId = ko.observable();
-        self.estabelecimentoNome = ko.observable();
+        self.estabelecimentoNome = ko.observable();               
 
-        if (agendamento) {
-            let splitDataHoraInicial = agendamento.dataAgendamento.split(' ');
-            let splitDataHoraFinal = agendamento.dataFinalAgendamento.split(' ');
+        self.iniciar = function (agendamento) {
+            let splitDataHoraInicial = agendamento.dataAgendamentoStr.split(' ');
+            let splitDataHoraFinal = agendamento.dataFinalAgendamentoStr.split(' ');
 
-
+            self.estabelecimentoId(agendamento.estabelecimentoId);
+            self.estabelecimentoNome(agendamento.estabelecimentoNome);
             self.agendamentoId(agendamento.agendamentoId);
             self.dataAgendamentoDP(splitDataHoraInicial[0]);
-            self.dataAgendamento(splitDataHoraInicial[0]);
+            self.dataAgendamentoStr(splitDataHoraInicial[0]);
+            self.dataAgendamento(agendamento.dataAgendamento);
             self.dataFinalAgendamento(agendamento.dataFinalAgendamento);
+            self.dataFinalAgendamentoStr(agendamento.dataFinalAgendamentoStr);
             self.horaInicial(splitDataHoraInicial[1]);
             self.horaFinal(splitDataHoraFinal[1]);
-            self.observacao(agendamento.observacao);    
-            self.servicoId(agendamento.servicoId);
-            self.servicoNome(agendamento.servicoNome);
-            
+            self.observacao(agendamento.observacao);
             self.dataCadastro(agendamento.dataCadastro);
             self.situacao(agendamento.situacao);
-            self.userId(agendamento.userId); 
-            self.estabelecimentoId(agendamento.estabelecimentoId); 
-            self.estabelecimentoNome(agendamento.estabelecimentoNome);
+
+            setTimeout(function () {
+                self.servicoId(agendamento.servicoId);
+                self.servicoNome(agendamento.servicoNome);
+                self.userId(agendamento.userId);
+                self.usuarioNome(agendamento.usuarioNome);
+            }, 500);                        
+            
+        };
+
+        self.limpar = function () {
+            self.agendamentoId(null);
+            self.dataAgendamentoDP(null);
+            self.dataAgendamentoStr(null);
+            self.dataAgendamento(null);
+            self.dataFinalAgendamento(null);
+            self.dataFinalAgendamentoStr(null);
+            self.horaInicial(null);
+            self.horaFinal(null);
+            self.observacao(null);
+            self.servicoId(null);
+            self.servicoNome(null);
+            self.dataCadastro(null);
+            self.situacao(null);
+            self.userId(null);
+            self.usuarioNome(null);
+            self.estabelecimentoId(null);
+            self.estabelecimentoNome(null);
+        };
+
+        if (agendamento) {
+            self.iniciar(agendamento);
         }
     };    
 
