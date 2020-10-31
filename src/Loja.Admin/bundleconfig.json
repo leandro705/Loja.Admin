@@ -94,7 +94,7 @@
     "outputFileName": "wwwroot/js/configPublic.min.js",
     "inputFiles": [
       "wwwroot/lib/jquery/jquery.min.js",
-      "wwwroot/lib/bootstrap/js/bootstrap.min.js",
+      "wwwroot/lib/bootstrap/js/bootstrap.bundle.min.js",
       "wwwroot/lib/knockout/knockout-3.5.1.js",
       "wwwroot/lib/bootbox/bootbox.min.js",
       "wwwroot/lib/jquery.blockUI/jquery.blockUI.js",
@@ -114,7 +114,7 @@
     "outputFileName": "wwwroot/js/config.min.js",
     "inputFiles": [
       "wwwroot/lib/jquery/jquery.min.js",
-      "wwwroot/lib/bootstrap/js/bootstrap.min.js",
+      "wwwroot/lib/bootstrap/js/bootstrap.bundle.min.js",
       "wwwroot/lib/knockout/knockout-3.5.1.js",
       "wwwroot/lib/knockout/knockout.custom.bindings.js",
       "wwwroot/lib/select2/js/select2.min.js",
@@ -344,6 +344,45 @@
       "wwwroot/pages/atendimento/pages.atendimento.model.js",
       "wwwroot/pages/atendimento/pages.atendimento.services.js",
       "wwwroot/pages/atendimento/pages.atendimento.edicaoViewModel.js"
+    ],
+    "minify": {
+      "enabled": false,
+      "renameLocals": false
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/usuario.min.js",
+    "inputFiles": [
+      "wwwroot/pages/usuario/pages.usuario.model.js",
+      "wwwroot/pages/usuario/pages.usuario.services.js",
+      "wwwroot/pages/usuario/pages.usuario.viewModel.js"
+    ],
+    "minify": {
+      "enabled": false,
+      "renameLocals": false
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/usuarioCadastro.min.js",
+    "inputFiles": [
+      "wwwroot/pages/usuario/pages.usuario.model.js",
+      "wwwroot/pages/usuario/pages.usuario.services.js",
+      "wwwroot/pages/usuario/pages.usuario.cadastroViewModel.js"
+    ],
+    "minify": {
+      "enabled": false,
+      "renameLocals": false
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/usuarioEdicao.min.js",
+    "inputFiles": [
+      "wwwroot/pages/usuario/pages.usuario.model.js",
+      "wwwroot/pages/usuario/pages.usuario.services.js",
+      "wwwroot/pages/usuario/pages.usuario.edicaoViewModel.js"
     ],
     "minify": {
       "enabled": false,

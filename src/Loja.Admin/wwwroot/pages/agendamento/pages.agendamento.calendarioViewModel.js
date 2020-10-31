@@ -375,27 +375,57 @@ pages.agendamento.calendarioViewModel = function () {
                 observacao: self.agendamento().observacao(),
                 estabelecimentoId: self.usuarioLogado().isAdministrador() ? self.agendamento().estabelecimentoId() : self.usuarioLogado().estabelecimentoId()
             };
-            
-            self.bloqueiaSalvar(true);
-            pages.dataServices.bloquearTela();
-            service.salvar(parametro).then(function (agendamento) {
 
-                var eventData = {
-                    title: self.agendamento().usuarioNome() + ' - ' + self.agendamento().servicoNome(),
-                    start: agendamento.dataAgendamento,
-                    end: agendamento.dataFinalAgendamento,
-                    agendamentoId: agendamento.agendamentoId
-                };
+            if (self.agendamento().agendamentoId()) {
+                parametro.agendamentoId = self.agendamento().agendamentoId();
 
-                self.calendario().addEvent(eventData);
-                self.fecharModalAgendamento();
-                self.abrirModalMensagem("Agendamento salvo com sucesso!");
-            }).catch(function (mensagem) {
-                self.abrirModalMensagem(mensagem);
-                self.bloqueiaSalvar(false);
-            }).finally(function () {
-                pages.dataServices.desbloquearTela();
-            });
+                self.bloqueiaSalvar(true);
+                pages.dataServices.bloquearTela();
+                service.atualizar(self.agendamento().agendamentoId(), parametro).then(function (agendamento) {
+
+                    self.evento().remove();
+                    self.evento(null);
+
+                    var eventData = {
+                        title: self.agendamento().usuarioNome() + ' - ' + self.agendamento().servicoNome(),
+                        start: pages.utils.format(self.agendamento().dataAgendamentoDP(), 'yyyy-MM-dd') + ' ' + self.agendamento().horaInicial(),
+                        end: pages.utils.format(self.agendamento().dataAgendamentoDP(), 'yyyy-MM-dd') + ' ' + self.agendamento().horaFinal(),
+                        agendamentoId: self.agendamento().agendamentoId()
+                    };
+
+                    self.calendario().addEvent(eventData);
+                    self.fecharModalAgendamento();
+                    self.abrirModalMensagem("Agendamento salvo com sucesso!");
+                }).catch(function (mensagem) {
+                    self.abrirModalMensagem(mensagem);
+                    self.bloqueiaSalvar(false);
+                }).finally(function () {
+                    pages.dataServices.desbloquearTela();
+                });
+            }
+            else {
+                self.bloqueiaSalvar(true);
+                pages.dataServices.bloquearTela();
+                service.salvar(parametro).then(function (agendamento) {
+
+                    var eventData = {
+                        title: self.agendamento().usuarioNome() + ' - ' + self.agendamento().servicoNome(),
+                        start: agendamento.dataAgendamento,
+                        end: agendamento.dataFinalAgendamento,
+                        agendamentoId: agendamento.agendamentoId
+                    };
+
+                    self.calendario().addEvent(eventData);
+                    self.fecharModalAgendamento();
+                    self.abrirModalMensagem("Agendamento salvo com sucesso!");
+                }).catch(function (mensagem) {
+                    self.abrirModalMensagem(mensagem);
+                    self.bloqueiaSalvar(false);
+                }).finally(function () {
+                    pages.dataServices.desbloquearTela();
+                });
+            }           
+           
         };
 
         self.init();

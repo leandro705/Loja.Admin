@@ -1,0 +1,109 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section contents {
+    
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <h4 class="page-title">Edição de Usuário</h4>
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a asp-controller="Usuario" asp-action="Index">Usuários</a></li>
+                    <li class="breadcrumb-item active">Editar</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <form data-bind="with:usuario">
+                    <h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-account-circle mr-1"></i> Informações Gerais</h5>
+                    
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="nome" class="col-form-label">Nome<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="nome" data-bind="value: nome" placeholder="Informe o nome">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="email" class="col-form-label">E-mail<span class="text-danger">*</span></label>
+                            <input type="email" class="form-control" id="email" data-bind="value: email, disable:true" readonly">
+                        </div>
+                    </div>                   
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="celular" class="col-form-label">Celular<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="celular" maxlength="15" placeholder="Informe o celular"
+                                   data-bind="masked: celular, telefone: true">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="telefone" class="col-form-label">Telefone</label>
+                            <input type="text" class="form-control" id="telefone" maxlength="15" placeholder="Informe o telefone"
+                                   data-bind="masked: telefone, telefone: true">
+                        </div>
+                    </div>
+
+                    <h5 class="mb-3 text-uppercase bg-light p-2"><i class="mdi mdi-home-city mr-1"></i> Informações de Endereço</h5>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="logradouro" class="col-form-label">Logradouro<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="logradouro" data-bind="value: endereco().logradouro" placeholder="Informe o logradouro">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="numero" class="col-form-label">Número<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="numero" data-bind="value: endereco().numero" placeholder="Informe o número">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="cep" class="col-form-label">CEP<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="cep" maxlength="8" data-bind="value: endereco().cep" placeholder="Informe o cep">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="bairro" class="col-form-label">Bairro<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="bairro" data-bind="value: endereco().bairro" placeholder="Informe o bairro">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="complemento" class="col-form-label">Complemento</label>
+                            <input type="text" class="form-control" id="complemento" data-bind="value: endereco().complemento" placeholder="Informe o Complemento">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="estado" class="col-form-label">Estado<span class="text-danger">*</span></label>
+                            <select id="estado" class="form-control" data-toggle="select2"
+                                    data-bind="value: endereco().estadoId, options: $root.estados, optionsText: 'nome', optionsValue: 'estadoId', valueAllowUnset: true, select2: { placeholder: 'Selecione um estado', tags: false }">
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="municipio" class="col-form-label">Município<span class="text-danger">*</span></label>
+                            <select id="municipio" class="form-control" data-toggle="select2"
+                                    data-bind="value: endereco().municipioId, options: $root.municipios, optionsText: 'nome', optionsValue: 'municipioId', valueAllowUnset: true, select2: { placeholder: 'Selecione um município', tags: false }">
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group float-right">
+                        <button type="button" class="btn btn-secondary mr-1" data-bind="click: $parent.voltar">Voltar</button>
+                        <button type="button" class="btn btn-primary" data-bind="click: $parent.salvar, disable: $parent.bloqueiaSalvar()">Salvar</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {   
+    <script src="~/js/usuarioEdicao.min.js"></script>
+}

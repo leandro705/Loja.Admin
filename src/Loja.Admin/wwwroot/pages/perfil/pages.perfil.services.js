@@ -6,8 +6,7 @@ pages.perfil.services = function () {
     var EPerfil = {
         ADMINISTRADOR: "Administrador",
         GERENTE: "Gerente",
-        CLIENTE: "Cliente",
-        FUNCIONARIO: "Funcionario"
+        CLIENTE: "Cliente"
     }; 
 
     var obterUsuarioPorId = function (id) {
