@@ -138,6 +138,17 @@
     "sourceMap": false
   },
   {
+    "outputFileName": "wwwroot/js/chartjs.min.js",
+    "inputFiles": [
+      "wwwroot/lib/chartjs/Chart.bundle.min.js"
+    ],
+    "minify": {
+      "enabled": false,
+      "renameLocals": false
+    },
+    "sourceMap": false
+  },
+  {
     "outputFileName": "wwwroot/js/datatable.min.js",
     "inputFiles": [
       "wwwroot/lib/datatables.net/jquery.dataTables.min.js",
@@ -383,6 +394,19 @@
       "wwwroot/pages/usuario/pages.usuario.model.js",
       "wwwroot/pages/usuario/pages.usuario.services.js",
       "wwwroot/pages/usuario/pages.usuario.edicaoViewModel.js"
+    ],
+    "minify": {
+      "enabled": false,
+      "renameLocals": false
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/home.min.js",
+    "inputFiles": [
+      "wwwroot/pages/home/pages.home.model.js",
+      "wwwroot/pages/home/pages.home.services.js",
+      "wwwroot/pages/home/pages.home.viewModel.js"
     ],
     "minify": {
       "enabled": false,

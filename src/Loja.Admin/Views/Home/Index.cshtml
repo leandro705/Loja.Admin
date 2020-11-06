@@ -11,7 +11,7 @@
         <div class="page-title-box">
             <h4 class="page-title">Dashboard</h4>
             <div class="page-title-right">
-                <ol class="breadcrumb m-0">                                      
+                <ol class="breadcrumb m-0">
                     <li class="breadcrumb-item active">Dashboard</li>
                 </ol>
             </div>
@@ -19,6 +19,94 @@
     </div>
 </div>
 
-@section scripts {
+<div class="row">
+    <div class="col-12">
+        <div class="form-row">
+            <!-- ko if:  estabelecimentos().length > 0 -->
+            <div class="form-group col-md-6">
+                <label for="estabelecimento" class="col-form-label">Estabelecimento<span class="text-danger">*</span></label>
+                <select id="estabelecimento" class="form-control" data-toggle="select2"
+                        data-bind="value: estabelecimentoIdFiltro, options: estabelecimentos, optionsText: 'nome', optionsValue: 'estabelecimentoId', valueAllowUnset: true, select2: { placeholder: 'Selecione um estabelecimento', tags: false }">
+                </select>
+            </div>
+            <!-- /ko-->
+            <!-- ko if:  clientes().length > 0 -->
+            <div class="form-group col-md-6">
+                <label for="cliente" class="col-form-label">Cliente<span class="text-danger">*</span></label>
+                <select id="cliente" class="form-control" data-toggle="select2"
+                        data-bind="value: usuarioIdFiltro, options: clientes, optionsText: 'nome', optionsValue: 'userId', valueAllowUnset: true, select2: { placeholder: 'Selecione um cliente', tags: false }">
+                </select>
+            </div>
+            <!-- /ko-->
+        </div>
+    </div>
+</div>
 
+<div class="row">
+    <div class="col-xl-3 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="justify-content-between align-items-center">
+                    <div class="text-right">
+                        <h3 class="mb-1 mt-0"> <span data-plugin="counterup" data-bind="text:totalUsuarios"></span> </h3>
+                        <p class="text-muted mb-0">Usuários Cadastrados</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="justify-content-between align-items-center">
+                    <div class="text-right">
+                        <h3 class="mb-1 mt-0"> <span data-plugin="counterup" data-bind="text:totalAgendamentos"></span> </h3>
+                        <p class="text-muted mb-0">Agendamentos</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="justify-content-between align-items-center">
+                    <div class="text-right">
+                        <h3 class="mb-1 mt-0"> <span data-plugin="counterup" data-bind="text:totalAtendimentos"></span> </h3>
+                        <p class="text-muted mb-0">Atendimentos</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="justify-content-between align-items-center">
+                    <div class="text-right">
+                        <h3 class="mb-1 mt-0"> R$<span data-plugin="counterup" data-bind="text:valorTotal"></span> </h3>
+                        <p class="text-muted mb-1">Valor Total Finalizados</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title">Atendimentos Finalizados por Mês</h4>
+                <div class="mt-4 chartjs-chart">
+                    <canvas id="line-chart-atendimentosFinalizados" width="1200" height="350" ></canvas>
+                </div>
+            </div>
+        </div>
+    </div> 
+</div>
+
+
+@section scripts {
+    <script src="~/js/chartjs.min.js"></script>
+    <script src="~/js/home.min.js"></script>
 }
