@@ -53,9 +53,9 @@ loginFacebook = function (parametro) {
     service.loginFacebook(parametro).then(function (result) {
         console.log(result)
         localStorage.setItem("token", JSON.stringify(result));
-        window.location.href = "/Home/Index";
+        redirectToPageByRole();
     }).catch(function (mensagem) {
-        bootbox.alert(mensagem);
+        console.log(mensagem);
     }).finally(function () {
         pages.dataServices.desbloquearTela();
     });

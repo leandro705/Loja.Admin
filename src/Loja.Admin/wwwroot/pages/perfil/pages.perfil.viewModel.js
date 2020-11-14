@@ -44,7 +44,7 @@ pages.perfil.viewModel = function () {
                 pages.utils.initDataPassword();
                 
             }).catch(function (mensagem) {
-                bootbox.alert(mensagem);
+                console.log(mensagem);
             }).finally(function () {
                 pages.dataServices.desbloquearTela();
             });
@@ -57,7 +57,7 @@ pages.perfil.viewModel = function () {
                     self.estados.push(new model.vmEstado(item));
                 });
             }).catch(function (mensagem) {
-                bootbox.alert(mensagem);
+                console.log(mensagem);
             }).finally(function () {
                 pages.dataServices.desbloquearTela();
             });
@@ -73,7 +73,7 @@ pages.perfil.viewModel = function () {
                     });
                     sucesso();
                 }).catch(function (mensagem) {
-                    bootbox.alert(mensagem);
+                    console.log(mensagem);
                     falha();
                 }).finally(function () {
                     pages.dataServices.desbloquearTela();
@@ -86,6 +86,30 @@ pages.perfil.viewModel = function () {
 
             if (isNullOrEmptyOrWriteSpace(self.dadosUsuario().nome()))
                 mensagens.push("<strong>Nome</strong> é obrigatório!");
+
+            if (isNullOrEmptyOrWriteSpace(self.dadosUsuario().email()))
+                mensagens.push("<strong>E-mail</strong> é obrigatório!");
+
+            if (isNullOrEmpty(self.dadosUsuario().celular()))
+                mensagens.push("<strong>Celular</strong> é obrigatório!");
+
+            if (isNullOrEmptyOrWriteSpace(self.dadosUsuario().endereco().logradouro()))
+                mensagens.push("<strong>Logradouro</strong> é obrigatório!");
+
+            if (isNullOrEmpty(self.dadosUsuario().endereco().numero()))
+                mensagens.push("<strong>Número</strong> é obrigatório!");
+
+            if (isNullOrEmptyOrWriteSpace(self.dadosUsuario().endereco().cep()))
+                mensagens.push("<strong>CEP</strong> é obrigatório!");
+
+            if (isNullOrEmptyOrWriteSpace(self.dadosUsuario().endereco().bairro()))
+                mensagens.push("<strong>Bairro</strong> é obrigatório!");
+
+            if (isNullOrEmpty(self.dadosUsuario().endereco().estadoId()))
+                mensagens.push("<strong>Estado</strong> é obrigatório!");
+
+            if (isNullOrEmpty(self.dadosUsuario().endereco().municipioId()))
+                mensagens.push("<strong>Município</strong> é obrigatório!");
 
             if (mensagens.any()) {
                 bootbox.alert(mensagens.join("</br>"));
@@ -118,7 +142,7 @@ pages.perfil.viewModel = function () {
                 bootbox.alert("Usuário atualizado com sucesso!");                   
                 //pages.menu.viewModel.atualizaNome(self.dadosUsuario().nome());
             }).catch(function (mensagem) {
-                bootbox.alert(mensagem);
+                console.log(mensagem);
             }).finally(function () {
                 pages.dataServices.desbloquearTela();
             });
@@ -159,7 +183,7 @@ pages.perfil.viewModel = function () {
             service.atualizarSenhaUsuario(self.dadosUsuario().id(), parametro).then(function () {
                 bootbox.alert("Senha alterada com sucesso!");                
             }).catch(function (mensagem) {
-                bootbox.alert(mensagem);
+                console.log(mensagem);
             }).finally(function () {
                 pages.dataServices.desbloquearTela();
             });

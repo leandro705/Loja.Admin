@@ -15,15 +15,16 @@ pages.servico.viewModel = function () {
         var self = this;       
         
         self.servicos = ko.observableArray([]);
-        self.datatable = ko.observable();        
+        self.datatable = ko.observable();       
+        self.usuarioLogado = ko.observable(new pages.menu.model.vmUsuarioLogado(getDataToken()));
 
         self.init = function () {            
-            self.obterServicos();            
+            self.obterServicos(self.usuarioLogado().isAdministrador() ? null : self.usuarioLogado().estabelecimentoId());            
         };
         
-        self.obterServicos = function () {
+        self.obterServicos = function (estabelecimentoId) {
             pages.dataServices.bloquearTela();
-            service.obterTodos().then(function (result) {
+            service.obterTodos(estabelecimentoId).then(function (result) {
                 result.forEach(function (item) {
                     self.servicos.push(new model.vmServico(item));
                 });                
@@ -87,12 +88,10 @@ pages.servico.viewModel = function () {
                             pages.dataServices.bloquearTela();
                             service.deletar(item.servicoId()).then(function () {
                                 bootbox.alert("Serviço excluído com sucesso!", function () {  
-                                    var rowIdx = self.datatable().column(0).data().indexOf(item.servicoId().toString());
-                                    self.datatable().row(rowIdx).remove().draw(false);
-                                    self.servicos.remove(item);                                                                        
+                                    location.reload();                                                        
                                 });                                 
                             }).catch(function (mensagem) {
-                                bootbox.alert(mensagem);
+                                console.log(mensagem);
                             }).finally(function () {
                                 pages.dataServices.desbloquearTela();
                             });                            

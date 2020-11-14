@@ -17,6 +17,7 @@ pages.estabelecimento.edicaoViewModel = function () {
         
         self.estabelecimento = ko.observable();       
         self.bloqueiaSalvar = ko.observable(false);
+        self.usuarioLogado = ko.observable(new pages.menu.model.vmUsuarioLogado(getDataToken()));
         self.init = function () {                   
             self.obterEstabelecimentoPorId(id);                      
         };
@@ -26,7 +27,7 @@ pages.estabelecimento.edicaoViewModel = function () {
             service.obterPorId(estabelecimentoId).then(function (result) {
                 self.estabelecimento(new model.vmEstabelecimento(result));                             
             }).catch(function (mensagem) {
-                bootbox.alert(mensagem);              
+                console.log(mensagem);          
             }).finally(function () {
                 pages.dataServices.desbloquearTela();
             });            
@@ -80,7 +81,7 @@ pages.estabelecimento.edicaoViewModel = function () {
                     self.voltar();
                 });                
             }).catch(function (mensagem) {
-                bootbox.alert(mensagem);
+                console.log(mensagem);
                 self.bloqueiaSalvar(false);
             }).finally(function () {
                 pages.dataServices.desbloquearTela();

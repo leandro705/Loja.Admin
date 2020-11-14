@@ -14,6 +14,7 @@ pages.home.viewModel = function () {
     ko.applyBindings(new function () {
         var self = this;       
 
+        self.usuarioLogado = ko.observable(new pages.menu.model.vmUsuarioLogado(getDataToken()));
         self.estabelecimentos = ko.observableArray([]);        
         self.clientes = ko.observableArray([]);
                 
@@ -25,24 +26,30 @@ pages.home.viewModel = function () {
         self.totalAtendimentos = ko.observable();
         self.valorTotal = ko.observable();        
 
-        self.init = function () {            
-            self.obterTodosEstabelecimentos(); 
+        self.init = function () {                        
+            
+            if (self.usuarioLogado().isAdministrador()) {
+                self.obterTodosEstabelecimentos();
+                self.estabelecimentoIdFiltro.subscribe(async function (estabelecimentoId) {
+                    if (!estabelecimentoId) return;
+
+                    self.clientes([]);
+                    self.usuarioIdFiltro('');
+                    self.obterTodosClientesPorEstabelecimentoId(estabelecimentoId);
+                    self.CarregarGraficos();
+                });
+
+                self.usuarioIdFiltro.subscribe(async function (usuarioId) {
+                    if (!usuarioId) return;
+
+                    self.CarregarGraficos();
+                });
+            }
+            else {
+                self.estabelecimentoIdFiltro(self.usuarioLogado().estabelecimentoId());
+            }
+
             self.CarregarGraficos();
-
-            self.estabelecimentoIdFiltro.subscribe(async function (estabelecimentoId) {
-                if (!estabelecimentoId) return;
-               
-                self.clientes([]);  
-                self.usuarioIdFiltro('');
-                self.obterTodosClientesPorEstabelecimentoId(estabelecimentoId);  
-                self.CarregarGraficos();
-            });
-
-            self.usuarioIdFiltro.subscribe(async function (usuarioId) {
-                if (!usuarioId) return;
-              
-                self.CarregarGraficos();
-            });
         }; 
 
         self.obterTodosEstabelecimentos = function () {
@@ -52,7 +59,7 @@ pages.home.viewModel = function () {
                     self.estabelecimentos.push(new model.vmEstabelecimento(item));
                 });
             }).catch(function (mensagem) {
-                bootbox.alert(mensagem);
+                console.log(mensagem);
             }).finally(function () {
                 pages.dataServices.desbloquearTela();
             });
@@ -76,7 +83,7 @@ pages.home.viewModel = function () {
             service.obterTotalUsuarios(self.estabelecimentoIdFiltro(), self.usuarioIdFiltro()).then(function (result) {
                 self.totalUsuarios(result);
             }).catch(function (mensagem) {
-                bootbox.alert(mensagem);
+                console.log(mensagem);
             }).finally(function () {
                 pages.dataServices.desbloquearTela();
             });
@@ -87,7 +94,7 @@ pages.home.viewModel = function () {
             service.obterTotalAgendamentos(self.estabelecimentoIdFiltro(), self.usuarioIdFiltro()).then(function (result) {
                 self.totalAgendamentos(result);
             }).catch(function (mensagem) {
-                bootbox.alert(mensagem);
+                console.log(mensagem);
             }).finally(function () {
                 pages.dataServices.desbloquearTela();
             });
@@ -98,7 +105,7 @@ pages.home.viewModel = function () {
             service.obterTotalAtendimentos(self.estabelecimentoIdFiltro(), self.usuarioIdFiltro()).then(function (result) {
                 self.totalAtendimentos(result);
             }).catch(function (mensagem) {
-                bootbox.alert(mensagem);
+                console.log(mensagem);
             }).finally(function () {
                 pages.dataServices.desbloquearTela();
             });
@@ -106,34 +113,58 @@ pages.home.viewModel = function () {
 
         self.obterValorTotal = function () {
             pages.dataServices.bloquearTela();
-            service.obterValorTotal(self.estabelecimentoIdFiltro(), self.usuarioIdFiltro()).then(function (result) {
+            service.obterValorTotal(self.estabelecimentoIdFiltro(), self.usuarioIdFiltro(), service.ESituacao.FINALIZADO).then(function (result) {
                 self.valorTotal(result);
             }).catch(function (mensagem) {
-                bootbox.alert(mensagem);
+                console.log(mensagem);
             }).finally(function () {
                 pages.dataServices.desbloquearTela();
             });
         };
 
-        self.popularGraficoAtendimentosPorMes = function (dados) {
+        self.popularGraficoAtendimentosPorMes = function (atendimentosPendentes, atendimentosFinalizados, atendimentosCancelados) {
            
-            var ctx = document.getElementById('line-chart-atendimentosFinalizados').getContext('2d');
+            var ctx = document.getElementById('line-chart-atendimentosPorMes').getContext('2d');
 
             var labels = [];
-            var dataVales = [];
+            var dataValesPendentes = [];
+            var dataValesFinalizados = [];
+            var dataValesCancelados = [];
 
-            dados.forEach(function (item) {
+            atendimentosPendentes.forEach(function (item) {
                 labels.push(item.mes + '-' + item.ano);
-                dataVales.push(item.total);
-            });           
+                dataValesPendentes.push(item.total);
+            }); 
+
+            atendimentosFinalizados.forEach(function (item) {               
+                dataValesFinalizados.push(item.total);
+            }); 
+
+            atendimentosCancelados.forEach(function (item) {                
+                dataValesCancelados.push(item.total);
+            }); 
 
             new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: '# Atendimentos Finalizados por Mês',
-                        data: dataVales
+                        label: ' Pendentes',
+                        data: dataValesPendentes,
+                        backgroundColor: pages.utils.hexToRGB("#3bafda", 0.3),
+                        borderColor: "#3bafda"
+                    },
+                    {
+                        label: ' Finalizados',
+                        data: dataValesFinalizados,
+                        backgroundColor: pages.utils.hexToRGB("#1abc9c", 0.3),
+                        borderColor: "#1abc9c"
+                    },
+                    {
+                        label: ' Cancelados',
+                        data: dataValesCancelados,
+                        backgroundColor: pages.utils.hexToRGB("#f1556c", 0.3),
+                        borderColor: "#f1556c"
                     }]
                 },
                 options: {
@@ -148,9 +179,10 @@ pages.home.viewModel = function () {
                     tooltips: {
                         callbacks: {
                             label: function (tooltipItem, data) {  
-                                var indice = tooltipItem.index;
-                                var atendimentos = data.datasets[0].data[indice];
-                                return 'Atendimentos Finalizados: ' + atendimentos;
+                                
+                                var atendimentos = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+                                var label = data.datasets[tooltipItem.datasetIndex].label;
+                                return 'Atendimentos' + label + ': ' + atendimentos;
                             }
                         }
                     }
@@ -158,15 +190,29 @@ pages.home.viewModel = function () {
             });
         };
 
-        self.obterTotalAtendimentosMes = function () {
-            pages.dataServices.bloquearTela();
-            service.obterTotalAtendimentosMes(self.estabelecimentoIdFiltro(), self.usuarioIdFiltro()).then(function (result) {
-                self.popularGraficoAtendimentosPorMes(result);
-            }).catch(function (mensagem) {
-                bootbox.alert(mensagem);
-            }).finally(function () {
-                pages.dataServices.desbloquearTela();
+        self.obterTotalAtendimentosMesPorSituacao = function (situacaoId) {
+            return new Promise(function (sucesso, falha) {
+                let estabelecimentoId = self.estabelecimentoIdFiltro() ?? "";
+                let usuarioId = self.usuarioIdFiltro() ?? "";
+
+                pages.dataServices.bloquearTela();
+                service.obterTotalAtendimentosMes(estabelecimentoId, usuarioId, situacaoId).then(function (result) {
+                    sucesso(result);
+                }).catch(function (mensagem) {
+                    console.log(mensagem);
+                    falha();
+                }).finally(function () {
+                    pages.dataServices.desbloquearTela();
+                });
             });
+        };
+
+        self.obterTotalAtendimentosMes = async function () {
+            let atendimentosPendentes = await self.obterTotalAtendimentosMesPorSituacao(service.ESituacao.PENDENTE);
+            let atendimentosFinalizados = await self.obterTotalAtendimentosMesPorSituacao(service.ESituacao.FINALIZADO);
+            let atendimentosCancelados = await self.obterTotalAtendimentosMesPorSituacao(service.ESituacao.CANCELADO);
+
+            self.popularGraficoAtendimentosPorMes(atendimentosPendentes, atendimentosFinalizados, atendimentosCancelados);
         };
 
         self.CarregarGraficos = function () {

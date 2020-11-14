@@ -12,11 +12,22 @@ pages.dataServices = function () {
                         catch (ex) { data = resposta.data; }
                         sucesso(data);
                     }
-                    else
-                        falha(resposta.errors.join("</br>") || "Erro ao realizar operação.");
+                    else {
+                        bootbox.alert(resposta.errors.join("</br>") || "Erro ao realizar operação.");
+                        falha();
+                    }  
                 })
                 .fail(function (error) {
-                    falha(error || "Erro ao realizar operação.");
+                    if (typeof error == 'string') {
+                        bootbox.alert(error);
+                        falha();
+                    }
+                    else if (error.status === 401 || error.status === 403)
+                        falha("Acesso não permitido!");
+                    else {
+                        bootbox.alert("Erro ao realizar operação.");
+                        falha();
+                    }
                 });
         });
     }
@@ -27,8 +38,10 @@ pages.dataServices = function () {
             $.post(url, parametros, function (resposta, status) {
                 if (status === "success" && resposta.statusCode === 200)
                     sucesso(resposta.data);
-                else 
-                    falha(resposta.errors.join("</br>") || "Erro ao realizar operação.");
+                else {
+                    bootbox.alert(resposta.errors.join("</br>") || "Erro ao realizar operação.");
+                    falha();
+                }  
             }, "json");
         });
     }    
@@ -45,11 +58,22 @@ pages.dataServices = function () {
                 success: function (resposta) {
                     if (resposta.statusCode === 200)
                         sucesso(resposta.data);
-                    else
-                        falha(resposta.errors.join("</br>") || "Erro ao realizar operação.");
+                    else {
+                        bootbox.alert(resposta.errors.join("</br>") || "Erro ao realizar operação.");
+                        falha();
+                    }  
                 },
-                error: function (resposta) {
-                    falha(resposta.errors.join("</br>") || "Erro ao realizar operação.");
+                error: function (error) {
+                    if (typeof error == 'string') {
+                        bootbox.alert(error);
+                        falha();
+                    }
+                    else if (error.status === 401 || error.status === 403)
+                        falha("Acesso não permitido!");
+                    else {
+                        bootbox.alert("Erro ao realizar operação.");
+                        falha();
+                    }            
                 }
             });
         });
@@ -67,11 +91,22 @@ pages.dataServices = function () {
                 success: function (resposta) {
                     if (resposta.statusCode === 200)
                         sucesso(resposta.data);
-                    else
-                        falha(resposta.errors.join("</br>") || "Erro ao realizar operação.");
+                    else {
+                        bootbox.alert(resposta.errors.join("</br>") || "Erro ao realizar operação.");
+                        falha();
+                    }  
                 },
-                error: function (resposta) {
-                    falha(resposta.errors.join("</br>") || "Erro ao realizar operação.");                    
+                error: function (error) {
+                    if (typeof error == 'string') {
+                        bootbox.alert(error);
+                        falha();
+                    }
+                    else if (error.status === 401 || error.status === 403)
+                        falha("Acesso não permitido!");
+                    else {
+                        bootbox.alert("Erro ao realizar operação.");
+                        falha();
+                    }
                 }
             });
         });
@@ -87,11 +122,22 @@ pages.dataServices = function () {
                 success: function (resposta) {
                     if (resposta.statusCode === 200)
                         sucesso(resposta.data);
-                    else
-                        falha(resposta.errors.join("</br>") || "Erro ao realizar operação.");
+                    else {
+                        bootbox.alert(resposta.errors.join("</br>") || "Erro ao realizar operação.");
+                        falha();
+                    }                        
                 },
-                error: function (resposta) {
-                    falha(resposta.errors.join("</br>") || "Erro ao realizar operação.");
+                error: function (error) {
+                    if (typeof error == 'string') {
+                        bootbox.alert(error);
+                        falha();
+                    }
+                    else if (error.status === 401 || error.status === 403)
+                        falha("Acesso não permitido!");
+                    else {
+                        bootbox.alert("Erro ao realizar operação.");
+                        falha();
+                    }
                 }
             });
         });

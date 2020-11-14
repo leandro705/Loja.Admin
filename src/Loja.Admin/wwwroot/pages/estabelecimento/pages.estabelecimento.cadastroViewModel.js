@@ -64,7 +64,7 @@ pages.estabelecimento.cadastroViewModel = function () {
                     self.voltar();
                 });                
             }).catch(function (mensagem) {
-                bootbox.alert(mensagem);
+                console.log(mensagem);
                 self.bloqueiaSalvar(false);
             }).finally(function () {
                 pages.dataServices.desbloquearTela();

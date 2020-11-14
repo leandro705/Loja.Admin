@@ -22,24 +22,9 @@ pages.atendimento.cadastroViewModel = function () {
         self.clientes = ko.observableArray([]);
         self.bloqueiaSalvar = ko.observable(false);
         self.usuarioLogado = ko.observable(new pages.menu.model.vmUsuarioLogado(getDataToken()));
+        var agendamentoId = pages.utils.getUrlParameter('agendamentoId');
 
         self.init = function () {
-            if (self.usuarioLogado().isAdministrador()) {
-                self.obterTodosEstabelecimentos();
-                self.atendimento().estabelecimentoId.subscribe(function (estabelecimentoId) {
-                    if (!estabelecimentoId) return;
-
-                    self.servicos([]);
-                    self.clientes([]);
-
-                    self.obterTodosServicosPorEstabelecimentoId(estabelecimentoId);
-                    self.obterTodosClientesPorEstabelecimentoId(estabelecimentoId);
-                });
-            }
-            else {
-                self.obterTodosServicosPorEstabelecimentoId(self.usuarioLogado().estabelecimentoId());
-                self.obterTodosClientesPorEstabelecimentoId(self.usuarioLogado().estabelecimentoId());
-            }
 
             self.servicoId.subscribe(function (servicoId) {
                 if (!servicoId) return;
@@ -47,46 +32,98 @@ pages.atendimento.cadastroViewModel = function () {
                 let servico = self.servicos().firstOrDefault(x => x.servicoId() === servicoId);
                 self.valor(servico.valor());
             });
+
+            if (agendamentoId) {
+                self.obterAgendamentoPorId(agendamentoId);
+            }
+            else {                
+                if (self.usuarioLogado().isAdministrador()) {
+                    self.obterTodosEstabelecimentos();
+                    self.atendimento().estabelecimentoId.subscribe(function (estabelecimentoId) {
+                        if (!estabelecimentoId) return;
+
+                        self.servicos([]);
+                        self.clientes([]);
+
+                        self.obterTodosServicosPorEstabelecimentoId(estabelecimentoId);
+                        self.obterTodosClientesPorEstabelecimentoId(estabelecimentoId);
+                    });
+                }
+                else {
+                    self.obterTodosServicosPorEstabelecimentoId(self.usuarioLogado().estabelecimentoId());
+                    self.obterTodosClientesPorEstabelecimentoId(self.usuarioLogado().estabelecimentoId());
+                }
+            }               
+        };
+
+        self.obterAgendamentoPorId = function (agendamentoId) {
+            pages.dataServices.bloquearTela();
+            service.obterAgendamentoPorId(agendamentoId).then(async function (result) {
+                if (self.usuarioLogado().isAdministrador())
+                    await self.obterTodosEstabelecimentos();                
+
+                await self.obterTodosServicosPorEstabelecimentoId(result.estabelecimentoId)
+                await self.obterTodosClientesPorEstabelecimentoId(result.estabelecimentoId)
+
+                self.atendimento().preencherAgendamento(result);               
+
+            }).catch(function (mensagem) {
+                console.log(mensagem);
+            }).finally(function () {
+                pages.dataServices.desbloquearTela();
+            });
         };
 
         self.obterTodosEstabelecimentos = function () {
-            pages.dataServices.bloquearTela();
-            service.obterTodosEstabelecimentos().then(function (result) {
-                result.forEach(function (item) {
-                    self.estabelecimentos.push(new model.vmEstabelecimento(item));
+            return new Promise(function (sucesso, falha) {
+                pages.dataServices.bloquearTela();
+                service.obterTodosEstabelecimentos().then(function (result) {
+                    result.forEach(function (item) {
+                        self.estabelecimentos.push(new model.vmEstabelecimento(item));
+                    });
+                    sucesso();
+                }).catch(function (mensagem) {
+                    console.log(mensagem);
+                    falha();
+                }).finally(function () {
+                    pages.dataServices.desbloquearTela();
                 });
-            }).catch(function (mensagem) {
-                bootbox.alert(mensagem);
-            }).finally(function () {
-                pages.dataServices.desbloquearTela();
             });
         };
 
         self.obterTodosServicosPorEstabelecimentoId = function (estabelecimentoId) {
-            pages.dataServices.bloquearTela();
-            service.obterTodosServicosPorEstabelecimentoId(estabelecimentoId).then(function (result) {
-                result.forEach(function (item) {
-                    self.servicos.push(new model.vmServico(item));
+            return new Promise(function (sucesso, falha) {
+                pages.dataServices.bloquearTela();
+                service.obterTodosServicosPorEstabelecimentoId(estabelecimentoId).then(function (result) {
+                    result.forEach(function (item) {
+                        self.servicos.push(new model.vmServico(item));
+                    });
+                    sucesso();
+                }).catch(function (mensagem) {
+                    console.log(mensagem);
+                    falha();
+                }).finally(function () {
+                    pages.dataServices.desbloquearTela();
                 });
-            }).catch(function (mensagem) {
-                console.log(mensagem);
-            }).finally(function () {
-                pages.dataServices.desbloquearTela();
             });
         };
 
         self.obterTodosClientesPorEstabelecimentoId = function (estabelecimentoId) {
-            pages.dataServices.bloquearTela();
-            service.obterTodosClientesPorEstabelecimentoId(estabelecimentoId).then(function (result) {
-                result.forEach(function (item) {
-                    self.clientes.push(new model.vmCliente(item));
+            return new Promise(function (sucesso, falha) {
+                pages.dataServices.bloquearTela();
+                service.obterTodosClientesPorEstabelecimentoId(estabelecimentoId).then(function (result) {
+                    result.forEach(function (item) {
+                        self.clientes.push(new model.vmCliente(item));
+                    });
+                    sucesso();
+                }).catch(function (mensagem) {
+                    console.log(mensagem);
+                    falha();
+                }).finally(function () {
+                    pages.dataServices.desbloquearTela();
                 });
-            }).catch(function (mensagem) {
-                console.log(mensagem);
-            }).finally(function () {
-                pages.dataServices.desbloquearTela();
             });
-        };
+        }; 
 
         self.adicionar = function () {
             if (!self.validarAdicionar()) { return; }
@@ -166,7 +203,8 @@ pages.atendimento.cadastroViewModel = function () {
                 valorTotal: parseFloatVirgula(self.atendimento().valorTotal()),
                 userId: self.usuarioLogado().isAdministrador() ? self.atendimento().userId() : self.usuarioLogado().id(),
                 estabelecimentoId: self.usuarioLogado().isAdministrador() ? self.atendimento().estabelecimentoId() : self.usuarioLogado().estabelecimentoId(),
-                atendimentoItens: self.formataAtendimentoItens()
+                atendimentoItens: self.formataAtendimentoItens(),
+                agendamentoId: self.atendimento().agendamentoId(),
             };
 
             self.bloqueiaSalvar(true);
@@ -177,7 +215,7 @@ pages.atendimento.cadastroViewModel = function () {
                 });                
             }).catch(function (mensagem) {
                 self.bloqueiaSalvar(false);
-                bootbox.alert(mensagem);                
+                console.log(mensagem);               
             }).finally(function () {
                 pages.dataServices.desbloquearTela();
             });

@@ -33,7 +33,7 @@ pages.usuario.edicaoViewModel = function () {
                     self.estados.push(new model.vmEstado(item));
                 });
             }).catch(function (mensagem) {
-                bootbox.alert(mensagem);
+                console.log(mensagem);
             }).finally(function () {
                 pages.dataServices.desbloquearTela();
             });
@@ -49,7 +49,7 @@ pages.usuario.edicaoViewModel = function () {
                     });
                     sucesso();
                 }).catch(function (mensagem) {
-                    bootbox.alert(mensagem);
+                    console.log(mensagem);
                     falha();
                 }).finally(function () {
                     pages.dataServices.desbloquearTela();
@@ -74,7 +74,7 @@ pages.usuario.edicaoViewModel = function () {
                 pages.utils.initDataPassword();
 
             }).catch(function (mensagem) {
-                bootbox.alert(mensagem);
+                console.log(mensagem);
             }).finally(function () {
                 pages.dataServices.desbloquearTela();
             });
@@ -144,7 +144,7 @@ pages.usuario.edicaoViewModel = function () {
                     self.voltar();
                 });                
             }).catch(function (mensagem) {
-                bootbox.alert(mensagem);
+                console.log(mensagem);
                 self.bloqueiaSalvar(false);
             }).finally(function () {
                 pages.dataServices.desbloquearTela();

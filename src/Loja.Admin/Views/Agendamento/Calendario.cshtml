@@ -123,7 +123,11 @@
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger waves-effect waves-light" 
+                        <button type="button" class="btn btn-success waves-effect waves-light"
+                                data-bind="click: () => iniciarAtendimento(agendamento().agendamentoId()), visible: !agendamento().possuiAtendimento() && agendamento().agendamentoId()">
+                            Atendimento
+                        </button>
+                        <button type="button" class="btn btn-danger waves-effect waves-light"
                                 data-bind="click: abrirModalExcluir, visible: agendamento().agendamentoId()">
                             Excluir
                         </button>
@@ -187,11 +191,11 @@
                         </form>
                     </div>
                     <div class="modal-footer">
+                        <button type="button" class="btn btn-success waves-effect waves-light"
+                                data-bind="click: () => iniciarAtendimento(agendamentoVisualizar().agendamentoId()), visible: agendamentoVisualizar() && !agendamentoVisualizar().possuiAtendimento() && agendamentoVisualizar().agendamentoId()">
+                            Atendimento
+                        </button>
                         <button type="button" class="btn btn-secondary waves-effect" data-bind="click: fecharModalVisualizar">Fechar</button>
-                        @*<button type="button" class="btn btn-info waves-effect waves-light"
-                                data-bind="click: salvar, disable: bloqueiaSalvar()">
-                            Salvar
-                        </button>*@
                     </div>
                 </div>
             </div>

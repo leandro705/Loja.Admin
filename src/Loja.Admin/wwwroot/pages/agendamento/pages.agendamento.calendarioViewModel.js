@@ -56,49 +56,43 @@ pages.agendamento.calendarioViewModel = function () {
             return false;
         });
 
-        self.init = async function () {  
-            if (self.usuarioLogado().isAdministrador()) {
-                self.obterTodosEstabelecimentos();
-                self.estabelecimentoIdFiltro.subscribe(async function (estabelecimentoId) {
-                    if (!estabelecimentoId) return;                    
-                    self.servicos([]);
-                    self.clientes([]);
+        self.init = async function () {
+            if (self.usuarioLogado().isAdministrador() || self.usuarioLogado().isGerente()) {
+                if (self.usuarioLogado().isAdministrador()) {
+                    self.obterTodosEstabelecimentos();
+                    self.estabelecimentoIdFiltro.subscribe(async function (estabelecimentoId) {
+                        if (!estabelecimentoId) return;
+                        self.servicos([]);
+                        self.clientes([]);
 
-                    let servicos = await self.obterTodosServicosPorEstabelecimentoId(estabelecimentoId);
-                    let clientes = await self.obterTodosClientesPorEstabelecimentoId(estabelecimentoId);
-                    self.servicos(servicos);
-                    self.clientes(clientes);                    
-                    self.inicializarCalendario();
-                });
+                        let servicos = await self.obterTodosServicosPorEstabelecimentoId(estabelecimentoId);
+                        let clientes = await self.obterTodosClientesPorEstabelecimentoId(estabelecimentoId);
+                        self.servicos(servicos);
+                        self.clientes(clientes);
+                        self.inicializarCalendario();
+                    });
 
-                self.agendamento().estabelecimentoId.subscribe(async function (estabelecimentoId) {
-                    if (!estabelecimentoId) return;
+                    self.agendamento().estabelecimentoId.subscribe(async function (estabelecimentoId) {
+                        if (!estabelecimentoId) return;
 
-                    self.servicos([]);
-                    self.clientesCadastro([]);
+                        self.servicos([]);
+                        self.clientesCadastro([]);
 
-                    let servicos = await self.obterTodosServicosPorEstabelecimentoId(estabelecimentoId);
-                    let clientes = await self.obterTodosClientesPorEstabelecimentoId(estabelecimentoId);
-                    self.servicosCadastro(servicos);
-                    self.clientesCadastro(clientes);
+                        let servicos = await self.obterTodosServicosPorEstabelecimentoId(estabelecimentoId);
+                        let clientes = await self.obterTodosClientesPorEstabelecimentoId(estabelecimentoId);
+                        self.servicosCadastro(servicos);
+                        self.clientesCadastro(clientes);
 
-                });
+                    });
 
-                self.usuarioIdFiltro.subscribe(function (usuarioId) {
-                    if (!usuarioId) return;
-                    
-                    let usuario = self.clientes().firstOrDefault(x => x.userId() === usuarioId);
-                    self.agendamento().usuarioNome(usuario.nome());
-                    self.inicializarCalendario();
-                });
+                    self.usuarioIdFiltro.subscribe(function (usuarioId) {
+                        if (!usuarioId) return;
 
-                self.agendamento().servicoId.subscribe(function (servicoId) {
-                    if (!servicoId) return;
-
-                    let servico = self.servicosCadastro().firstOrDefault(x => x.servicoId() === servicoId);
-                    if (servico)
-                        self.agendamento().servicoNome(servico.nome());                    
-                });
+                        let usuario = self.clientes().firstOrDefault(x => x.userId() === usuarioId);
+                        self.agendamento().usuarioNome(usuario.nome());
+                        self.inicializarCalendario();
+                    });
+                }
 
                 self.agendamento().userId.subscribe(function (usuarioId) {
                     if (!usuarioId) return;
@@ -107,12 +101,28 @@ pages.agendamento.calendarioViewModel = function () {
                     if (usuario)
                         self.agendamento().usuarioNome(usuario.nome());                    
                 });
+                if (self.usuarioLogado().isGerente()) {
+
+                    let servicos = await self.obterTodosServicosPorEstabelecimentoId(self.usuarioLogado().estabelecimentoId());
+                    let clientes = await self.obterTodosClientesPorEstabelecimentoId(self.usuarioLogado().estabelecimentoId());
+                    self.servicos(servicos);
+                    self.clientes(clientes);
+                }
             }
             else {                
                 let servicos = await self.obterTodosServicosPorEstabelecimentoId(self.usuarioLogado().estabelecimentoId());
                 self.servicos(servicos);
                 self.agendamento().usuarioNome(self.usuarioLogado().nome());
-            }                        
+            }    
+
+            self.agendamento().servicoId.subscribe(function (servicoId) {
+                if (!servicoId) return;
+
+                let servico = self.servicosCadastro().firstOrDefault(x => x.servicoId() === servicoId);
+                if (servico)
+                    self.agendamento().servicoNome(servico.nome());
+            });
+
             self.inicializarCalendario();  
         };
 
@@ -122,7 +132,7 @@ pages.agendamento.calendarioViewModel = function () {
                 service.obterPorId(agendamentoId).then(function (result) {              
                     sucesso(result); 
                 }).catch(function (mensagem) {
-                    self.abrirModalMensagem(mensagem);
+                    console.log(mensagem);
                     falha();
                 }).finally(function () {
                     pages.dataServices.desbloquearTela();
@@ -137,7 +147,7 @@ pages.agendamento.calendarioViewModel = function () {
                     self.estabelecimentos.push(new model.vmEstabelecimento(item));
                 });
             }).catch(function (mensagem) {
-                self.abrirModalMensagem(mensagem);
+                console.log(mensagem);
             }).finally(function () {
                 pages.dataServices.desbloquearTela();
             });
@@ -210,7 +220,7 @@ pages.agendamento.calendarioViewModel = function () {
                         inicio: info.startStr,
                         final: info.endStr,
                         estabelecimentoId: self.usuarioLogado().isAdministrador() ? self.estabelecimentoIdFiltro() : self.usuarioLogado().estabelecimentoId(),
-                        usuarioId: self.usuarioLogado().isAdministrador() ? self.usuarioIdFiltro() : self.usuarioLogado().id()
+                        usuarioId: self.usuarioLogado().isAdministrador() ? self.usuarioIdFiltro() : self.usuarioLogado().isGerente() ? '' : self.usuarioLogado().id()
                     }
                     $.get(URL_API + '/api/agendamentos/calendario', parametro, function (result, status) {
                         if (status === "success" && result.data) {
@@ -254,6 +264,7 @@ pages.agendamento.calendarioViewModel = function () {
             else {
                 self.agendamento().estabelecimentoId(self.usuarioLogado().estabelecimentoId());
                 self.agendamento().userId(self.usuarioLogado().id());
+                self.agendamento().usuarioNome(self.usuarioLogado().nome());
             }                
                     
             self.servicosCadastro(self.servicos());
@@ -323,6 +334,11 @@ pages.agendamento.calendarioViewModel = function () {
             window.location.href = "/Agendamento/Edicao/" + item.agendamentoId();
         };
 
+        self.iniciarAtendimento = function (agendamentoId) {
+            pages.dataServices.bloquearTela()
+            window.location.href = "/Atendimento/Cadastro?agendamentoId=" + agendamentoId;
+        };
+
         self.excluir = function () {
             pages.dataServices.bloquearTela();
             service.deletar(self.agendamento().agendamentoId()).then(function () {
@@ -332,7 +348,7 @@ pages.agendamento.calendarioViewModel = function () {
                 self.fecharModalAgendamento();
                 self.abrirModalMensagem("Agendamento excluído com sucesso!");
             }).catch(function (mensagem) {
-                self.abrirModalMensagem(mensagem);
+                console.log(mensagem);
             }).finally(function () {
                 pages.dataServices.desbloquearTela();
             });                
@@ -397,7 +413,7 @@ pages.agendamento.calendarioViewModel = function () {
                     self.fecharModalAgendamento();
                     self.abrirModalMensagem("Agendamento salvo com sucesso!");
                 }).catch(function (mensagem) {
-                    self.abrirModalMensagem(mensagem);
+                    console.log(mensagem);
                     self.bloqueiaSalvar(false);
                 }).finally(function () {
                     pages.dataServices.desbloquearTela();
@@ -419,7 +435,7 @@ pages.agendamento.calendarioViewModel = function () {
                     self.fecharModalAgendamento();
                     self.abrirModalMensagem("Agendamento salvo com sucesso!");
                 }).catch(function (mensagem) {
-                    self.abrirModalMensagem(mensagem);
+                    console.log(mensagem);
                     self.bloqueiaSalvar(false);
                 }).finally(function () {
                     pages.dataServices.desbloquearTela();

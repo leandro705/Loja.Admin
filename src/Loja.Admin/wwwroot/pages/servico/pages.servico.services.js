@@ -8,8 +8,8 @@ pages.servico.services = function () {
         return pages.dataServices.get(url);
     }
 
-    var obterTodos = function () {
-        var url = pages.metadata.actionUrl("/api/servicos");
+    var obterTodos = function (estabelecimentoId) {
+        var url = pages.metadata.actionUrl("/api/servicos?estabelecimentoId=" + estabelecimentoId);
         return pages.dataServices.get(url);
     }
 

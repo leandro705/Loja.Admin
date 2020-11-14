@@ -31,7 +31,8 @@
                         <div class="form-group col-md-6">
                             <label for="estabelecimento" class="col-form-label">Estabelecimento<span class="text-danger">*</span></label>
                             <select id="estabelecimento" class="form-control" data-toggle="select2"
-                                    data-bind="value: estabelecimentoId, options: $root.estabelecimentos, optionsText: 'nome', optionsValue: 'estabelecimentoId', valueAllowUnset: true, select2: { placeholder: 'Selecione um estabelecimento', tags: false }">
+                                    data-bind="value: estabelecimentoId, options: $root.estabelecimentos, optionsText: 'nome', optionsValue: 'estabelecimentoId', valueAllowUnset: true, 
+                                    select2: { placeholder: 'Selecione um estabelecimento', tags: false }, disable: agendamentoId()">
                             </select>
                         </div>
                         <!-- /ko-->
@@ -40,12 +41,13 @@
                         <div class="form-group col-md-6">
                             <label for="dataAtendimento" class="col-form-label">Data Atendimento<span class="text-danger">*</span></label>
                             <input type="text" class="form-control" id="dataAtendimento" placeholder="Informe a data atendimento"
-                                   data-bind="datepicker: dataAtendimentoDP, datepickerOptions: { startDate: new Date() }, mask: '99/99/9999', value: dataAtendimento" autocomplete="off" />
+                                   data-bind="datepicker: dataAtendimentoDP, datepickerOptions: { startDate: new Date() }, mask: '99/99/9999', value: dataAtendimento, disable: agendamentoId()" autocomplete="off" />
                         </div>
                         <div class="form-group col-md-6">
                             <label for="cliente" class="col-form-label">Cliente<span class="text-danger">*</span></label>
                             <select id="cliente" class="form-control" data-toggle="select2"
-                                    data-bind="value: userId, options: $root.clientes, optionsText: 'nome', optionsValue: 'userId', valueAllowUnset: true, select2: { placeholder: 'Selecione um cliente', tags: false }">
+                                    data-bind="value: userId, options: $root.clientes, optionsText: 'nome', optionsValue: 'userId', valueAllowUnset: true, 
+                                    select2: { placeholder: 'Selecione um cliente', tags: false }, disable: agendamentoId()">
                             </select>
                         </div>
                     </div>

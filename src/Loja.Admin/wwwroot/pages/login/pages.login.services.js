@@ -9,7 +9,7 @@ pages.login.services = function () {
         RECUPERACAO: 3
     };  
     var obterEstabelecimentoPorNomeUrl = function (nomeUrl) {
-        var url = pages.metadata.actionUrl("/api/estabelecimentos?url=" + nomeUrl);
+        var url = pages.metadata.actionUrl("/api/estabelecimentos/" + nomeUrl + "/dadosLogin");
         return pages.dataServices.get(url);
     }
 

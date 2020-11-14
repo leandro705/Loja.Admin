@@ -49,13 +49,13 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="nome">Nome</label>
+                                    <label for="nome">Nome<span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="nome" data-bind="value: nome" placeholder="Informe o nome">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="email">E-mail</label>
+                                    <label for="email">E-mail<span class="text-danger">*</span></label>
                                     <input type="email" class="form-control" id="email" data-bind="value: email, disable:true" placeholder="Informe o e-mail">
                                 </div>
                             </div>
@@ -64,7 +64,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="celular">Celular</label>
+                                    <label for="celular">Celular<span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="celular" maxlength="15" placeholder="Informe o celular"
                                            data-bind="masked: celular, telefone: true">
                                 </div>
@@ -83,27 +83,27 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="logradouro">Logradouro</label>
+                                    <label for="logradouro">Logradouro<span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="logradouro" data-bind="value: endereco().logradouro" placeholder="Informe o logradouro">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="numero">Número</label>
+                                    <label for="numero">Número<span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="numero" data-bind="value: endereco().numero" placeholder="Informe o número">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="cep">CEP</label>
-                                    <input type="text" class="form-control" id="cep" data-bind="value: endereco().cep" placeholder="Informe o cep">
+                                    <label for="cep">CEP<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="cep" data-bind="value: endereco().cep" maxlength="8" placeholder="Informe o cep">
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="bairro">Bairro</label>
+                                    <label for="bairro">Bairro<span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="bairro" data-bind="value: endereco().bairro" placeholder="Informe o bairro">
                                 </div>
                             </div>
@@ -117,7 +117,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="estado">Estado</label>
+                                    <label for="estado">Estado<span class="text-danger">*</span></label>
                                     <select id="estado" class="form-control" data-toggle="select2" 
                                             data-bind="value: endereco().estadoId, options: $root.estados, optionsText: 'nome', optionsValue: 'estadoId', valueAllowUnset: true, select2: { placeholder: 'Selecione um estado', tags: false }">
                                     </select>                                    
@@ -125,7 +125,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="municipio">Município</label>
+                                    <label for="municipio">Município<span class="text-danger">*</span></label>
                                     <select id="municipio" class="form-control" data-toggle="select2"
                                             data-bind="value: endereco().municipioId, options: $root.municipios, optionsText: 'nome', optionsValue: 'municipioId', valueAllowUnset: true, select2: { placeholder: 'Selecione um município', tags: false }">
                                     </select>                                    

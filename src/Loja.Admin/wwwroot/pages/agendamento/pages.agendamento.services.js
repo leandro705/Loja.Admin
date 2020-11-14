@@ -25,8 +25,8 @@ pages.agendamento.services = function () {
         return pages.dataServices.get(url);
     }
 
-    var obterTodos = function () {
-        var url = pages.metadata.actionUrl("/api/agendamentos");
+    var obterTodos = function (estabelecimentoId) {
+        var url = pages.metadata.actionUrl("/api/agendamentos?estabelecimentoId=" + estabelecimentoId);
         return pages.dataServices.get(url);
     }
 

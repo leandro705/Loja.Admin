@@ -3,8 +3,8 @@ pages.estabelecimento = pages.estabelecimento || {};
 
 pages.estabelecimento.services = function () {  
 
-    var obterTodos = function () {
-        var url = pages.metadata.actionUrl("/api/estabelecimentos");
+    var obterTodos = function (estabelecimentoNomeUrl) {
+        var url = pages.metadata.actionUrl("/api/estabelecimentos?url=" + estabelecimentoNomeUrl);
         return pages.dataServices.get(url);
     }
 

@@ -3,6 +3,11 @@ pages.atendimento = pages.atendimento || {};
 
 pages.atendimento.services = function () {  
 
+    var obterAgendamentoPorId = function (id) {
+        var url = pages.metadata.actionUrl("/api/agendamentos/" + id);
+        return pages.dataServices.get(url);
+    } 
+
     var obterTodosEstabelecimentos = function () {
         var url = pages.metadata.actionUrl("/api/estabelecimentos");
         return pages.dataServices.get(url);
@@ -18,8 +23,8 @@ pages.atendimento.services = function () {
         return pages.dataServices.get(url);
     }
 
-    var obterTodos = function () {
-        var url = pages.metadata.actionUrl("/api/atendimentos");
+    var obterTodos = function (estabelecimentoId) {
+        var url = pages.metadata.actionUrl("/api/atendimentos?estabelecimentoId=" + estabelecimentoId);
         return pages.dataServices.get(url);
     }
 
@@ -38,12 +43,18 @@ pages.atendimento.services = function () {
         return pages.dataServices.deleteAjax(url);
     }  
 
+    var finalizarAtendimento = function (id) {
+        var url = pages.metadata.actionUrl("/api/atendimentos/" + id + "/finalizar");
+        return pages.dataServices.putAjax(url);
+    }  
+
     var atualizar = function (id, parametro) {
         var url = pages.metadata.actionUrl("/api/atendimentos/" + id);
         return pages.dataServices.putAjax(url, parametro);
-    } 
+    }     
 
     return {    
+        obterAgendamentoPorId,
         obterTodosEstabelecimentos,
         obterTodosServicosPorEstabelecimentoId,
         obterTodosClientesPorEstabelecimentoId,
@@ -51,6 +62,7 @@ pages.atendimento.services = function () {
         obterPorId,
         atualizar,
         salvar,
-        deletar
+        deletar,
+        finalizarAtendimento
     };
 }();

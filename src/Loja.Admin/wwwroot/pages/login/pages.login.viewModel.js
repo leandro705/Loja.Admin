@@ -32,9 +32,9 @@ pages.login.viewModel = function () {
         self.obterEstabelecimentoPorNomeUrl = function (nomeUrl) {
             pages.dataServices.bloquearTela();
             service.obterEstabelecimentoPorNomeUrl(nomeUrl).then(function (result) {
-                self.estabelecimento(new model.vmEstabelecimento(result[0]));
+                self.estabelecimento(new model.vmEstabelecimento(result));
             }).catch(function (mensagem) {
-                bootbox.alert(mensagem);
+                console.log(mensagem);
             }).finally(function () {
                 pages.dataServices.desbloquearTela();
             });
@@ -83,9 +83,9 @@ pages.login.viewModel = function () {
             service.login(parametro).then(function (result) {
                 console.log(result)
                 localStorage.setItem("token", JSON.stringify(result));
-                window.location.href = "/Home/Index";
+                redirectToPageByRole();
             }).catch(function (mensagem) {
-                bootbox.alert(mensagem);
+                console.log(mensagem);
             }).finally(function () {
                 pages.dataServices.desbloquearTela();
             });
@@ -130,7 +130,7 @@ pages.login.viewModel = function () {
                 self.limpar();
                 self.alterarTela(service.ETelaLogin.LOGIN)
             }).catch(function (mensagem) {
-                bootbox.alert(mensagem);
+                console.log(mensagem);
             }).finally(function () {
                 pages.dataServices.desbloquearTela();
             });
@@ -163,7 +163,7 @@ pages.login.viewModel = function () {
                 self.limpar();
                 self.alterarTela(service.ETelaLogin.LOGIN)
             }).catch(function (mensagem) {
-                bootbox.alert(mensagem);
+                console.log(mensagem);
             }).finally(function () {
                 pages.dataServices.desbloquearTela();
             });

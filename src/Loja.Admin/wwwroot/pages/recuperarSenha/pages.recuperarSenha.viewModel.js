@@ -49,7 +49,7 @@ pages.recuperarSenha.viewModel = function () {
                     window.location.href = URL_SITE;
                 });                
             }).catch(function (mensagem) {
-                bootbox.alert(mensagem);
+                console.log(mensagem);
             }).finally(function () {
                 pages.dataServices.desbloquearTela();
             });

@@ -34,7 +34,7 @@ pages.servico.edicaoViewModel = function () {
                     self.estabelecimentos.push(new model.vmEstabelecimento(item));
                 });
             }).catch(function (mensagem) {
-                bootbox.alert(mensagem);
+                console.log(mensagem);
             }).finally(function () {
                 pages.dataServices.desbloquearTela();
             });
@@ -45,7 +45,7 @@ pages.servico.edicaoViewModel = function () {
             service.obterPorId(servicoId).then(function (result) {
                 self.servico(new model.vmServico(result));                             
             }).catch(function (mensagem) {
-                bootbox.alert(mensagem);              
+                console.log(mensagem);             
             }).finally(function () {
                 pages.dataServices.desbloquearTela();
             });            
@@ -89,7 +89,7 @@ pages.servico.edicaoViewModel = function () {
                     self.voltar();
                 });                
             }).catch(function (mensagem) {
-                bootbox.alert(mensagem);
+                console.log(mensagem);
                 self.bloqueiaSalvar(false);
             }).finally(function () {
                 pages.dataServices.desbloquearTela();

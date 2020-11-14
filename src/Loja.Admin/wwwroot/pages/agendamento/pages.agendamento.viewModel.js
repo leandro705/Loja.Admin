@@ -16,14 +16,15 @@ pages.agendamento.viewModel = function () {
         
         self.agendamentos = ko.observableArray([]);
         self.datatable = ko.observable();        
+        self.usuarioLogado = ko.observable(new pages.menu.model.vmUsuarioLogado(getDataToken()));
 
-        self.init = function () {            
-            self.obterAgendamentos();            
+        self.init = function () {           
+            self.obterAgendamentos(self.usuarioLogado().isAdministrador() ? null : self.usuarioLogado().estabelecimentoId());                    
         };
         
-        self.obterAgendamentos = function () {
+        self.obterAgendamentos = function (estabelecimentoId) {
             pages.dataServices.bloquearTela();
-            service.obterTodos().then(function (result) {
+            service.obterTodos(estabelecimentoId).then(function (result) {
                 result.forEach(function (item) {
                     self.agendamentos.push(new model.vmAgendamento(item));
                 });                
@@ -71,6 +72,11 @@ pages.agendamento.viewModel = function () {
             window.location.href = "/Agendamento/Edicao/" + item.agendamentoId();
         };
 
+        self.iniciarAtendimento = function (item) {
+            pages.dataServices.bloquearTela()
+            window.location.href = "/Atendimento/Cadastro?agendamentoId=" + item.agendamentoId();
+        };
+
         self.excluir = function (item) {
             bootbox.dialog({
                 closeButton: false,
@@ -87,12 +93,10 @@ pages.agendamento.viewModel = function () {
                             pages.dataServices.bloquearTela();
                             service.deletar(item.agendamentoId()).then(function () {
                                 bootbox.alert("Agendamento excluído com sucesso!", function () {  
-                                    var rowIdx = self.datatable().column(0).data().indexOf(item.agendamentoId().toString());
-                                    self.datatable().row(rowIdx).remove().draw(false);
-                                    self.agendamentos.remove(item);                                                                        
+                                    location.reload();                                                                      
                                 });                                 
                             }).catch(function (mensagem) {
-                                bootbox.alert(mensagem);
+                                console.log(mensagem);
                             }).finally(function () {
                                 pages.dataServices.desbloquearTela();
                             });                            

@@ -15,15 +15,16 @@ pages.atendimento.viewModel = function () {
         var self = this;       
         
         self.atendimentos = ko.observableArray([]);
-        self.datatable = ko.observable();        
+        self.datatable = ko.observable();    
+        self.usuarioLogado = ko.observable(new pages.menu.model.vmUsuarioLogado(getDataToken()));
 
         self.init = function () {            
-            self.obterAtendimentos();            
+            self.obterAtendimentos(self.usuarioLogado().isAdministrador() ? null : self.usuarioLogado().estabelecimentoId());            
         };
         
-        self.obterAtendimentos = function () {
+        self.obterAtendimentos = function (estabelecimentoId) {
             pages.dataServices.bloquearTela();
-            service.obterTodos().then(function (result) {
+            service.obterTodos(estabelecimentoId).then(function (result) {
                 result.forEach(function (item) {
                     self.atendimentos.push(new model.vmAtendimento(item));
                 });                
@@ -81,12 +82,10 @@ pages.atendimento.viewModel = function () {
                             pages.dataServices.bloquearTela();
                             service.deletar(item.atendimentoId()).then(function () {
                                 bootbox.alert("Atendimento excluído com sucesso!", function () {  
-                                    var rowIdx = self.datatable().column(0).data().indexOf(item.atendimentoId().toString());
-                                    self.datatable().row(rowIdx).remove().draw(false);
-                                    self.atendimentos.remove(item);                                                                        
+                                    location.reload();                                                                      
                                 });                                 
                             }).catch(function (mensagem) {
-                                bootbox.alert(mensagem);
+                                console.log(mensagem);
                             }).finally(function () {
                                 pages.dataServices.desbloquearTela();
                             });                            
@@ -94,6 +93,35 @@ pages.atendimento.viewModel = function () {
                     }                    
                 }
             });            
+        };   
+
+        self.finalizarAtendimento = function (item) {
+            bootbox.dialog({
+                closeButton: false,
+                message: "Confirma a finalização do atendimento <strong>" + item.atendimentoId() + "</strong>!",
+                buttons: {
+                    nao: {
+                        label: "NÃO",
+                        className: "btn-sm btn-danger"
+                    },
+                    sim: {
+                        label: "SIM",
+                        className: "btn-sm btn-primary",
+                        callback: function () {
+                            pages.dataServices.bloquearTela();
+                            service.finalizarAtendimento(item.atendimentoId()).then(function () {
+                                bootbox.alert("Atendimento finalizado com sucesso!", function () {
+                                    location.reload();
+                                });
+                            }).catch(function (mensagem) {
+                                console.log(mensagem);
+                            }).finally(function () {
+                                pages.dataServices.desbloquearTela();
+                            });
+                        }
+                    }
+                }
+            });
         };       
 
         self.init();

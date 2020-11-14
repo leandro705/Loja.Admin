@@ -51,7 +51,7 @@ pages.agendamento.edicaoViewModel = function () {
                 }               
                 
             }).catch(function (mensagem) {
-                bootbox.alert(mensagem);
+                console.log(mensagem);
             }).finally(function () {
                 pages.dataServices.desbloquearTela();
             });
@@ -66,7 +66,7 @@ pages.agendamento.edicaoViewModel = function () {
                     });
                     sucesso();
                 }).catch(function (mensagem) {
-                    bootbox.alert(mensagem);
+                    console.log(mensagem);
                     falha();
                 }).finally(function () {
                     pages.dataServices.desbloquearTela();
@@ -83,7 +83,7 @@ pages.agendamento.edicaoViewModel = function () {
                     });
                     sucesso();
                 }).catch(function (mensagem) {
-                    bootbox.alert(mensagem);
+                    console.log(mensagem);
                     falha();
                 }).finally(function () {
                     pages.dataServices.desbloquearTela();
@@ -154,7 +154,7 @@ pages.agendamento.edicaoViewModel = function () {
                     self.voltar();
                 });                
             }).catch(function (mensagem) {
-                bootbox.alert(mensagem);
+                console.log(mensagem);
                 self.bloqueiaSalvar(false);
             }).finally(function () {
                 pages.dataServices.desbloquearTela();

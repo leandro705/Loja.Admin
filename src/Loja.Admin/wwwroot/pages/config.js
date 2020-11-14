@@ -11,10 +11,6 @@ if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
     URL_SITE = "https://loja-app.azurewebsites.net";    
 }
 
-var redirectToLogin = function () {
-    window.location.href = "/";
-};
-
 var getCurrentAccessToken = function () {
     return JSON.parse(localStorage.getItem("token")).accessToken;
 };
@@ -29,21 +25,29 @@ var atualizaNome = function (nome) {
     localStorage.setItem("token", JSON.stringify(usuarioLogado));    
 };
 
-var logoff = function () {
-    localStorage.removeItem("token");
-    redirectToLogin();
-}
-
 var redirectToPageByRole = function () {
 
     var role = getDataToken().role;
 
-    if (role === "Operador") {
-        window.location.href = "/Entry/Create";
+    if (role === "Cliente") {
+        window.location.href = "/Agendamento/Calendario";
     }
-    else if (role === "Motorista") {
-        window.location.href = "/Schedule/Calendar";
-    } else {
+    else {
         window.location.href = "/Home/Index";
     }
 };
+
+
+var logoff = function () {
+    var usuario = getDataToken();
+
+    if (usuario?.estabelecimentoId) {
+        localStorage.removeItem("token");
+        window.location.href = "/Login/Index/" + usuario.estabelecimentoNomeUrl;
+    }
+    else {
+        localStorage.removeItem("token");
+        window.location.href = "/";
+    }    
+    
+}

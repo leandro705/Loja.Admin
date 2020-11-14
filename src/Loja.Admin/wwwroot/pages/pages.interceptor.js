@@ -5,6 +5,18 @@ pages.interceptor = function () {
     $.ajaxSetup({
         beforeSend: function (xhr) {
             xhr.setRequestHeader('Authorization', "Bearer " + getCurrentAccessToken());
+        },
+        complete: function (xhr) {
+            if (xhr.status === 401) {
+                bootbox.alert("Acesso não permitido 401!", function () {
+                    logoff();
+                });
+            }
+            else if (xhr.status === 403) {
+                bootbox.alert("Acesso não permitido!", function () {
+                    logoff();
+                }); 
+            }
         }
     });
 
@@ -16,8 +28,11 @@ pages.interceptor = function () {
         if (token === null || (new Date(token.expiration) < currentDate)) {
             //$('#AuthExpirationModal').modal('toggle');
             console.log('Token expirado');
+            bootbox.alert("Sessão expirada!", function () {
+                logoff();
+            }); 
         }
-    };
+    }; 
    
     verifyExpirationDateAcessToken();   
     

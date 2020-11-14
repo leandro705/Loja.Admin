@@ -46,6 +46,8 @@ pages.atendimento.model = function () {
         self.servicoId = ko.observable();
         self.servicoNome = ko.observable();
 
+        self.agendamentoId = ko.observable();
+
         self.atendimentoItens = ko.observableArray([]);
 
         self.atendimentoItens.subscribe(function (itens) {
@@ -92,6 +94,23 @@ pages.atendimento.model = function () {
             atendimento.atendimentoItens.forEach(function (item) {
                 self.atendimentoItens.push(new vmAtendimentoItem(item));
             });
+        }
+
+        self.preencherAgendamento = function (agendamento) {
+            let splitdataAgendamento = agendamento.dataAgendamentoStr.split(' ');
+            self.agendamentoId(agendamento.agendamentoId);
+            self.dataAtendimentoDP(splitdataAgendamento[0]);
+            self.dataAtendimento(splitdataAgendamento[0]);
+            self.userId(agendamento.userId);
+            self.usuarioNome(agendamento.usuarioNome);
+            self.estabelecimentoId(agendamento.estabelecimentoId);
+            self.estabelecimentoNome(agendamento.estabelecimentoNome);
+
+            self.atendimentoItens.push(new vmAtendimentoItem({
+                servicoId: agendamento.servicoId,
+                servicoNome: agendamento.servicoNome,
+                valorFormatado: agendamento.servicoValor
+            }));            
         }
     }; 
 

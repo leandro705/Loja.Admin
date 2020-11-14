@@ -43,7 +43,8 @@ pages.agendamento.model = function () {
         self.userId = ko.observable();
         self.usuarioNome = ko.observable();
         self.estabelecimentoId = ko.observable();
-        self.estabelecimentoNome = ko.observable();               
+        self.estabelecimentoNome = ko.observable();      
+        self.possuiAtendimento = ko.observable(); 
 
         self.iniciar = function (agendamento) {
             let splitDataHoraInicial = agendamento.dataAgendamentoStr.split(' ');
@@ -62,6 +63,7 @@ pages.agendamento.model = function () {
             self.observacao(agendamento.observacao);
             self.dataCadastro(agendamento.dataCadastro);
             self.situacao(agendamento.situacao);
+            self.possuiAtendimento(agendamento.possuiAtendimento);
 
             setTimeout(function () {
                 self.servicoId(agendamento.servicoId);

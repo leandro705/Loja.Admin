@@ -31,7 +31,7 @@ pages.servico.cadastroViewModel = function () {
                     self.estabelecimentos.push(new model.vmEstabelecimento(item));
                 });
             }).catch(function (mensagem) {
-                bootbox.alert(mensagem);
+                console.log(mensagem);
             }).finally(function () {
                 pages.dataServices.desbloquearTela();
             });
@@ -75,7 +75,7 @@ pages.servico.cadastroViewModel = function () {
                 });                
             }).catch(function (mensagem) {
                 self.bloqueiaSalvar(false);
-                bootbox.alert(mensagem);                
+                console.log(mensagem);           
             }).finally(function () {
                 pages.dataServices.desbloquearTela();
             });
