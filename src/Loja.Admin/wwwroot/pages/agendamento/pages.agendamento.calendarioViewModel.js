@@ -21,7 +21,8 @@ pages.agendamento.calendarioViewModel = function () {
         self.servicosCadastro = ko.observableArray([]);        
         self.clientes = ko.observableArray([]);
         self.clientesCadastro = ko.observableArray([]);
-        
+        self.horariosDisponiveis = ko.observableArray([]);
+
         self.modalAgendamento = ko.observable(false);
         self.modalMensagem = ko.observable(false);
         self.modalVisualizar = ko.observable(false); 
@@ -83,7 +84,7 @@ pages.agendamento.calendarioViewModel = function () {
                         self.servicosCadastro(servicos);
                         self.clientesCadastro(clientes);
 
-                    });
+                    });                    
 
                     self.usuarioIdFiltro.subscribe(function (usuarioId) {
                         if (!usuarioId) return;
@@ -91,7 +92,7 @@ pages.agendamento.calendarioViewModel = function () {
                         let usuario = self.clientes().firstOrDefault(x => x.userId() === usuarioId);
                         self.agendamento().usuarioNome(usuario.nome());
                         self.inicializarCalendario();
-                    });
+                    });                    
                 }
 
                 self.agendamento().userId.subscribe(function (usuarioId) {
@@ -121,6 +122,25 @@ pages.agendamento.calendarioViewModel = function () {
                 let servico = self.servicosCadastro().firstOrDefault(x => x.servicoId() === servicoId);
                 if (servico)
                     self.agendamento().servicoNome(servico.nome());
+            });
+
+            self.agendamento().horaInicial.subscribe(function (horaInicial) {
+                if (!horaInicial) return;
+
+                let horario = self.horariosDisponiveis().firstOrDefault(x => x.horarioInicial() === horaInicial);
+
+                self.agendamento().horaFinal(horario?.horarioFinal());
+            });
+
+            ko.computed(async function () {
+
+                self.agendamento().horaInicial('');
+                self.agendamento().horaFinal('');
+
+                if (!self.agendamento().estabelecimentoId() || !self.agendamento().dataAgendamentoStr() || !self.agendamento().servicoId()) return;
+
+                await self.obterHorariosDisponiveis(self.agendamento().dataAgendamentoStr(), self.agendamento().estabelecimentoId(), self.agendamento().servicoId());
+
             });
 
             self.inicializarCalendario();  
@@ -183,6 +203,24 @@ pages.agendamento.calendarioViewModel = function () {
                 }).catch(function (mensagem) {
                     console.log(mensagem);
                     falha([]);
+                }).finally(function () {
+                    pages.dataServices.desbloquearTela();
+                });
+            });
+        };
+
+        self.obterHorariosDisponiveis = function (dataAgendamento, estabelecimentoId, servicoId) {
+            return new Promise(function (sucesso, falha) {
+                pages.dataServices.bloquearTela();
+                self.horariosDisponiveis([]);
+                service.obterHorariosDisponiveis(dataAgendamento, estabelecimentoId, servicoId).then(function (result) {
+                    result.forEach(function (item) {
+                        self.horariosDisponiveis.push(new model.vmHorarioDisponivel(item));
+                    });
+                    sucesso();
+                }).catch(function (mensagem) {
+                    console.log(mensagem);
+                    falha();
                 }).finally(function () {
                     pages.dataServices.desbloquearTela();
                 });
@@ -254,6 +292,7 @@ pages.agendamento.calendarioViewModel = function () {
                 return;
             } 
             self.bloqueiaSalvar(false);
+            self.horariosDisponiveis([]);
             let dataAgendamento = pages.utils.format(info.date, 'dd/MM/yyyy');
             self.agendamento().dataAgendamentoStr(dataAgendamento);
             self.agendamento().dataAgendamentoDP(info.date);
@@ -270,10 +309,10 @@ pages.agendamento.calendarioViewModel = function () {
             self.servicosCadastro(self.servicos());
             self.clientesCadastro(self.clientes());
 
-            if (info.view.type == 'timeGridDay') {
-                let horaInicial = pages.utils.format(info.date, 'HH:mm');
-                self.agendamento().horaInicial(horaInicial);
-            }
+            //if (info.view.type == 'timeGridDay') {
+            //    let horaInicial = pages.utils.format(info.date, 'HH:mm');
+            //    self.agendamento().horaInicial(horaInicial);
+            //}
 
             self.modalAgendamento(true);
             
@@ -282,7 +321,7 @@ pages.agendamento.calendarioViewModel = function () {
         self.abrirModalEdicao = async function (info) {
 
             self.evento(info.event);
-
+            self.horariosDisponiveis([]);
             let agendamento = await self.obterAgendamentoPorId(info.event.extendedProps.agendamentoId);
             var dataAtual = new Date(new Date().toDateString());
 
@@ -292,8 +331,13 @@ pages.agendamento.calendarioViewModel = function () {
                 return;
             }
 
-            self.agendamento().iniciar(agendamento);
+            await self.agendamento().iniciar(agendamento, self.adicionarHorarioDisponivel);
+            
             self.modalAgendamento(true);
+        };
+
+        self.adicionarHorarioDisponivel = function (vmHorarioDisponivel) {
+            self.horariosDisponiveis.push(vmHorarioDisponivel);
         };
 
         self.fecharModalAgendamento = function () {            

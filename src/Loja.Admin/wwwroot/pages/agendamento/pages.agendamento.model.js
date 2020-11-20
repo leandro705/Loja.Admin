@@ -15,6 +15,7 @@ pages.agendamento.model = function () {
 
         self.servicoId = ko.observable(servico.servicoId);
         self.nome = ko.observable(servico.nome);
+        self.duracao = ko.observable(servico.duracao);
     };
 
     var vmCliente = function (cliente) {
@@ -22,7 +23,14 @@ pages.agendamento.model = function () {
 
         self.userId = ko.observable(cliente.id);
         self.nome = ko.observable(cliente.nome);
-    };    
+    };  
+
+    var vmHorarioDisponivel = function (horarioDisponivel) {
+        var self = this;
+                
+        self.horarioInicial = ko.observable(horarioDisponivel.horarioInicial);
+        self.horarioFinal = ko.observable(horarioDisponivel.horarioFinal);
+    };
 
     var vmAgendamento = function (agendamento) {
         var self = this;
@@ -46,7 +54,7 @@ pages.agendamento.model = function () {
         self.estabelecimentoNome = ko.observable();      
         self.possuiAtendimento = ko.observable(); 
 
-        self.iniciar = function (agendamento) {
+        self.iniciar = function (agendamento, adicionarHorarioDisponivel) {
             let splitDataHoraInicial = agendamento.dataAgendamentoStr.split(' ');
             let splitDataHoraFinal = agendamento.dataFinalAgendamentoStr.split(' ');
 
@@ -58,8 +66,7 @@ pages.agendamento.model = function () {
             self.dataAgendamento(agendamento.dataAgendamento);
             self.dataFinalAgendamento(agendamento.dataFinalAgendamento);
             self.dataFinalAgendamentoStr(agendamento.dataFinalAgendamentoStr);
-            self.horaInicial(splitDataHoraInicial[1]);
-            self.horaFinal(splitDataHoraFinal[1]);
+            
             self.observacao(agendamento.observacao);
             self.dataCadastro(agendamento.dataCadastro);
             self.situacao(agendamento.situacao);
@@ -70,6 +77,14 @@ pages.agendamento.model = function () {
                 self.servicoNome(agendamento.servicoNome);
                 self.userId(agendamento.userId);
                 self.usuarioNome(agendamento.usuarioNome);
+                setTimeout(function () {
+                    adicionarHorarioDisponivel(new vmHorarioDisponivel({
+                        horarioInicial: splitDataHoraInicial[1],
+                        horarioFinal: splitDataHoraFinal[1]
+                    }))
+                    self.horaInicial(splitDataHoraInicial[1]);
+                    self.horaFinal(splitDataHoraFinal[1]);
+                }, 500);  
             }, 500);                        
             
         };
@@ -103,6 +118,7 @@ pages.agendamento.model = function () {
         vmServico,
         vmCliente,
         vmEstabelecimento,
-        vmAgendamento
+        vmAgendamento,
+        vmHorarioDisponivel
     };
 }();

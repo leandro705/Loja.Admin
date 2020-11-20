@@ -25,6 +25,11 @@ pages.agendamento.services = function () {
         return pages.dataServices.get(url);
     }
 
+    var obterHorariosDisponiveis = function (dataAgendamento, estabelecimentoId, servicoId) {
+        var url = pages.metadata.actionUrl("/api/agendamentos/horariosDisponiveis?dataAgendamento=" + dataAgendamento + "&estabelecimentoId=" + estabelecimentoId + "&servicoId=" + servicoId);
+        return pages.dataServices.get(url);
+    }
+
     var obterTodos = function (estabelecimentoId) {
         var url = pages.metadata.actionUrl("/api/agendamentos?estabelecimentoId=" + estabelecimentoId);
         return pages.dataServices.get(url);
@@ -55,6 +60,7 @@ pages.agendamento.services = function () {
         obterTodosEstabelecimentos,
         obterTodosServicosPorEstabelecimentoId,
         obterTodosClientesPorEstabelecimentoId,
+        obterHorariosDisponiveis,
         obterTodos,
         obterPorId,
         atualizar,

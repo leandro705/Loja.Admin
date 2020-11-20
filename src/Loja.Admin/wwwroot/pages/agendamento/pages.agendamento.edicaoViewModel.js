@@ -19,7 +19,9 @@ pages.agendamento.edicaoViewModel = function () {
         self.estabelecimentos = ko.observableArray([]);
         self.servicos = ko.observableArray([]);
         self.clientes = ko.observableArray([]);
+        self.horariosDisponiveis = ko.observableArray([]);
         self.bloqueiaSalvar = ko.observable(false);
+        self.carregandoPagina = ko.observable(true);
         self.usuarioLogado = ko.observable(new pages.menu.model.vmUsuarioLogado(getDataToken()));
 
         self.init = function () {                 
@@ -30,10 +32,15 @@ pages.agendamento.edicaoViewModel = function () {
             pages.dataServices.bloquearTela();
             service.obterPorId(agendamentoId).then(async function (result) {
 
-                let agendamento = new model.vmAgendamento(result)
+                let agendamento = new model.vmAgendamento(result);
                 
-                await self.obterTodosServicosPorEstabelecimentoId(result.estabelecimentoId)
-                await self.obterTodosClientesPorEstabelecimentoId(result.estabelecimentoId)
+                await self.obterTodosServicosPorEstabelecimentoId(result.estabelecimentoId);
+                await self.obterTodosClientesPorEstabelecimentoId(result.estabelecimentoId);
+                await self.obterHorariosDisponiveis(result.dataAgendamentoStr, result.estabelecimentoId, result.servicoId);
+                self.horariosDisponiveis.push(new model.vmHorarioDisponivel({
+                    horarioInicial: agendamento.horaInicial(),
+                    horarioFinal: agendamento.horaFinal()
+                }));
 
                 self.agendamento(agendamento);
 
@@ -48,7 +55,32 @@ pages.agendamento.edicaoViewModel = function () {
                         self.obterTodosServicosPorEstabelecimentoId(estabelecimentoId);
                         self.obterTodosClientesPorEstabelecimentoId(estabelecimentoId);
                     });
-                }               
+                }       
+
+                self.agendamento().horaInicial.subscribe(function (horaInicial) {
+                    if (!horaInicial) return;
+
+                    let horario = self.horariosDisponiveis().firstOrDefault(x => x.horarioInicial() === horaInicial);
+
+                    self.agendamento().horaFinal(horario.horarioFinal());
+                });
+
+                ko.computed(function () {
+
+                    if (self.carregandoPagina()) {
+                        self.carregandoPagina(false);
+                        return;
+                    }
+
+                    self.agendamento().horaInicial('');
+                    self.agendamento().horaFinal('');
+
+                    if ((!self.agendamento().estabelecimentoId() && !self.usuarioLogado().estabelecimentoId()) || !self.agendamento().dataAgendamentoStr() || !self.agendamento().servicoId()) return;
+
+                    let estabelecimentoId = self.agendamento().estabelecimentoId() || self.usuarioLogado().estabelecimentoId();
+                    self.obterHorariosDisponiveis(self.agendamento().dataAgendamentoStr(), estabelecimentoId, self.agendamento().servicoId());
+
+                });
                 
             }).catch(function (mensagem) {
                 console.log(mensagem);
@@ -106,7 +138,25 @@ pages.agendamento.edicaoViewModel = function () {
                     pages.dataServices.desbloquearTela();
                 });
             });
-        };        
+        };    
+
+        self.obterHorariosDisponiveis = function (dataAgendamento, estabelecimentoId, servicoId) {
+            return new Promise(function (sucesso, falha) {
+                pages.dataServices.bloquearTela();
+                self.horariosDisponiveis([]);
+                service.obterHorariosDisponiveis(dataAgendamento, estabelecimentoId, servicoId).then(function (result) {
+                    result.forEach(function (item) {
+                        self.horariosDisponiveis.push(new model.vmHorarioDisponivel(item));
+                    });
+                    sucesso();
+                }).catch(function (mensagem) {
+                    console.log(mensagem);
+                    falha();
+                }).finally(function () {
+                    pages.dataServices.desbloquearTela();
+                });
+            });
+        };
 
         self.validar = function () {
             var mensagens = [];

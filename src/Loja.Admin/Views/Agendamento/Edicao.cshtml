@@ -59,11 +59,13 @@
                         </div>
                         <div class="form-group col-md-4">
                             <label for="horaInicial" class="col-form-label">Horário Inicial<span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="horaInicial" data-bind="masked: horaInicial, horario:true" placeholder="Informe o horário inicial">
+                            <select id="horaInicial" class="form-control" data-toggle="select2"
+                                    data-bind="value: horaInicial, options: $root.horariosDisponiveis, optionsText: 'horarioInicial', optionsValue: 'horarioInicial', valueAllowUnset: true, select2: { placeholder: 'Selecione um horário', tags: false }">
+                            </select>
                         </div>
                         <div class="form-group col-md-4">
-                            <label for="horaFinal" class="col-form-label">Horário Final<span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="horaFinal" data-bind="masked: horaFinal, horario:true" placeholder="Informe o horário final">
+                            <label for="horaFinal" class="col-form-label">Horário Final</label>
+                            <input type="text" class="form-control" id="horaFinal" data-bind="value: horaFinal, disable:true" readonly>
                         </div>
                     </div>
 

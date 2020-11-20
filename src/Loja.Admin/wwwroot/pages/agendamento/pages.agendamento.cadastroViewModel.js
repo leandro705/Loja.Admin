@@ -18,6 +18,7 @@ pages.agendamento.cadastroViewModel = function () {
         self.estabelecimentos = ko.observableArray([]);
         self.servicos = ko.observableArray([]);
         self.clientes = ko.observableArray([]);
+        self.horariosDisponiveis = ko.observableArray([]);
         self.bloqueiaSalvar = ko.observable(false);  
         self.usuarioLogado = ko.observable(new pages.menu.model.vmUsuarioLogado(getDataToken()));
 
@@ -38,6 +39,26 @@ pages.agendamento.cadastroViewModel = function () {
                 self.obterTodosServicosPorEstabelecimentoId(self.usuarioLogado().estabelecimentoId());
                 self.obterTodosClientesPorEstabelecimentoId(self.usuarioLogado().estabelecimentoId());
             }
+
+            ko.computed(function () {
+
+                self.agendamento().horaInicial('');
+                self.agendamento().horaFinal('');
+
+                if ((!self.agendamento().estabelecimentoId() && !self.usuarioLogado().estabelecimentoId()) || !self.agendamento().dataAgendamentoStr() || !self.agendamento().servicoId()) return;
+                
+                let estabelecimentoId = self.agendamento().estabelecimentoId() || self.usuarioLogado().estabelecimentoId();
+                self.obterHorariosDisponiveis(self.agendamento().dataAgendamentoStr(), estabelecimentoId, self.agendamento().servicoId());
+                
+            });
+
+            self.agendamento().horaInicial.subscribe(function (horaInicial) {
+                if (!horaInicial) return;
+
+                let horario = self.horariosDisponiveis().firstOrDefault(x => x.horarioInicial() === horaInicial);
+
+                self.agendamento().horaFinal(horario.horarioFinal());
+            });
         };
 
         self.obterTodosEstabelecimentos = function () {
@@ -71,6 +92,20 @@ pages.agendamento.cadastroViewModel = function () {
             service.obterTodosClientesPorEstabelecimentoId(estabelecimentoId).then(function (result) {
                 result.forEach(function (item) {
                     self.clientes.push(new model.vmCliente(item));
+                });
+            }).catch(function (mensagem) {
+                console.log(mensagem);
+            }).finally(function () {
+                pages.dataServices.desbloquearTela();
+            });
+        };
+
+        self.obterHorariosDisponiveis = function (dataAgendamento, estabelecimentoId, servicoId) {
+            pages.dataServices.bloquearTela();
+            self.horariosDisponiveis([]);
+            service.obterHorariosDisponiveis(dataAgendamento, estabelecimentoId, servicoId).then(function (result) {
+                result.forEach(function (item) {
+                    self.horariosDisponiveis.push(new model.vmHorarioDisponivel(item));
                 });
             }).catch(function (mensagem) {
                 console.log(mensagem);
