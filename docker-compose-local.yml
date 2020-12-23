@@ -1,0 +1,32 @@
+version: '3.5'
+
+services:
+
+  app:   
+    image: loja.admin
+    build: 
+      context: .     
+    ports:
+     - "80:80"    
+      
+  seq:
+    container_name: seq
+    image: datalust/seq:latest
+    restart: always
+    ports:
+    - "5341:80"
+    environment:
+     ACCEPT_EULA: Y
+     
+  portainer:
+    container_name: portainer
+    image: portainer/portainer
+    restart: always
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    - portainer_data:/data
+    ports:
+    - "9000:9000"
+    
+volumes:   
+    portainer_data: {}

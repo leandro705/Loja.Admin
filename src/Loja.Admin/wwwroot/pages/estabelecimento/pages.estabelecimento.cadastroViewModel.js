@@ -63,8 +63,10 @@ pages.estabelecimento.cadastroViewModel = function () {
                 bootbox.alert("Estabelecimento salvo com sucesso!", function () {
                     self.voltar();
                 });                
-            }).catch(function (mensagem) {
-                console.log(mensagem);
+            }).catch(function (result) {
+                if (result.exibeMensagem)
+                    bootbox.alert(result.data);
+
                 self.bloqueiaSalvar(false);
             }).finally(function () {
                 pages.dataServices.desbloquearTela();

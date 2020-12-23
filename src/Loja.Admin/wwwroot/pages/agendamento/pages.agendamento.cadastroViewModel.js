@@ -64,11 +64,12 @@ pages.agendamento.cadastroViewModel = function () {
         self.obterTodosEstabelecimentos = function () {
             pages.dataServices.bloquearTela();
             service.obterTodosEstabelecimentos().then(function (result) {
-                result.forEach(function (item) {
+                result.data.forEach(function (item) {
                     self.estabelecimentos.push(new model.vmEstabelecimento(item));
                 });
-            }).catch(function (mensagem) {
-                console.log(mensagem);
+            }).catch(function (result) {
+                if (result.exibeMensagem)
+                        console.log(result.data);
             }).finally(function () {
                 pages.dataServices.desbloquearTela();
             });
@@ -77,11 +78,12 @@ pages.agendamento.cadastroViewModel = function () {
         self.obterTodosServicosPorEstabelecimentoId = function (estabelecimentoId) {
             pages.dataServices.bloquearTela();
             service.obterTodosServicosPorEstabelecimentoId(estabelecimentoId).then(function (result) {
-                result.forEach(function (item) {
+                result.data.forEach(function (item) {
                     self.servicos.push(new model.vmServico(item));
                 });
-            }).catch(function (mensagem) {
-                console.log(mensagem);
+            }).catch(function (result) {
+                if (result.exibeMensagem)
+                    console.log(result.data);
             }).finally(function () {
                 pages.dataServices.desbloquearTela();
             });
@@ -90,11 +92,12 @@ pages.agendamento.cadastroViewModel = function () {
         self.obterTodosClientesPorEstabelecimentoId = function (estabelecimentoId) {
             pages.dataServices.bloquearTela();
             service.obterTodosClientesPorEstabelecimentoId(estabelecimentoId).then(function (result) {
-                result.forEach(function (item) {
+                result.data.forEach(function (item) {
                     self.clientes.push(new model.vmCliente(item));
                 });
-            }).catch(function (mensagem) {
-                console.log(mensagem);
+            }).catch(function (result) {
+                if (result.exibeMensagem)
+                    console.log(result.data);
             }).finally(function () {
                 pages.dataServices.desbloquearTela();
             });
@@ -104,11 +107,12 @@ pages.agendamento.cadastroViewModel = function () {
             pages.dataServices.bloquearTela();
             self.horariosDisponiveis([]);
             service.obterHorariosDisponiveis(dataAgendamento, estabelecimentoId, servicoId).then(function (result) {
-                result.forEach(function (item) {
+                result.data.forEach(function (item) {
                     self.horariosDisponiveis.push(new model.vmHorarioDisponivel(item));
                 });
-            }).catch(function (mensagem) {
-                console.log(mensagem);
+            }).catch(function (result) {
+                if (result.exibeMensagem)
+                    console.log(result.data);
             }).finally(function () {
                 pages.dataServices.desbloquearTela();
             });
@@ -158,9 +162,11 @@ pages.agendamento.cadastroViewModel = function () {
                 bootbox.alert("Agendamento salvo com sucesso!", function () {
                     self.voltar();
                 });                
-            }).catch(function (mensagem) {
-                console.log(mensagem);
-                self.bloqueiaSalvar(false);
+            }).catch(function (result) {     
+                if (result.exibeMensagem)
+                    bootbox.alert(result.data);
+
+                self.bloqueiaSalvar(false);                
             }).finally(function () {
                 pages.dataServices.desbloquearTela();
             });

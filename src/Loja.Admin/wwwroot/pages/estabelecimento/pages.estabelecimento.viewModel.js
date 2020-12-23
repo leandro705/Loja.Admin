@@ -37,11 +37,11 @@ pages.estabelecimento.viewModel = function () {
         self.obterEstabelecimentos = function (estabelecimentoNomeUrl) {
             pages.dataServices.bloquearTela();
             service.obterTodos(estabelecimentoNomeUrl).then(function (result) {
-                result.forEach(function (item) {
+                result.data.forEach(function (item) {
                     self.estabelecimentos.push(new model.vmEstabelecimento(item));
                 });                
-            }).catch(function (mensagem) {
-                console.log(mensagem);
+            }).catch(function (result) {
+                console.log(result.data);
             }).finally(function () {
                 self.inicializarDatatable();
                 pages.dataServices.desbloquearTela();
@@ -84,6 +84,11 @@ pages.estabelecimento.viewModel = function () {
             window.location.href = "/Estabelecimento/Edicao/" + item.estabelecimentoId();
         };
 
+        self.contato = function (item) {
+            pages.dataServices.bloquearTela();
+            window.location.href = "/Estabelecimento/Contato/" + item.estabelecimentoId();
+        };
+
         self.excluir = function (item) {
             bootbox.dialog({
                 closeButton: false,
@@ -102,8 +107,9 @@ pages.estabelecimento.viewModel = function () {
                                 bootbox.alert("Estabelecimento excluído com sucesso!", function () {  
                                     location.reload();                                                                      
                                 });                                 
-                            }).catch(function (mensagem) {
-                                console.log(mensagem);
+                            }).catch(function (result) {
+                                if (result.exibeMensagem)
+                                    bootbox.alert(result.data);
                             }).finally(function () {
                                 pages.dataServices.desbloquearTela();
                             });                            

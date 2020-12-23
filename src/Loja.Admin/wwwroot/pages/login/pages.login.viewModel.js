@@ -6,7 +6,7 @@ pages.login.services = pages.login.services || {};
 pages.metadata = pages.metadata || {};
 pages.dataServices = pages.dataServices || {};
 pages.utils = pages.utils || {};
-
+var EstabelecimentoId;
 pages.login.viewModel = function () {
     var model = pages.login.model;
     var service = pages.login.services;
@@ -21,22 +21,27 @@ pages.login.viewModel = function () {
         self.email = ko.observable();
         self.senha = ko.observable();
         self.confirmarSenha = ko.observable();
-        self.estabelecimento = ko.observable();    
+        self.estabelecimento = ko.observable(); 
 
-        self.init = function () {
-            self.obterEstabelecimentoPorNomeUrl(nomeUrl);
-            pages.utils.initDataPassword();
+        self.init = async function () {
+            await self.obterEstabelecimentoPorNomeUrl(nomeUrl);
+            pages.utils.initDataPassword();           
             renderButton();
         };
 
         self.obterEstabelecimentoPorNomeUrl = function (nomeUrl) {
-            pages.dataServices.bloquearTela();
-            service.obterEstabelecimentoPorNomeUrl(nomeUrl).then(function (result) {
-                self.estabelecimento(new model.vmEstabelecimento(result));
-            }).catch(function (mensagem) {
-                console.log(mensagem);
-            }).finally(function () {
-                pages.dataServices.desbloquearTela();
+            return new Promise(function (sucesso, falha) {
+                pages.dataServices.bloquearTela();
+                service.obterEstabelecimentoPorNomeUrl(nomeUrl).then(function (result) {
+                    self.estabelecimento(new model.vmEstabelecimento(result.data));
+                    EstabelecimentoId = result.data.estabelecimentoId;
+                    sucesso();
+                }).catch(function (result) {
+                    console.log(result.data);
+                    falha();
+                }).finally(function () {
+                    pages.dataServices.desbloquearTela();
+                });
             });
         };
 
@@ -81,11 +86,11 @@ pages.login.viewModel = function () {
 
             pages.dataServices.bloquearTela();
             service.login(parametro).then(function (result) {
-                console.log(result)
-                localStorage.setItem("token", JSON.stringify(result));
+                console.log(result.data)
+                localStorage.setItem("token", JSON.stringify(result.data));
                 redirectToPageByRole();
-            }).catch(function (mensagem) {
-                console.log(mensagem);
+            }).catch(function (result) {
+                console.log(result.data);
             }).finally(function () {
                 pages.dataServices.desbloquearTela();
             });
@@ -129,8 +134,9 @@ pages.login.viewModel = function () {
                 bootbox.alert("Usuario cadastrado com sucesso!");
                 self.limpar();
                 self.alterarTela(service.ETelaLogin.LOGIN)
-            }).catch(function (mensagem) {
-                console.log(mensagem);
+            }).catch(function (result) {
+                if (result.exibeMensagem)
+                    bootbox.alert(result.data);
             }).finally(function () {
                 pages.dataServices.desbloquearTela();
             });
@@ -162,8 +168,9 @@ pages.login.viewModel = function () {
                 bootbox.alert("Enviado e-mail para cadastrar nova senha!");
                 self.limpar();
                 self.alterarTela(service.ETelaLogin.LOGIN)
-            }).catch(function (mensagem) {
-                console.log(mensagem);
+            }).catch(function (result) {
+                if (result.exibeMensagem)
+                    bootbox.alert(result.data);
             }).finally(function () {
                 pages.dataServices.desbloquearTela();
             });

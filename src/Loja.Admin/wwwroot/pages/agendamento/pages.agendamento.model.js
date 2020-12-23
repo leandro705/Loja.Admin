@@ -78,10 +78,12 @@ pages.agendamento.model = function () {
                 self.userId(agendamento.userId);
                 self.usuarioNome(agendamento.usuarioNome);
                 setTimeout(function () {
-                    adicionarHorarioDisponivel(new vmHorarioDisponivel({
-                        horarioInicial: splitDataHoraInicial[1],
-                        horarioFinal: splitDataHoraFinal[1]
-                    }))
+                    if (adicionarHorarioDisponivel) {
+                        adicionarHorarioDisponivel(new vmHorarioDisponivel({
+                            horarioInicial: splitDataHoraInicial[1],
+                            horarioFinal: splitDataHoraFinal[1]
+                        }))
+                    }
                     self.horaInicial(splitDataHoraInicial[1]);
                     self.horaFinal(splitDataHoraFinal[1]);
                 }, 500);  
@@ -112,6 +114,32 @@ pages.agendamento.model = function () {
         if (agendamento) {
             self.iniciar(agendamento);
         }
+    };   
+
+    var vmAgendamentoListagem = function (agendamento) {
+        var self = this;
+
+        let splitDataHoraInicial = agendamento.dataAgendamentoStr.split(' ');
+        let splitDataHoraFinal = agendamento.dataFinalAgendamentoStr.split(' ');
+
+        self.agendamentoId = ko.observable(agendamento.agendamentoId);
+        self.dataAgendamento = ko.observable(agendamento.dataAgendamento);
+        self.dataAgendamentoStr = ko.observable(splitDataHoraInicial[0]);
+        self.dataAgendamentoDP = ko.observable(splitDataHoraInicial[0]);
+        self.dataFinalAgendamento = ko.observable(agendamento.dataFinalAgendamento);
+        self.dataFinalAgendamentoStr = ko.observable(agendamento.dataFinalAgendamentoStr);
+        self.horaInicial = ko.observable(splitDataHoraInicial[1]);
+        self.horaFinal = ko.observable(splitDataHoraFinal[1]);
+        self.servicoId = ko.observable(agendamento.servicoId);
+        self.servicoNome = ko.observable(agendamento.servicoNome);
+        self.observacao = ko.observable(agendamento.observacao);
+        self.dataCadastro = ko.observable(agendamento.dataCadastro);
+        self.situacao = ko.observable(agendamento.situacao);
+        self.userId = ko.observable(agendamento.userId);
+        self.usuarioNome = ko.observable(agendamento.usuarioNome);
+        self.estabelecimentoId = ko.observable(agendamento.estabelecimentoId);
+        self.estabelecimentoNome = ko.observable(agendamento.estabelecimentoNome);
+        self.possuiAtendimento = ko.observable(agendamento.possuiAtendimento);
     };    
 
     return {       
@@ -119,6 +147,7 @@ pages.agendamento.model = function () {
         vmCliente,
         vmEstabelecimento,
         vmAgendamento,
+        vmAgendamentoListagem,
         vmHorarioDisponivel
     };
 }();

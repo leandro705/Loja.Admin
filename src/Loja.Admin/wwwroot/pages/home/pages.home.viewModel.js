@@ -24,7 +24,8 @@ pages.home.viewModel = function () {
         self.totalUsuarios = ko.observable();
         self.totalAgendamentos = ko.observable();
         self.totalAtendimentos = ko.observable();
-        self.valorTotal = ko.observable();        
+        self.valorTotalFinalizados = ko.observable();
+        self.valorTotalPendentes = ko.observable();
 
         self.init = function () {                        
             
@@ -55,11 +56,11 @@ pages.home.viewModel = function () {
         self.obterTodosEstabelecimentos = function () {
             pages.dataServices.bloquearTela();
             service.obterTodosEstabelecimentos().then(function (result) {
-                result.forEach(function (item) {
+                result.data.forEach(function (item) {
                     self.estabelecimentos.push(new model.vmEstabelecimento(item));
                 });
-            }).catch(function (mensagem) {
-                console.log(mensagem);
+            }).catch(function (result) {
+                console.log(result.data);
             }).finally(function () {
                 pages.dataServices.desbloquearTela();
             });
@@ -68,11 +69,11 @@ pages.home.viewModel = function () {
         self.obterTodosClientesPorEstabelecimentoId = function (estabelecimentoId) {
             pages.dataServices.bloquearTela();
             service.obterTodosClientesPorEstabelecimentoId(estabelecimentoId).then(function (result) {
-                result.forEach(function (item) {
+                result.data.forEach(function (item) {
                     self.clientes.push(new model.vmCliente(item));
                 });
-            }).catch(function (mensagem) {
-                console.log(mensagem);
+            }).catch(function (result) {
+                console.log(result.data);
             }).finally(function () {
                 pages.dataServices.desbloquearTela();
             });
@@ -81,9 +82,9 @@ pages.home.viewModel = function () {
         self.obterTotalUsuarios = function () {
             pages.dataServices.bloquearTela();
             service.obterTotalUsuarios(self.estabelecimentoIdFiltro(), self.usuarioIdFiltro()).then(function (result) {
-                self.totalUsuarios(result);
-            }).catch(function (mensagem) {
-                console.log(mensagem);
+                self.totalUsuarios(result.data);
+            }).catch(function (result) {
+                console.log(result.data);
             }).finally(function () {
                 pages.dataServices.desbloquearTela();
             });
@@ -92,9 +93,9 @@ pages.home.viewModel = function () {
         self.obterTotalAgendamentos = function () {
             pages.dataServices.bloquearTela();
             service.obterTotalAgendamentos(self.estabelecimentoIdFiltro(), self.usuarioIdFiltro()).then(function (result) {
-                self.totalAgendamentos(result);
-            }).catch(function (mensagem) {
-                console.log(mensagem);
+                self.totalAgendamentos(result.data);
+            }).catch(function (result) {
+                console.log(result.data);
             }).finally(function () {
                 pages.dataServices.desbloquearTela();
             });
@@ -103,20 +104,31 @@ pages.home.viewModel = function () {
         self.obterTotalAtendimentos = function () {
             pages.dataServices.bloquearTela();
             service.obterTotalAtendimentos(self.estabelecimentoIdFiltro(), self.usuarioIdFiltro()).then(function (result) {
-                self.totalAtendimentos(result);
-            }).catch(function (mensagem) {
-                console.log(mensagem);
+                self.totalAtendimentos(result.data);
+            }).catch(function (result) {
+                console.log(result.data);
             }).finally(function () {
                 pages.dataServices.desbloquearTela();
             });
         };
 
-        self.obterValorTotal = function () {
+        self.obterValorTotalFinalizados = function () {
             pages.dataServices.bloquearTela();
             service.obterValorTotal(self.estabelecimentoIdFiltro(), self.usuarioIdFiltro(), service.ESituacao.FINALIZADO).then(function (result) {
-                self.valorTotal(result);
-            }).catch(function (mensagem) {
-                console.log(mensagem);
+                self.valorTotalFinalizados(result.data);
+            }).catch(function (result) {
+                console.log(result.data);
+            }).finally(function () {
+                pages.dataServices.desbloquearTela();
+            });
+        };
+
+        self.obterValorTotalPendente = function () {
+            pages.dataServices.bloquearTela();
+            service.obterValorTotal(self.estabelecimentoIdFiltro(), self.usuarioIdFiltro(), service.ESituacao.PENDENTE).then(function (result) {
+                self.valorTotalPendentes(result.data);
+            }).catch(function (result) {
+                console.log(result.data);
             }).finally(function () {
                 pages.dataServices.desbloquearTela();
             });
@@ -197,9 +209,9 @@ pages.home.viewModel = function () {
 
                 pages.dataServices.bloquearTela();
                 service.obterTotalAtendimentosMes(estabelecimentoId, usuarioId, situacaoId).then(function (result) {
-                    sucesso(result);
-                }).catch(function (mensagem) {
-                    console.log(mensagem);
+                    sucesso(result.data);
+                }).catch(function (result) {
+                    console.log(result.data);
                     falha();
                 }).finally(function () {
                     pages.dataServices.desbloquearTela();
@@ -219,7 +231,8 @@ pages.home.viewModel = function () {
             self.obterTotalUsuarios();
             self.obterTotalAgendamentos();
             self.obterTotalAtendimentos();
-            self.obterValorTotal();
+            self.obterValorTotalFinalizados();
+            self.obterValorTotalPendente();
             self.obterTotalAtendimentosMes();
         }
         

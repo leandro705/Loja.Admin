@@ -18,14 +18,14 @@ pages.login.services = function () {
         return pages.dataServices.postAjax(url, parametro);
     }
 
-    var loginFacebook = function (parametro) {
+    var loginFacebook = function (parametro, token) {
         var url = pages.metadata.actionUrl("/api/authentication/facebook");
-        return pages.dataServices.postAjax(url, parametro);
+        return pages.dataServices.postAuthorizationAjax(url, parametro, token);
     }
 
-    var loginGoogle = function (parametro) {
+    var loginGoogle = function (parametro, token) {
         var url = pages.metadata.actionUrl("/api/authentication/google");
-        return pages.dataServices.postAjax(url, parametro);
+        return pages.dataServices.postAuthorizationAjax(url, parametro, token);
     }    
 
     var salvar = function (parametro) {

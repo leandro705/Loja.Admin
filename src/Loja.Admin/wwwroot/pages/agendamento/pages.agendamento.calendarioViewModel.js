@@ -57,7 +57,7 @@ pages.agendamento.calendarioViewModel = function () {
             return false;
         });
 
-        self.init = async function () {
+        self.init = async function () {            
             if (self.usuarioLogado().isAdministrador() || self.usuarioLogado().isGerente()) {
                 if (self.usuarioLogado().isAdministrador()) {
                     self.obterTodosEstabelecimentos();
@@ -150,9 +150,9 @@ pages.agendamento.calendarioViewModel = function () {
             return new Promise(function (sucesso, falha) {
                 pages.dataServices.bloquearTela();
                 service.obterPorId(agendamentoId).then(function (result) {              
-                    sucesso(result); 
-                }).catch(function (mensagem) {
-                    console.log(mensagem);
+                    sucesso(result.data); 
+                }).catch(function (result) {
+                    console.log(result.data);
                     falha();
                 }).finally(function () {
                     pages.dataServices.desbloquearTela();
@@ -163,11 +163,11 @@ pages.agendamento.calendarioViewModel = function () {
         self.obterTodosEstabelecimentos = function () {
             pages.dataServices.bloquearTela();
             service.obterTodosEstabelecimentos().then(function (result) {
-                result.forEach(function (item) {
+                result.data.forEach(function (item) {
                     self.estabelecimentos.push(new model.vmEstabelecimento(item));
                 });
-            }).catch(function (mensagem) {
-                console.log(mensagem);
+            }).catch(function (result) {
+                console.log(result.data);
             }).finally(function () {
                 pages.dataServices.desbloquearTela();
             });
@@ -178,12 +178,12 @@ pages.agendamento.calendarioViewModel = function () {
                 var clientes = [];
                 pages.dataServices.bloquearTela();
                 service.obterTodosClientesPorEstabelecimentoId(estabelecimentoId).then(function (result) {
-                    result.forEach(function (item) {
+                    result.data.forEach(function (item) {
                         clientes.push(new model.vmCliente(item));
                     });
                     sucesso(clientes);
-                }).catch(function (mensagem) {
-                    console.log(mensagem);
+                }).catch(function (result) {
+                    console.log(result.data);
                     falha([]);
                 }).finally(function () {
                     pages.dataServices.desbloquearTela();
@@ -196,12 +196,12 @@ pages.agendamento.calendarioViewModel = function () {
                 var servicos = [];
                 pages.dataServices.bloquearTela();
                 service.obterTodosServicosPorEstabelecimentoId(estabelecimentoId).then(function (result) {
-                    result.forEach(function (item) {
+                    result.data.forEach(function (item) {
                         servicos.push(new model.vmServico(item));
                     });
                     sucesso(servicos);
-                }).catch(function (mensagem) {
-                    console.log(mensagem);
+                }).catch(function (result) {
+                    console.log(result.data);
                     falha([]);
                 }).finally(function () {
                     pages.dataServices.desbloquearTela();
@@ -214,12 +214,12 @@ pages.agendamento.calendarioViewModel = function () {
                 pages.dataServices.bloquearTela();
                 self.horariosDisponiveis([]);
                 service.obterHorariosDisponiveis(dataAgendamento, estabelecimentoId, servicoId).then(function (result) {
-                    result.forEach(function (item) {
+                    result.data.forEach(function (item) {
                         self.horariosDisponiveis.push(new model.vmHorarioDisponivel(item));
                     });
                     sucesso();
-                }).catch(function (mensagem) {
-                    console.log(mensagem);
+                }).catch(function (result) {
+                    console.log(result.data);
                     falha();
                 }).finally(function () {
                     pages.dataServices.desbloquearTela();
@@ -228,6 +228,7 @@ pages.agendamento.calendarioViewModel = function () {
         };
       
         self.inicializarCalendario = function () {
+            
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 locale: 'pt-br',
@@ -284,7 +285,7 @@ pages.agendamento.calendarioViewModel = function () {
         }; 
 
         self.abrirModalAgendamento = function (info) {   
-            
+                        
             var dataAtual = new Date(new Date().toDateString());
 
             if (new Date(info.date) < dataAtual) {
@@ -391,8 +392,9 @@ pages.agendamento.calendarioViewModel = function () {
                 self.fecharModalExcluir();
                 self.fecharModalAgendamento();
                 self.abrirModalMensagem("Agendamento excluído com sucesso!");
-            }).catch(function (mensagem) {
-                console.log(mensagem);
+            }).catch(function (result) {
+                if (result.exibeMensagem)
+                    bootbox.alert(result.data);
             }).finally(function () {
                 pages.dataServices.desbloquearTela();
             });                
@@ -441,7 +443,7 @@ pages.agendamento.calendarioViewModel = function () {
 
                 self.bloqueiaSalvar(true);
                 pages.dataServices.bloquearTela();
-                service.atualizar(self.agendamento().agendamentoId(), parametro).then(function (agendamento) {
+                service.atualizar(self.agendamento().agendamentoId(), parametro).then(function () {
 
                     self.evento().remove();
                     self.evento(null);
@@ -456,8 +458,10 @@ pages.agendamento.calendarioViewModel = function () {
                     self.calendario().addEvent(eventData);
                     self.fecharModalAgendamento();
                     self.abrirModalMensagem("Agendamento salvo com sucesso!");
-                }).catch(function (mensagem) {
-                    console.log(mensagem);
+                }).catch(function (result) {
+                    if (result.exibeMensagem)
+                        bootbox.alert(result.data);
+
                     self.bloqueiaSalvar(false);
                 }).finally(function () {
                     pages.dataServices.desbloquearTela();
@@ -470,16 +474,18 @@ pages.agendamento.calendarioViewModel = function () {
 
                     var eventData = {
                         title: self.agendamento().usuarioNome() + ' - ' + self.agendamento().servicoNome(),
-                        start: agendamento.dataAgendamento,
-                        end: agendamento.dataFinalAgendamento,
-                        agendamentoId: agendamento.agendamentoId
+                        start: agendamento.data.dataAgendamento,
+                        end: agendamento.data.dataFinalAgendamento,
+                        agendamentoId: agendamento.data.agendamentoId
                     };
 
                     self.calendario().addEvent(eventData);
                     self.fecharModalAgendamento();
                     self.abrirModalMensagem("Agendamento salvo com sucesso!");
-                }).catch(function (mensagem) {
-                    console.log(mensagem);
+                }).catch(function (result) {
+                    if (result.exibeMensagem)
+                        bootbox.alert(result.data);
+
                     self.bloqueiaSalvar(false);
                 }).finally(function () {
                     pages.dataServices.desbloquearTela();

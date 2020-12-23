@@ -207,6 +207,19 @@
     "sourceMap": false
   },
   {
+    "outputFileName": "wwwroot/js/estabelecimentoContato.min.js",
+    "inputFiles": [
+      "wwwroot/pages/estabelecimento/pages.estabelecimento.model.js",
+      "wwwroot/pages/estabelecimento/pages.estabelecimento.services.js",
+      "wwwroot/pages/estabelecimento/pages.estabelecimento.contatoViewModel.js"
+    ],
+    "minify": {
+      "enabled": false,
+      "renameLocals": false
+    },
+    "sourceMap": false
+  },
+  {
     "outputFileName": "wwwroot/js/estabelecimentoCadastro.min.js",
     "inputFiles": [
       "wwwroot/pages/estabelecimento/pages.estabelecimento.model.js",

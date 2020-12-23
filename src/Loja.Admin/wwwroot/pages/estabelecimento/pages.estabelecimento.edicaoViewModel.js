@@ -25,9 +25,9 @@ pages.estabelecimento.edicaoViewModel = function () {
         self.obterEstabelecimentoPorId = function (estabelecimentoId) {  
             pages.dataServices.bloquearTela();
             service.obterPorId(estabelecimentoId).then(function (result) {
-                self.estabelecimento(new model.vmEstabelecimento(result));                             
-            }).catch(function (mensagem) {
-                console.log(mensagem);          
+                self.estabelecimento(new model.vmEstabelecimento(result.data));                             
+            }).catch(function (result) {
+                console.log(result.data);          
             }).finally(function () {
                 pages.dataServices.desbloquearTela();
             });            
@@ -80,8 +80,10 @@ pages.estabelecimento.edicaoViewModel = function () {
                 bootbox.alert("Estabelecimento atualizado com sucesso!", function () {
                     self.voltar();
                 });                
-            }).catch(function (mensagem) {
-                console.log(mensagem);
+            }).catch(function (result) {
+                if (result.exibeMensagem)
+                    bootbox.alert(result.data);
+
                 self.bloqueiaSalvar(false);
             }).finally(function () {
                 pages.dataServices.desbloquearTela();

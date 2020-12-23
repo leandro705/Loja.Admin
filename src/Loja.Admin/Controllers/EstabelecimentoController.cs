@@ -17,6 +17,11 @@ namespace Loja.Admin.Controllers
         public IActionResult Edicao()
         {
             return View();
-        }        
+        }
+
+        public IActionResult Contato()
+        {
+            return View();
+        }
     }
 }

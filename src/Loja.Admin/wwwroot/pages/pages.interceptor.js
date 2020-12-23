@@ -8,7 +8,7 @@ pages.interceptor = function () {
         },
         complete: function (xhr) {
             if (xhr.status === 401) {
-                bootbox.alert("Acesso não permitido 401!", function () {
+                bootbox.alert("Acesso não permitido!", function () {
                     logoff();
                 });
             }

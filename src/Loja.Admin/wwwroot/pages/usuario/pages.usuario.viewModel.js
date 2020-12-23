@@ -24,11 +24,11 @@ pages.usuario.viewModel = function () {
         self.obterUsuarios = function () {
             pages.dataServices.bloquearTela();
             service.obterTodos().then(function (result) {
-                result.forEach(function (item) {
+                result.data.forEach(function (item) {
                     self.usuarios.push(new model.vmUsuario(item));
                 });                
-            }).catch(function (mensagem) {
-                console.log(mensagem);
+            }).catch(function (result) {
+                console.log(result.data);
             }).finally(function () {
                 self.inicializarDatatable();
                 pages.dataServices.desbloquearTela();
@@ -89,8 +89,9 @@ pages.usuario.viewModel = function () {
                                 bootbox.alert("Usuário excluído com sucesso!", function () {  
                                     location.reload();                                                                        
                                 });                                 
-                            }).catch(function (mensagem) {
-                                console.log(mensagem);
+                            }).catch(function (result) {
+                                if (result.exibeMensagem)
+                                    bootbox.alert(result.data);
                             }).finally(function () {
                                 pages.dataServices.desbloquearTela();
                             });                            

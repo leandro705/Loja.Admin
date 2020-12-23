@@ -40,10 +40,10 @@ pages.atendimento.edicaoViewModel = function () {
             pages.dataServices.bloquearTela();
             service.obterPorId(atendimentoId).then(async function (result) {
 
-                let atendimento = new model.vmAtendimento(result)
+                let atendimento = new model.vmAtendimento(result.data)
 
-                await self.obterTodosServicosPorEstabelecimentoId(result.estabelecimentoId)
-                await self.obterTodosClientesPorEstabelecimentoId(result.estabelecimentoId)
+                await self.obterTodosServicosPorEstabelecimentoId(result.data.estabelecimentoId)
+                await self.obterTodosClientesPorEstabelecimentoId(result.data.estabelecimentoId)
 
                 self.atendimento(atendimento);
 
@@ -60,8 +60,8 @@ pages.atendimento.edicaoViewModel = function () {
                     });
                 }
 
-            }).catch(function (mensagem) {
-                console.log(mensagem);
+            }).catch(function (result) {
+                console.log(result.data);
             }).finally(function () {
                 pages.dataServices.desbloquearTela();
             });
@@ -71,12 +71,12 @@ pages.atendimento.edicaoViewModel = function () {
             return new Promise(function (sucesso, falha) {
                 pages.dataServices.bloquearTela();
                 service.obterTodosEstabelecimentos().then(function (result) {
-                    result.forEach(function (item) {
+                    result.data.forEach(function (item) {
                         self.estabelecimentos.push(new model.vmEstabelecimento(item));
                     });
                     sucesso();
-                }).catch(function (mensagem) {
-                    console.log(mensagem);
+                }).catch(function (result) {
+                    console.log(result.data);
                     falha();
                 }).finally(function () {
                     pages.dataServices.desbloquearTela();
@@ -88,12 +88,12 @@ pages.atendimento.edicaoViewModel = function () {
             return new Promise(function (sucesso, falha) {
                 pages.dataServices.bloquearTela();
                 service.obterTodosServicosPorEstabelecimentoId(estabelecimentoId).then(function (result) {
-                    result.forEach(function (item) {
+                    result.data.forEach(function (item) {
                         self.servicos.push(new model.vmServico(item));
                     });
                     sucesso();
-                }).catch(function (mensagem) {
-                    console.log(mensagem);
+                }).catch(function (result) {
+                    console.log(result.data);
                     falha();
                 }).finally(function () {
                     pages.dataServices.desbloquearTela();
@@ -105,12 +105,12 @@ pages.atendimento.edicaoViewModel = function () {
             return new Promise(function (sucesso, falha) {
                 pages.dataServices.bloquearTela();
                 service.obterTodosClientesPorEstabelecimentoId(estabelecimentoId).then(function (result) {
-                    result.forEach(function (item) {
+                    result.data.forEach(function (item) {
                         self.clientes.push(new model.vmCliente(item));
                     });
                     sucesso();
-                }).catch(function (mensagem) {
-                    console.log(mensagem);
+                }).catch(function (result) {
+                    console.log(result.data);
                     falha();
                 }).finally(function () {
                     pages.dataServices.desbloquearTela();
@@ -206,9 +206,11 @@ pages.atendimento.edicaoViewModel = function () {
                 bootbox.alert("Atendimento atualizado com sucesso!", function () {
                     self.voltar();
                 });
-            }).catch(function (mensagem) {
-                self.bloqueiaSalvar(false);
-                console.log(mensagem);            
+            }).catch(function (result) {
+                if (result.exibeMensagem)
+                    bootbox.alert(result.data);
+
+                self.bloqueiaSalvar(false);                
             }).finally(function () {
                 pages.dataServices.desbloquearTela();
             });

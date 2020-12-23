@@ -48,8 +48,9 @@ pages.recuperarSenha.viewModel = function () {
                 bootbox.alert("Senha alterada com sucesso!", function () {
                     window.location.href = URL_SITE;
                 });                
-            }).catch(function (mensagem) {
-                console.log(mensagem);
+            }).catch(function (result) {
+                if (result.exibeMensagem)
+                    bootbox.alert(result.data);
             }).finally(function () {
                 pages.dataServices.desbloquearTela();
             });

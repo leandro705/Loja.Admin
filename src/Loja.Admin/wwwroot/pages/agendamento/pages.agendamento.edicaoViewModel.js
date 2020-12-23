@@ -32,11 +32,11 @@ pages.agendamento.edicaoViewModel = function () {
             pages.dataServices.bloquearTela();
             service.obterPorId(agendamentoId).then(async function (result) {
 
-                let agendamento = new model.vmAgendamento(result);
+                let agendamento = new model.vmAgendamento(result.data);
                 
-                await self.obterTodosServicosPorEstabelecimentoId(result.estabelecimentoId);
-                await self.obterTodosClientesPorEstabelecimentoId(result.estabelecimentoId);
-                await self.obterHorariosDisponiveis(result.dataAgendamentoStr, result.estabelecimentoId, result.servicoId);
+                await self.obterTodosServicosPorEstabelecimentoId(result.data.estabelecimentoId);
+                await self.obterTodosClientesPorEstabelecimentoId(result.data.estabelecimentoId);
+                await self.obterHorariosDisponiveis(result.data.dataAgendamentoStr, result.data.estabelecimentoId, result.data.servicoId);
                 self.horariosDisponiveis.push(new model.vmHorarioDisponivel({
                     horarioInicial: agendamento.horaInicial(),
                     horarioFinal: agendamento.horaFinal()
@@ -82,8 +82,8 @@ pages.agendamento.edicaoViewModel = function () {
 
                 });
                 
-            }).catch(function (mensagem) {
-                console.log(mensagem);
+            }).catch(function (result) {
+                console.log(result.data);
             }).finally(function () {
                 pages.dataServices.desbloquearTela();
             });
@@ -93,12 +93,12 @@ pages.agendamento.edicaoViewModel = function () {
             return new Promise(function (sucesso, falha) {
                 pages.dataServices.bloquearTela();
                 service.obterTodosEstabelecimentos().then(function (result) {
-                    result.forEach(function (item) {
+                    result.data.forEach(function (item) {
                         self.estabelecimentos.push(new model.vmEstabelecimento(item));
                     });
                     sucesso();
-                }).catch(function (mensagem) {
-                    console.log(mensagem);
+                }).catch(function (result) {
+                    console.log(result.data);
                     falha();
                 }).finally(function () {
                     pages.dataServices.desbloquearTela();
@@ -110,12 +110,12 @@ pages.agendamento.edicaoViewModel = function () {
             return new Promise(function (sucesso, falha) {
                 pages.dataServices.bloquearTela();
                 service.obterTodosServicosPorEstabelecimentoId(estabelecimentoId).then(function (result) {
-                    result.forEach(function (item) {
+                    result.data.forEach(function (item) {
                         self.servicos.push(new model.vmServico(item));
                     });
                     sucesso();
-                }).catch(function (mensagem) {
-                    console.log(mensagem);
+                }).catch(function (result) {
+                    console.log(result.data);
                     falha();
                 }).finally(function () {
                     pages.dataServices.desbloquearTela();
@@ -127,12 +127,12 @@ pages.agendamento.edicaoViewModel = function () {
             return new Promise(function (sucesso, falha) {
                 pages.dataServices.bloquearTela();
                 service.obterTodosClientesPorEstabelecimentoId(estabelecimentoId).then(function (result) {
-                    result.forEach(function (item) {
+                    result.data.forEach(function (item) {
                         self.clientes.push(new model.vmCliente(item));
                     });
                     sucesso();
-                }).catch(function (mensagem) {
-                    console.log(mensagem);
+                }).catch(function (result) {
+                    console.log(result.data);
                     falha();
                 }).finally(function () {
                     pages.dataServices.desbloquearTela();
@@ -145,12 +145,12 @@ pages.agendamento.edicaoViewModel = function () {
                 pages.dataServices.bloquearTela();
                 self.horariosDisponiveis([]);
                 service.obterHorariosDisponiveis(dataAgendamento, estabelecimentoId, servicoId).then(function (result) {
-                    result.forEach(function (item) {
+                    result.data.forEach(function (item) {
                         self.horariosDisponiveis.push(new model.vmHorarioDisponivel(item));
                     });
                     sucesso();
-                }).catch(function (mensagem) {
-                    console.log(mensagem);
+                }).catch(function (result) {
+                    console.log(result.data);
                     falha();
                 }).finally(function () {
                     pages.dataServices.desbloquearTela();
@@ -203,8 +203,10 @@ pages.agendamento.edicaoViewModel = function () {
                 bootbox.alert("Agendamento atualizado com sucesso!", function () {
                     self.voltar();
                 });                
-            }).catch(function (mensagem) {
-                console.log(mensagem);
+            }).catch(function (result) {
+                if (result.exibeMensagem)
+                    bootbox.alert(result.data);
+
                 self.bloqueiaSalvar(false);
             }).finally(function () {
                 pages.dataServices.desbloquearTela();

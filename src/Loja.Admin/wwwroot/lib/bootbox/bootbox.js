@@ -250,18 +250,8 @@
     }
 
     options = sanitize(options);
-
-    if ($.fn.modal.Constructor.VERSION) {
-      options.fullBootstrapVersion = $.fn.modal.Constructor.VERSION;
-      var i = options.fullBootstrapVersion.indexOf('.');
-      options.bootstrap = options.fullBootstrapVersion.substring(0, i);
-    }
-    else {
-      // Assuming version 2.3.2, as that was the last "supported" 2.x version
-      options.bootstrap = '2';
-      options.fullBootstrapVersion = '2.3.2';
-      console.warn('Bootbox will *mostly* work with Bootstrap 2, but we do not officially support it. Please upgrade, if possible.');
-    }
+    options.bootstrap = '4';
+    options.fullBootstrapVersion = '4.5.2'; 
 
     var dialog = $(templates.dialog);
     var innerDialog = dialog.find('.modal-dialog');

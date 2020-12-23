@@ -55,6 +55,22 @@
                     </a>
                 </li>
                 <!-- /ko-->
+                <!-- ko if:  exibeMenuPerfil -->
+                <li>
+                    <a href="javascript:void(0);" data-bind="click:redirecionarPerfil " class="dropdown-item notify-item">
+                        <i class="ri-account-circle-line"></i>
+                        <span> Meus Dados </span>
+                    </a>
+                </li>
+                <!-- /ko-->
+                <!-- ko if:  exibeMenuEstabelecimentoContato -->
+                <li>
+                    <a asp-controller="Estabelecimento" asp-action="Contato">
+                        <i class="ri-hotel-line"></i>
+                        <span> Estabelecimento </span>
+                    </a>
+                </li>
+                <!-- /ko-->
                 <!-- ko if:  exibeMenuAgendamento -->
                 <li>
                     <a asp-controller="Agendamento" asp-action="Index">
@@ -87,6 +103,12 @@
                     </a>
                 </li>
                 <!-- /ko-->
+                <li>
+                    <a href="javascript:void(0);" class="dropdown-item notify-item" data-bind="click:function() { logoff(); }">
+                        <i class="ri-logout-box-line"></i>
+                        <span>Sair</span>
+                    </a>
+                </li>
 
             </ul>
 

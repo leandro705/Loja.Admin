@@ -6,9 +6,9 @@ var binding = document.getElementById("binding");
 if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
     URL_API = "http://localhost:5000";
     URL_SITE = "http://localhost:5001";
-} else if (location.hostname === "loja-app.azurewebsites.net") {
-    URL_API = "https://api-loja.azurewebsites.net";
-    URL_SITE = "https://loja-app.azurewebsites.net";    
+} else if (location.hostname === "loja-705-app.herokuapp.com") {
+    URL_API = "https://loja-705-api.herokuapp.com";
+    URL_SITE = "https://loja-705-app.herokuapp.com";
 }
 
 var getCurrentAccessToken = function () {

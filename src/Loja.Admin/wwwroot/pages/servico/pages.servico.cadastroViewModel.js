@@ -27,11 +27,11 @@ pages.servico.cadastroViewModel = function () {
         self.obterTodosEstabelecimentos = function () {
             pages.dataServices.bloquearTela();
             service.obterTodosEstabelecimentos().then(function (result) {
-                result.forEach(function (item) {
+                result.data.forEach(function (item) {
                     self.estabelecimentos.push(new model.vmEstabelecimento(item));
                 });
-            }).catch(function (mensagem) {
-                console.log(mensagem);
+            }).catch(function (result) {
+                console.log(result.data);
             }).finally(function () {
                 pages.dataServices.desbloquearTela();
             });
@@ -73,9 +73,11 @@ pages.servico.cadastroViewModel = function () {
                 bootbox.alert("Serviço salvo com sucesso!", function () {
                     self.voltar();
                 });                
-            }).catch(function (mensagem) {
+            }).catch(function (result) {                
+                if (result.exibeMensagem)
+                    bootbox.alert(result.data);         
+
                 self.bloqueiaSalvar(false);
-                console.log(mensagem);           
             }).finally(function () {
                 pages.dataServices.desbloquearTela();
             });

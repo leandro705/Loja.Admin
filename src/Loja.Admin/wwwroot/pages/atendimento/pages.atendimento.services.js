@@ -14,7 +14,7 @@ pages.atendimento.services = function () {
     }
 
     var obterTodosServicosPorEstabelecimentoId = function (estabelecimentoId) {
-        var url = pages.metadata.actionUrl("/api/servicos?estabelecimentoId=" + estabelecimentoId);
+        var url = pages.metadata.actionUrl("/api/servicos/ativo?estabelecimentoId=" + estabelecimentoId);
         return pages.dataServices.get(url);
     }
 

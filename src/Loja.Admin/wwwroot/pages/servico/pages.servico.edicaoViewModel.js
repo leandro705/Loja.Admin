@@ -30,11 +30,11 @@ pages.servico.edicaoViewModel = function () {
         self.obterTodosEstabelecimentos = function () {
             pages.dataServices.bloquearTela();
             service.obterTodosEstabelecimentos().then(function (result) {
-                result.forEach(function (item) {
+                result.data.forEach(function (item) {
                     self.estabelecimentos.push(new model.vmEstabelecimento(item));
                 });
-            }).catch(function (mensagem) {
-                console.log(mensagem);
+            }).catch(function (result) {
+                console.log(result.data);
             }).finally(function () {
                 pages.dataServices.desbloquearTela();
             });
@@ -43,9 +43,9 @@ pages.servico.edicaoViewModel = function () {
         self.obterServicoPorId = function (servicoId) {      
             pages.dataServices.bloquearTela();
             service.obterPorId(servicoId).then(function (result) {
-                self.servico(new model.vmServico(result));                             
-            }).catch(function (mensagem) {
-                console.log(mensagem);             
+                self.servico(new model.vmServico(result.data));                             
+            }).catch(function (result) {
+                console.log(result.data);             
             }).finally(function () {
                 pages.dataServices.desbloquearTela();
             });            
@@ -88,8 +88,10 @@ pages.servico.edicaoViewModel = function () {
                 bootbox.alert("Serviço atualizado com sucesso!", function () {
                     self.voltar();
                 });                
-            }).catch(function (mensagem) {
-                console.log(mensagem);
+            }).catch(function (result) {                                
+                if (result.exibeMensagem)
+                    bootbox.alert(result.data);
+
                 self.bloqueiaSalvar(false);
             }).finally(function () {
                 pages.dataServices.desbloquearTela();

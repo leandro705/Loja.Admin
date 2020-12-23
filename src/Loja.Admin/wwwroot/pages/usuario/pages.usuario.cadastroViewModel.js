@@ -41,11 +41,11 @@ pages.usuario.cadastroViewModel = function () {
         self.obterTodosEstabelecimentos = function () {
             pages.dataServices.bloquearTela();
             service.obterTodosEstabelecimentos().then(function (result) {
-                result.forEach(function (item) {
+                result.data.forEach(function (item) {
                     self.estabelecimentos.push(new model.vmEstabelecimento(item));
                 });
-            }).catch(function (mensagem) {
-                console.log(mensagem);
+            }).catch(function (result) {
+                console.log(result.data);
             }).finally(function () {
                 pages.dataServices.desbloquearTela();
             });
@@ -54,11 +54,11 @@ pages.usuario.cadastroViewModel = function () {
         self.obterEstados = function () {
             pages.dataServices.bloquearTela();
             service.obterEstados().then(function (result) {
-                result.forEach(function (item) {
+                result.data.forEach(function (item) {
                     self.estados.push(new model.vmEstado(item));
                 });
-            }).catch(function (mensagem) {
-                console.log(mensagem);
+            }).catch(function (result) {
+                console.log(result.data);
             }).finally(function () {
                 pages.dataServices.desbloquearTela();
             });
@@ -68,11 +68,11 @@ pages.usuario.cadastroViewModel = function () {
             self.municipios([]);
             pages.dataServices.bloquearTela();
             service.obterMunicipioPorEstadoId(estadoId).then(function (result) {
-                result.forEach(function (item) {
+                result.data.forEach(function (item) {
                     self.municipios.push(new model.vmMunicipio(item));
                 });                   
-            }).catch(function (mensagem) {
-                console.log(mensagem);                   
+            }).catch(function (result) {
+                console.log(result.data);                   
             }).finally(function () {
                 pages.dataServices.desbloquearTela();
             });           
@@ -157,9 +157,11 @@ pages.usuario.cadastroViewModel = function () {
                 bootbox.alert("Usuário salvo com sucesso!", function () {
                     self.voltar();
                 }); 
-            }).catch(function (mensagem) {
-                self.bloqueiaSalvar(false);
-                console.log(mensagem);
+            }).catch(function (result) {
+                if (result.exibeMensagem)
+                    bootbox.alert(result.data);
+
+                self.bloqueiaSalvar(false);                
             }).finally(function () {
                 pages.dataServices.desbloquearTela();
             });

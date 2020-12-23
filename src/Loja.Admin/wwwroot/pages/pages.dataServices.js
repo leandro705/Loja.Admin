@@ -10,23 +10,46 @@ pages.dataServices = function () {
                         var data = null;
                         try { data = JSON.parse(resposta.data); }
                         catch (ex) { data = resposta.data; }
-                        sucesso(data);
+                        let result = {
+                            data,
+                            status: true,
+                            exibeMensagem: false
+                        };
+                        sucesso(result);                        
                     }
-                    else {
-                        bootbox.alert(resposta.errors.join("</br>") || "Erro ao realizar operação.");
-                        falha();
+                    else {                        
+                        let result = {
+                            data: resposta.errors.join("</br>") || "Erro ao realizar operação.",
+                            status: false,
+                            exibeMensagem: true
+                        };
+                        falha(result);
                     }  
                 })
                 .fail(function (error) {
                     if (typeof error == 'string') {
-                        bootbox.alert(error);
-                        falha();
+                        let result = {
+                            data: error || "Erro ao realizar operação.",
+                            status: false,
+                            exibeMensagem: true
+                        };
+                        falha(result);
                     }
-                    else if (error.status === 401 || error.status === 403)
-                        falha("Acesso não permitido!");
+                    else if (error.status === 401 || error.status === 403) {
+                        let result = {
+                            data: "Acesso não permitido!",
+                            status: false,
+                            exibeMensagem: false
+                        };
+                        falha(result);      
+                    }                      
                     else {
-                        bootbox.alert("Erro ao realizar operação.");
-                        falha();
+                        let result = {
+                            data: "Erro ao realizar operação!",
+                            status: false,
+                            exibeMensagem: true
+                        };
+                        falha(result);                      
                     }
                 });
         });
@@ -36,11 +59,21 @@ pages.dataServices = function () {
         if (!parametros) parametros = {};
         return new Promise(function (sucesso, falha) {
             $.post(url, parametros, function (resposta, status) {
-                if (status === "success" && resposta.statusCode === 200)
-                    sucesso(resposta.data);
+                if (status === "success" && resposta.statusCode === 200) {
+                    let result = {
+                        data: resposta.data,
+                        status: true,
+                        exibeMensagem: false
+                    };
+                    sucesso(result); 
+                }                  
                 else {
-                    bootbox.alert(resposta.errors.join("</br>") || "Erro ao realizar operação.");
-                    falha();
+                    let result = {
+                        data: resposta.errors.join("</br>") || "Erro ao realizar operação.",
+                        status: false,
+                        exibeMensagem: true
+                    };
+                    falha(result);                  
                 }  
             }, "json");
         });
@@ -56,24 +89,48 @@ pages.dataServices = function () {
                 url: url,
                 data: JSON.stringify(parametros),
                 success: function (resposta) {
-                    if (resposta.statusCode === 200)
-                        sucesso(resposta.data);
+                    if (resposta.statusCode === 200) {
+                        let result = {
+                            data: resposta.data,
+                            status: true,
+                            exibeMensagem: false
+                        };
+                        sucesso(result);
+                    }
                     else {
-                        bootbox.alert(resposta.errors.join("</br>") || "Erro ao realizar operação.");
-                        falha();
-                    }  
+                        let result = {
+                            data: resposta.errors.join("</br>") || "Erro ao realizar operação.",
+                            status: false,
+                            exibeMensagem: true
+                        };
+                        falha(result);
+                    }
                 },
                 error: function (error) {
                     if (typeof error == 'string') {
-                        bootbox.alert(error);
-                        falha();
+                        let result = {
+                            data: error || "Erro ao realizar operação.",
+                            status: false,
+                            exibeMensagem: true
+                        };
+                        falha(result);
                     }
-                    else if (error.status === 401 || error.status === 403)
-                        falha("Acesso não permitido!");
+                    else if (error.status === 401 || error.status === 403) {
+                        let result = {
+                            data: "Acesso não permitido!",
+                            status: false,
+                            exibeMensagem: false
+                        };
+                        falha(result);
+                    }
                     else {
-                        bootbox.alert("Erro ao realizar operação.");
-                        falha();
-                    }            
+                        let result = {
+                            data: "Erro ao realizar operação!",
+                            status: false,
+                            exibeMensagem: true
+                        };
+                        falha(result);
+                    }    
                 }
             });
         });
@@ -89,23 +146,107 @@ pages.dataServices = function () {
                 url: url,
                 data: JSON.stringify(parametros),
                 success: function (resposta) {
-                    if (resposta.statusCode === 200)
-                        sucesso(resposta.data);
+                    if (resposta.statusCode === 200) {
+                        let result = {
+                            data: resposta.data,
+                            status: true,
+                            exibeMensagem: false
+                        };
+                        sucesso(result);
+                    }
                     else {
-                        bootbox.alert(resposta.errors.join("</br>") || "Erro ao realizar operação.");
-                        falha();
-                    }  
+                        let result = {
+                            data: resposta.errors.join("</br>") || "Erro ao realizar operação.",
+                            status: false,
+                            exibeMensagem: true
+                        };
+                        falha(result);
+                    }                    
                 },
                 error: function (error) {
                     if (typeof error == 'string') {
-                        bootbox.alert(error);
-                        falha();
+                        let result = {
+                            data: error || "Erro ao realizar operação.",
+                            status: false,
+                            exibeMensagem: true
+                        };
+                        falha(result);
                     }
-                    else if (error.status === 401 || error.status === 403)
-                        falha("Acesso não permitido!");
+                    else if (error.status === 401 || error.status === 403) {
+                        let result = {
+                            data: "Acesso não permitido!",
+                            status: false,
+                            exibeMensagem: false
+                        };
+                        falha(result);
+                    }
                     else {
-                        bootbox.alert("Erro ao realizar operação.");
-                        falha();
+                        let result = {
+                            data: "Erro ao realizar operação!",
+                            status: false,
+                            exibeMensagem: true
+                        };
+                        falha(result);
+                    }
+                }
+            });
+        });
+    }
+
+    var postAuthorizationAjax = function (url, parametros, token) {
+        if (!parametros) parametros = {};
+        return new Promise(function (sucesso, falha) {
+            $.ajax({
+                type: "POST",
+                dataType: "JSON",
+                contentType: "application/json; charset=utf-8",
+                url: url,
+                headers: {
+                    "Authorization": "Bearer " + token
+                },
+                data: JSON.stringify(parametros),
+                success: function (resposta) {
+                    if (resposta.statusCode === 200) {
+                        let result = {
+                            data: resposta.data,
+                            status: true,
+                            exibeMensagem: false
+                        };
+                        sucesso(result);
+                    }
+                    else {
+                        let result = {
+                            data: resposta.errors.join("</br>") || "Erro ao realizar operação.",
+                            status: false,
+                            exibeMensagem: true
+                        };
+                        falha(result);
+                    }
+                },
+                error: function (error) {
+                    if (typeof error == 'string') {
+                        let result = {
+                            data: error || "Erro ao realizar operação.",
+                            status: false,
+                            exibeMensagem: true
+                        };
+                        falha(result);
+                    }
+                    else if (error.status === 401 || error.status === 403) {
+                        let result = {
+                            data: "Acesso não permitido!",
+                            status: false,
+                            exibeMensagem: false
+                        };
+                        falha(result);
+                    }
+                    else {
+                        let result = {
+                            data: "Erro ao realizar operação!",
+                            status: false,
+                            exibeMensagem: true
+                        };
+                        falha(result);
                     }
                 }
             });
@@ -120,23 +261,47 @@ pages.dataServices = function () {
                 contentType: "application/json; charset=utf-8",
                 url: url,                
                 success: function (resposta) {
-                    if (resposta.statusCode === 200)
-                        sucesso(resposta.data);
+                    if (resposta.statusCode === 200) {
+                        let result = {
+                            data: resposta.data,
+                            status: true,
+                            exibeMensagem: false
+                        };
+                        sucesso(result);
+                    }
                     else {
-                        bootbox.alert(resposta.errors.join("</br>") || "Erro ao realizar operação.");
-                        falha();
-                    }                        
+                        let result = {
+                            data: resposta.errors.join("</br>") || "Erro ao realizar operação.",
+                            status: false,
+                            exibeMensagem: true
+                        };
+                        falha(result);
+                    }                                     
                 },
                 error: function (error) {
                     if (typeof error == 'string') {
-                        bootbox.alert(error);
-                        falha();
+                        let result = {
+                            data: error || "Erro ao realizar operação.",
+                            status: false,
+                            exibeMensagem: true
+                        };
+                        falha(result);
                     }
-                    else if (error.status === 401 || error.status === 403)
-                        falha("Acesso não permitido!");
+                    else if (error.status === 401 || error.status === 403) {
+                        let result = {
+                            data: "Acesso não permitido!",
+                            status: false,
+                            exibeMensagem: false
+                        };
+                        falha(result);
+                    }
                     else {
-                        bootbox.alert("Erro ao realizar operação.");
-                        falha();
+                        let result = {
+                            data: "Erro ao realizar operação!",
+                            status: false,
+                            exibeMensagem: true
+                        };
+                        falha(result);
                     }
                 }
             });
@@ -166,6 +331,7 @@ pages.dataServices = function () {
         postAjax,
         deleteAjax,
         bloquearTela,
-        desbloquearTela
+        desbloquearTela,
+        postAuthorizationAjax
     };
 }();

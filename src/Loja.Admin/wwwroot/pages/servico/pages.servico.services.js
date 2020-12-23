@@ -33,12 +33,24 @@ pages.servico.services = function () {
         return pages.dataServices.putAjax(url, parametro);
     } 
 
+    var ativar = function (id) {
+        var url = pages.metadata.actionUrl("/api/servicos/" + id + "/ativar");
+        return pages.dataServices.putAjax(url);
+    } 
+
+    var desativar = function (id) {
+        var url = pages.metadata.actionUrl("/api/servicos/" + id + "/desativar");
+        return pages.dataServices.putAjax(url);
+    } 
+
     return {    
         obterTodosEstabelecimentos,
         obterTodos,
         obterPorId,
         atualizar,
         salvar,
-        deletar
+        deletar,
+        ativar,
+        desativar
     };
 }();

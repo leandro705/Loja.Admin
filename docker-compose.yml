@@ -1,0 +1,12 @@
+version: '3.5'
+
+services:
+
+  app:   
+    image: loja.admin
+    build: 
+      context: .   
+    environment:       
+      - PORT=80
+    ports:
+     - "80:80"   

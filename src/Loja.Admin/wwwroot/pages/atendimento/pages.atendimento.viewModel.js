@@ -25,11 +25,11 @@ pages.atendimento.viewModel = function () {
         self.obterAtendimentos = function (estabelecimentoId) {
             pages.dataServices.bloquearTela();
             service.obterTodos(estabelecimentoId).then(function (result) {
-                result.forEach(function (item) {
+                result.data.forEach(function (item) {
                     self.atendimentos.push(new model.vmAtendimento(item));
                 });                
-            }).catch(function (mensagem) {
-                console.log(mensagem);
+            }).catch(function (result) {
+                console.log(result.data);
             }).finally(function () {
                 self.inicializarDatatable();
                 pages.dataServices.desbloquearTela();
@@ -84,8 +84,9 @@ pages.atendimento.viewModel = function () {
                                 bootbox.alert("Atendimento excluído com sucesso!", function () {  
                                     location.reload();                                                                      
                                 });                                 
-                            }).catch(function (mensagem) {
-                                console.log(mensagem);
+                            }).catch(function (result) {
+                                if (result.exibeMensagem)
+                                    bootbox.alert(result.data);
                             }).finally(function () {
                                 pages.dataServices.desbloquearTela();
                             });                            
@@ -113,8 +114,9 @@ pages.atendimento.viewModel = function () {
                                 bootbox.alert("Atendimento finalizado com sucesso!", function () {
                                     location.reload();
                                 });
-                            }).catch(function (mensagem) {
-                                console.log(mensagem);
+                            }).catch(function (result) {
+                                if (result.exibeMensagem)
+                                    bootbox.alert(result.data);
                             }).finally(function () {
                                 pages.dataServices.desbloquearTela();
                             });

@@ -2,7 +2,7 @@
 pages.login = pages.login || {};
 pages.login.services = pages.login.services || {};
 var service = pages.login.services;
-        
+
 // Load the JavaScript SDK asynchronously
 (function (d, s, id) {
     var js, fjs = d.getElementsByTagName(s)[0];
@@ -13,7 +13,7 @@ var service = pages.login.services;
 }(document, 'script', 'facebook-jssdk'));
         
 
-fbAsyncInit = function () {
+fbAsyncInit = function () {   
     // FB JavaScript SDK configuration and setup
     FB.init({
         appId: '331933181397981',
@@ -42,20 +42,23 @@ getFbUserData = function() {
             var parametro = {
                 email: response.email,
                 senha: response.id,
-                nome: response.name
+                nome: response.name,
+                estabelecimentoId: EstabelecimentoId
             };
-            loginFacebook(parametro);
+            let token = '';
+            loginFacebook(parametro, token);
         });
 }        
 
-loginFacebook = function (parametro) {
+loginFacebook = function (parametro, token) {
     pages.dataServices.bloquearTela();
-    service.loginFacebook(parametro).then(function (result) {
-        console.log(result)
-        localStorage.setItem("token", JSON.stringify(result));
+    service.loginFacebook(parametro, token).then(function (result) {
+        console.log(result.data)
+        localStorage.setItem("token", JSON.stringify(result.data));
         redirectToPageByRole();
-    }).catch(function (mensagem) {
-        console.log(mensagem);
+    }).catch(function (result) {
+        if (result.exibeMensagem)
+            bootbox.alert(result.data);
     }).finally(function () {
         pages.dataServices.desbloquearTela();
     });

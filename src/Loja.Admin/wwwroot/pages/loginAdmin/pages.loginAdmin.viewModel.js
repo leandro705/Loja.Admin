@@ -44,11 +44,12 @@ pages.loginAdmin.viewModel = function () {
 
             pages.dataServices.bloquearTela();
             service.login(parametro).then(function (result) {
-                console.log(result)
-                localStorage.setItem("token", JSON.stringify(result));
+                console.log(result.data)
+                localStorage.setItem("token", JSON.stringify(result.data));
                 redirectToPageByRole();
-            }).catch(function (mensagem) {
-                console.log(mensagem);
+            }).catch(function (result) {
+                if (result.exibeMensagem)
+                    bootbox.alert(result.data);
             }).finally(function () {
                 pages.dataServices.desbloquearTela();
             });
