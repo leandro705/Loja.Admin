@@ -28,14 +28,14 @@ fbAsyncInit = function () {
 checkLoginState = function () {
     FB.getLoginStatus(function (response) {
         if (response.authResponse) 
-            getFbUserData();
+            getFbUserData(response.authResponse.accessToken);
         else 
             bootbox.alert("Falha na autenticação!");
     });
 }
 
 // Fetch the user profile data from facebook
-getFbUserData = function() {
+getFbUserData = function(token) {
     FB.api('/me', { locale: 'pt_BR', fields: 'name,email' },
         function (response) {
             console.log(JSON.stringify(response));
@@ -45,7 +45,7 @@ getFbUserData = function() {
                 nome: response.name,
                 estabelecimentoId: EstabelecimentoId
             };
-            let token = '';
+            
             loginFacebook(parametro, token);
         });
 }        

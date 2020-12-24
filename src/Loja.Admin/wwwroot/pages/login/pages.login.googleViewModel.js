@@ -24,10 +24,10 @@ onSuccess = function (googleUser) {
         email: profile.getEmail(),
         senha: profile.getId(),
         nome: profile.getName(),
-        token: googleUser.getAuthResponse().id_token,
+        token: googleUser.getAuthResponse().access_token,
         estabelecimentoId: EstabelecimentoId
     };
-    let token = googleUser.getAuthResponse().id_token;
+    let token = googleUser.getAuthResponse().access_token;
     loginGoogle(parametro, token);
 }
 

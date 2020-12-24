@@ -51,3 +51,7 @@ span.buttonText {
     font-size: 14px;
     font-weight: 500;   
 }
+
+.fb-login-button {
+    width: 100%;
+}
