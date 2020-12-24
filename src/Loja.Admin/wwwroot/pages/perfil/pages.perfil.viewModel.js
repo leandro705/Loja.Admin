@@ -140,7 +140,7 @@ pages.perfil.viewModel = function () {
             pages.dataServices.bloquearTela();
             service.atualizarUsuario(self.dadosUsuario().id(), parametro).then(function () {
                 bootbox.alert("Usuário atualizado com sucesso!");                   
-                //pages.menu.viewModel.atualizaNome(self.dadosUsuario().nome());
+                pages.menu.viewModel.atualizarNome(self.dadosUsuario().nome());
             }).catch(function (result) {
                 if (result.exibeMensagem)
                     bootbox.alert(result.data);

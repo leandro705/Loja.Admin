@@ -56,9 +56,9 @@
                                     <td data-bind="text: situacao"></td>
                                     <td data-bind="text: estabelecimentoNome"></td>
                                     <td>
-                                        <button type="button" class="btn btn-success waves-effect waves-light" title="Iniciar Atendimento" data-bind="click: $parent.iniciarAtendimento, visible: !possuiAtendimento()"><i class="mdi mdi-tag-multiple-outline"></i></button>
-                                        <button type="button" class="btn btn-warning waves-effect waves-light" title="Editar" data-bind="click: $parent.editar"><i class="mdi mdi-pencil-outline"></i></button>
-                                        <button type="button" class="btn btn-danger waves-effect waves-light" title="Excluir" data-bind="click: $parent.excluir"><i class="mdi mdi-trash-can-outline"></i></button>
+                                        <button id="btnIniciarAtendimento" type="button" class="btn btn-success waves-effect waves-light" title="Iniciar Atendimento" data-bind="value: agendamentoId, visible: !possuiAtendimento()"><i class="mdi mdi-tag-multiple-outline"></i></button>
+                                        <button id="btnEditar" type="button" class="btn btn-warning waves-effect waves-light" title="Editar" data-bind="value: agendamentoId"><i class="mdi mdi-pencil-outline"></i></button>
+                                        <button id="btnExcluir" type="button" class="btn btn-danger waves-effect waves-light" title="Excluir" data-bind="value: agendamentoId"><i class="mdi mdi-trash-can-outline"></i></button>
                                     </td>
                                 </tr>
                             </tbody>

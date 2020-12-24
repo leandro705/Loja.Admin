@@ -32,7 +32,7 @@ pages.agendamento.model = function () {
         self.horarioFinal = ko.observable(horarioDisponivel.horarioFinal);
     };
 
-    var vmAgendamento = function (agendamento) {
+    var vmAgendamento = function (agendamento, adicionarHorarioDisponivel) {
         var self = this;
 
         self.agendamentoId = ko.observable();
@@ -112,7 +112,7 @@ pages.agendamento.model = function () {
         };
 
         if (agendamento) {
-            self.iniciar(agendamento);
+            self.iniciar(agendamento, adicionarHorarioDisponivel);
         }
     };   
 

@@ -11,7 +11,7 @@ pages.menu.viewModel = function () {
     var model = pages.menu.model;
     var service = pages.menu.services;
 
-    ko.applyBindings(new function () {
+    var viewModelMenu = new function () {
         var self = this;       
         
         self.usuarioLogado = ko.observable(new model.vmUsuarioLogado(getDataToken()));          
@@ -22,7 +22,7 @@ pages.menu.viewModel = function () {
         };
 
         self.atualizarNome = function (nome) {
-            atualizaNome(nome);
+            atualizarNome(nome);
             self.usuarioLogado().nome(nome);
         };
 
@@ -122,6 +122,8 @@ pages.menu.viewModel = function () {
         });
 
         
+    };
 
-    }, binding);
+    ko.applyBindings(viewModelMenu, binding);    
+    return viewModelMenu;
 }();

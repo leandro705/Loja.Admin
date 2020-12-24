@@ -11,7 +11,7 @@ pages.atendimento.viewModel = function () {
     var model = pages.atendimento.model;
     var service = pages.atendimento.services;
    
-    ko.applyBindings(new function () {
+    var viewModelAtendimento = new function () {
         var self = this;       
         
         self.atendimentos = ko.observableArray([]);
@@ -61,15 +61,15 @@ pages.atendimento.viewModel = function () {
             self.datatable(table);
         }; 
 
-        self.editar = function (item) {
+        self.editar = function (atendimentoId) {
             pages.dataServices.bloquearTela()
-            window.location.href = "/Atendimento/Edicao/" + item.atendimentoId();
+            window.location.href = "/Atendimento/Edicao/" + atendimentoId;
         };
 
-        self.excluir = function (item) {
+        self.excluir = function (atendimentoId) {
             bootbox.dialog({
                 closeButton: false,
-                message: "Confirma a exclusão do atendimento <strong>" + item.atendimentoId() + "</strong>!",               
+                message: "Confirma a exclusão do atendimento?",               
                 buttons: {
                     nao: {
                         label: "NÃO",
@@ -80,7 +80,7 @@ pages.atendimento.viewModel = function () {
                         className: "btn-sm btn-primary",
                         callback: function () {
                             pages.dataServices.bloquearTela();
-                            service.deletar(item.atendimentoId()).then(function () {
+                            service.deletar(atendimentoId).then(function () {
                                 bootbox.alert("Atendimento excluído com sucesso!", function () {  
                                     location.reload();                                                                      
                                 });                                 
@@ -96,10 +96,10 @@ pages.atendimento.viewModel = function () {
             });            
         };   
 
-        self.finalizarAtendimento = function (item) {
+        self.finalizarAtendimento = function (atendimentoId) {
             bootbox.dialog({
                 closeButton: false,
-                message: "Confirma a finalização do atendimento <strong>" + item.atendimentoId() + "</strong>!",
+                message: "Confirma a finalização do atendimento?",
                 buttons: {
                     nao: {
                         label: "NÃO",
@@ -110,7 +110,7 @@ pages.atendimento.viewModel = function () {
                         className: "btn-sm btn-primary",
                         callback: function () {
                             pages.dataServices.bloquearTela();
-                            service.finalizarAtendimento(item.atendimentoId()).then(function () {
+                            service.finalizarAtendimento(atendimentoId).then(function () {
                                 bootbox.alert("Atendimento finalizado com sucesso!", function () {
                                     location.reload();
                                 });
@@ -128,5 +128,23 @@ pages.atendimento.viewModel = function () {
 
         self.init();
 
-    }, bindingBody);
+    };
+
+    ko.applyBindings(viewModelAtendimento, bindingBody);
+
+    $('#datatable-atendimento tbody').on('click', '#btnEditar', function (event) {
+        var atendimentoId = event.currentTarget.value;
+        viewModelAtendimento.editar(atendimentoId);
+    });
+
+    $('#datatable-atendimento tbody').on('click', '#btnFinalizarAtendimento', function (event) {
+        var atendimentoId = event.currentTarget.value;
+        viewModelAtendimento.finalizarAtendimento(atendimentoId);
+    });
+
+    $('#datatable-atendimento tbody').on('click', '#btnExcluir', function (event) {
+        var atendimentoId = event.currentTarget.value;
+        viewModelAtendimento.excluir(atendimentoId);
+    });    
+    
 }();

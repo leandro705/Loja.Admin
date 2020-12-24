@@ -32,15 +32,11 @@ pages.agendamento.edicaoViewModel = function () {
             pages.dataServices.bloquearTela();
             service.obterPorId(agendamentoId).then(async function (result) {
 
-                let agendamento = new model.vmAgendamento(result.data);
+                let agendamento = new model.vmAgendamento(result.data, self.adicionarHorarioDisponivel);
                 
                 await self.obterTodosServicosPorEstabelecimentoId(result.data.estabelecimentoId);
                 await self.obterTodosClientesPorEstabelecimentoId(result.data.estabelecimentoId);
-                await self.obterHorariosDisponiveis(result.data.dataAgendamentoStr, result.data.estabelecimentoId, result.data.servicoId);
-                self.horariosDisponiveis.push(new model.vmHorarioDisponivel({
-                    horarioInicial: agendamento.horaInicial(),
-                    horarioFinal: agendamento.horaFinal()
-                }));
+                await self.obterHorariosDisponiveis(result.data.dataAgendamentoStr, result.data.estabelecimentoId, result.data.servicoId);              
 
                 self.agendamento(agendamento);
 
@@ -56,14 +52,15 @@ pages.agendamento.edicaoViewModel = function () {
                         self.obterTodosClientesPorEstabelecimentoId(estabelecimentoId);
                     });
                 }       
+                setTimeout(function () {
+                    self.agendamento().horaInicial.subscribe(function (horaInicial) {
+                        if (!horaInicial) return;
 
-                self.agendamento().horaInicial.subscribe(function (horaInicial) {
-                    if (!horaInicial) return;
+                        let horario = self.horariosDisponiveis().firstOrDefault(x => x.horarioInicial() === horaInicial);
 
-                    let horario = self.horariosDisponiveis().firstOrDefault(x => x.horarioInicial() === horaInicial);
-
-                    self.agendamento().horaFinal(horario.horarioFinal());
-                });
+                        self.agendamento().horaFinal(horario.horarioFinal());
+                    });
+                }, 500);  
 
                 ko.computed(function () {
 
@@ -87,6 +84,10 @@ pages.agendamento.edicaoViewModel = function () {
             }).finally(function () {
                 pages.dataServices.desbloquearTela();
             });
+        };
+
+        self.adicionarHorarioDisponivel = function (vmHorarioDisponivel) {
+            self.horariosDisponiveis.push(vmHorarioDisponivel);
         };
 
         self.obterTodosEstabelecimentos = function () {

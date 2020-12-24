@@ -11,7 +11,7 @@ pages.agendamento.viewModel = function () {
     var model = pages.agendamento.model;
     var service = pages.agendamento.services;
    
-    ko.applyBindings(new function () {
+    var viewModelAgendamento = new function () {
         var self = this;       
         
         self.agendamentos = ko.observableArray([]);
@@ -67,20 +67,20 @@ pages.agendamento.viewModel = function () {
             self.datatable(table);
         }; 
 
-        self.editar = function (item) {
+        self.editar = function (agendamentoId) {
             pages.dataServices.bloquearTela()
-            window.location.href = "/Agendamento/Edicao/" + item.agendamentoId();
+            window.location.href = "/Agendamento/Edicao/" + agendamentoId;
         };
 
-        self.iniciarAtendimento = function (item) {
+        self.iniciarAtendimento = function (agendamentoId) {
             pages.dataServices.bloquearTela()
-            window.location.href = "/Atendimento/Cadastro?agendamentoId=" + item.agendamentoId();
+            window.location.href = "/Atendimento/Cadastro?agendamentoId=" + agendamentoId;
         };
 
-        self.excluir = function (item) {
+        self.excluir = function (agendamentoId) {
             bootbox.dialog({
                 closeButton: false,
-                message: "Confirma a exclusão do agendamento <strong>" + item.dataAgendamentoStr() + ' ' + item.horaInicial() + "</strong>!",               
+                message: "Confirma a exclusão do agendamento?",               
                 buttons: {
                     nao: {
                         label: "NÃO",
@@ -91,7 +91,7 @@ pages.agendamento.viewModel = function () {
                         className: "btn-sm btn-primary",
                         callback: function () {
                             pages.dataServices.bloquearTela();
-                            service.deletar(item.agendamentoId()).then(function () {
+                            service.deletar(agendamentoId).then(function () {
                                 bootbox.alert("Agendamento excluído com sucesso!", function () {  
                                     location.reload();                                                                      
                                 });                                 
@@ -108,6 +108,22 @@ pages.agendamento.viewModel = function () {
         };       
 
         self.init();
+    };
 
-    }, bindingBody);
+    ko.applyBindings(viewModelAgendamento, bindingBody);   
+
+    $('#datatable-agendamento tbody').on('click', '#btnEditar', function (event) {
+        var agendamentoId = event.currentTarget.value;
+        viewModelAgendamento.editar(agendamentoId);
+    });
+
+    $('#datatable-agendamento tbody').on('click', '#btnIniciarAtendimento', function (event) {
+        var agendamentoId = event.currentTarget.value;
+        viewModelAgendamento.iniciarAtendimento(agendamentoId);
+    });
+
+    $('#datatable-agendamento tbody').on('click', '#btnExcluir', function (event) {
+        var agendamentoId = event.currentTarget.value;
+        viewModelAgendamento.excluir(agendamentoId);
+    });    
 }();

@@ -228,6 +228,22 @@ pages.agendamento.calendarioViewModel = function () {
         };
       
         self.inicializarCalendario = function () {
+
+            var initialView = 'dayGridMonth';
+            var headerToolbar = {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
+            };
+
+            if (isMobile()) {
+                initialView = 'timeGridDay';
+                headerToolbar = {
+                    left: 'prev,next',
+                    center: 'title',
+                    right: 'timeGridDay'
+                };
+            }
             
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -235,11 +251,7 @@ pages.agendamento.calendarioViewModel = function () {
                 themeSystem: 'cerulean',
                 bootstrapFontAwesome: false,
                 allDaySlot: false,
-                headerToolbar: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
-                },
+                headerToolbar: headerToolbar,
                 views: {
                     day: {
                         titleFormat: { year: 'numeric', month: '2-digit', day: '2-digit' }
@@ -248,7 +260,7 @@ pages.agendamento.calendarioViewModel = function () {
                         titleFormat: { year: 'numeric', month: '2-digit', day: '2-digit' }
                     }
                 },
-                initialView: 'dayGridMonth',
+                initialView: initialView,
                 navLinks: false,
                 businessHours: false,
                 editable: false,
@@ -265,8 +277,9 @@ pages.agendamento.calendarioViewModel = function () {
                         if (status === "success" && result.data) {
                             successCallback(
                                 result.data.map(function (agendamento) {
+                                    var titulo = self.usuarioLogado().perfil() === service.EPerfil.CLIENTE && self.usuarioLogado().id() != agendamento.userId ? 'Reservado' : agendamento.usuarioNome;
                                     return {
-                                        title: agendamento.usuarioNome + ' - ' + agendamento.servicoNome,
+                                        title: titulo,
                                         start: agendamento.dataAgendamento,
                                         end: agendamento.dataFinalAgendamento,
                                         agendamentoId: agendamento.agendamentoId
@@ -308,13 +321,7 @@ pages.agendamento.calendarioViewModel = function () {
             }                
                     
             self.servicosCadastro(self.servicos());
-            self.clientesCadastro(self.clientes());
-
-            //if (info.view.type == 'timeGridDay') {
-            //    let horaInicial = pages.utils.format(info.date, 'HH:mm');
-            //    self.agendamento().horaInicial(horaInicial);
-            //}
-
+            self.clientesCadastro(self.clientes());          
             self.modalAgendamento(true);
             
         };

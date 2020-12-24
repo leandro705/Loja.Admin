@@ -6,8 +6,7 @@ pages.menu.services = function () {
     var EPerfil = {
         ADMINISTRADOR: "Administrador",
         GERENTE: "Gerente",
-        CLIENTE: "Cliente",
-        FUNCIONARIO: "Funcionario"
+        CLIENTE: "Cliente"
     }; 
 
     var login = function (parametro) {

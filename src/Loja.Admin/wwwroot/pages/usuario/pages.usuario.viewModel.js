@@ -11,7 +11,7 @@ pages.usuario.viewModel = function () {
     var model = pages.usuario.model;
     var service = pages.usuario.services;
    
-    ko.applyBindings(new function () {
+    var viewModelUsuario = new function () {
         var self = this;       
         
         self.usuarios = ko.observableArray([]);
@@ -66,15 +66,15 @@ pages.usuario.viewModel = function () {
             self.datatable(table);
         }; 
 
-        self.editar = function (item) {
+        self.editar = function (usuarioId) {
             pages.dataServices.bloquearTela()
-            window.location.href = "/Usuario/Edicao/" + item.usuarioId();
+            window.location.href = "/Usuario/Edicao/" + usuarioId;
         };
 
-        self.excluir = function (item) {
+        self.excluir = function (usuarioId) {
             bootbox.dialog({
                 closeButton: false,
-                message: "Confirma a exclusão do usuário <strong>" + item.nome() + "</strong>!",               
+                message: "Confirma a exclusão do usuário?",               
                 buttons: {
                     nao: {
                         label: "NÃO",
@@ -85,7 +85,7 @@ pages.usuario.viewModel = function () {
                         className: "btn-sm btn-primary",
                         callback: function () {
                             pages.dataServices.bloquearTela();
-                            service.deletar(item.usuarioId()).then(function () {
+                            service.deletar(usuarioId).then(function () {
                                 bootbox.alert("Usuário excluído com sucesso!", function () {  
                                     location.reload();                                                                        
                                 });                                 
@@ -103,5 +103,18 @@ pages.usuario.viewModel = function () {
 
         self.init();
 
-    }, bindingBody);
+    };
+
+    ko.applyBindings(viewModelUsuario, bindingBody);
+
+    $('#datatable-usuario tbody').on('click', '#btnEditar', function (event) {
+        var usuarioId = event.currentTarget.value;
+        viewModelUsuario.editar(usuarioId);
+    });   
+
+    $('#datatable-usuario tbody').on('click', '#btnExcluir', function (event) {
+        var usuarioId = event.currentTarget.value;
+        viewModelUsuario.excluir(usuarioId);
+    });    
+    
 }();
