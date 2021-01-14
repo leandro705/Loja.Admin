@@ -71,6 +71,11 @@ pages.servico.viewModel = function () {
             window.location.href = "/Servico/Edicao/" + servicoId;
         };
 
+        self.visualizar = function (servicoId) {
+            pages.dataServices.bloquearTela();
+            window.location.href = "/Servico/Visualizar/" + servicoId;
+        };
+
         self.ativar = function (servicoId) {
             pages.dataServices.bloquearTela();
             service.ativar(servicoId).then(function () {
@@ -132,6 +137,11 @@ pages.servico.viewModel = function () {
     };
 
     ko.applyBindings(viewModelSevico, bindingBody);
+
+    $('#datatable-servico tbody').on('click', '#btnVisualizar', function (event) {
+        var servicoId = event.currentTarget.value;
+        viewModelSevico.visualizar(servicoId);
+    });
 
     $('#datatable-servico tbody').on('click', '#btnDesativar', function (event) {
         var servicoId = event.currentTarget.value;

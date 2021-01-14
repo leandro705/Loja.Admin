@@ -82,9 +82,8 @@ pages.atendimento.cadastroViewModel = function () {
                         self.estabelecimentos.push(new model.vmEstabelecimento(item));
                     });
                     sucesso();
-                }).catch(function (result) {
-                    console.log(result.data);
-                    falha();
+                }).catch(function (result) {                    
+                    falha(result);
                 }).finally(function () {
                     pages.dataServices.desbloquearTela();
                 });
@@ -99,9 +98,8 @@ pages.atendimento.cadastroViewModel = function () {
                         self.servicos.push(new model.vmServico(item));
                     });
                     sucesso();
-                }).catch(function (result) {
-                    console.log(result.data);
-                    falha();
+                }).catch(function (result) {                    
+                    falha(result);
                 }).finally(function () {
                     pages.dataServices.desbloquearTela();
                 });
@@ -116,9 +114,8 @@ pages.atendimento.cadastroViewModel = function () {
                         self.clientes.push(new model.vmCliente(item));
                     });
                     sucesso();
-                }).catch(function (result) {
-                    console.log(result.data);
-                    falha();
+                }).catch(function (result) {                    
+                    falha(result);
                 }).finally(function () {
                     pages.dataServices.desbloquearTela();
                 });

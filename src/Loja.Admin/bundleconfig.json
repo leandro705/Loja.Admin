@@ -207,11 +207,11 @@
     "sourceMap": false
   },
   {
-    "outputFileName": "wwwroot/js/estabelecimentoContato.min.js",
+    "outputFileName": "wwwroot/js/estabelecimentoVisualizar.min.js",
     "inputFiles": [
       "wwwroot/pages/estabelecimento/pages.estabelecimento.model.js",
       "wwwroot/pages/estabelecimento/pages.estabelecimento.services.js",
-      "wwwroot/pages/estabelecimento/pages.estabelecimento.contatoViewModel.js"
+      "wwwroot/pages/estabelecimento/pages.estabelecimento.visualizarViewModel.js"
     ],
     "minify": {
       "enabled": false,
@@ -285,6 +285,19 @@
     "sourceMap": false
   },
   {
+    "outputFileName": "wwwroot/js/servicoVisualizar.min.js",
+    "inputFiles": [
+      "wwwroot/pages/servico/pages.servico.model.js",
+      "wwwroot/pages/servico/pages.servico.services.js",
+      "wwwroot/pages/servico/pages.servico.visualizarViewModel.js"
+    ],
+    "minify": {
+      "enabled": false,
+      "renameLocals": false
+    },
+    "sourceMap": false
+  },
+  {
     "outputFileName": "wwwroot/js/calendario.min.js",
     "inputFiles": [
       "wwwroot/pages/agendamento/pages.agendamento.model.js",
@@ -337,6 +350,19 @@
     "sourceMap": false
   },
   {
+    "outputFileName": "wwwroot/js/agendamentoVisualizar.min.js",
+    "inputFiles": [
+      "wwwroot/pages/agendamento/pages.agendamento.model.js",
+      "wwwroot/pages/agendamento/pages.agendamento.services.js",
+      "wwwroot/pages/agendamento/pages.agendamento.visualizarViewModel.js"
+    ],
+    "minify": {
+      "enabled": false,
+      "renameLocals": false
+    },
+    "sourceMap": false
+  },
+  {
     "outputFileName": "wwwroot/js/atendimento.min.js",
     "inputFiles": [
       "wwwroot/pages/atendimento/pages.atendimento.model.js",
@@ -376,6 +402,19 @@
     "sourceMap": false
   },
   {
+    "outputFileName": "wwwroot/js/atendimentoVisualizar.min.js",
+    "inputFiles": [
+      "wwwroot/pages/atendimento/pages.atendimento.model.js",
+      "wwwroot/pages/atendimento/pages.atendimento.services.js",
+      "wwwroot/pages/atendimento/pages.atendimento.visualizarViewModel.js"
+    ],
+    "minify": {
+      "enabled": false,
+      "renameLocals": false
+    },
+    "sourceMap": false
+  },
+  {
     "outputFileName": "wwwroot/js/usuario.min.js",
     "inputFiles": [
       "wwwroot/pages/usuario/pages.usuario.model.js",
@@ -407,6 +446,19 @@
       "wwwroot/pages/usuario/pages.usuario.model.js",
       "wwwroot/pages/usuario/pages.usuario.services.js",
       "wwwroot/pages/usuario/pages.usuario.edicaoViewModel.js"
+    ],
+    "minify": {
+      "enabled": false,
+      "renameLocals": false
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/usuarioVisualizar.min.js",
+    "inputFiles": [
+      "wwwroot/pages/usuario/pages.usuario.model.js",
+      "wwwroot/pages/usuario/pages.usuario.services.js",
+      "wwwroot/pages/usuario/pages.usuario.visualizarViewModel.js"
     ],
     "minify": {
       "enabled": false,

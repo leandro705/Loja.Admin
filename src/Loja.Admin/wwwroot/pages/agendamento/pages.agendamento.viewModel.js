@@ -72,6 +72,11 @@ pages.agendamento.viewModel = function () {
             window.location.href = "/Agendamento/Edicao/" + agendamentoId;
         };
 
+        self.visualizar = function (agendamentoId) {
+            pages.dataServices.bloquearTela();
+            window.location.href = "/Agendamento/Visualizar/" + agendamentoId;
+        };
+
         self.iniciarAtendimento = function (agendamentoId) {
             pages.dataServices.bloquearTela()
             window.location.href = "/Atendimento/Cadastro?agendamentoId=" + agendamentoId;
@@ -111,6 +116,11 @@ pages.agendamento.viewModel = function () {
     };
 
     ko.applyBindings(viewModelAgendamento, bindingBody);   
+
+    $('#datatable-agendamento tbody').on('click', '#btnVisualizar', function (event) {
+        var agendamentoId = event.currentTarget.value;
+        viewModelAgendamento.visualizar(agendamentoId);
+    });
 
     $('#datatable-agendamento tbody').on('click', '#btnEditar', function (event) {
         var agendamentoId = event.currentTarget.value;

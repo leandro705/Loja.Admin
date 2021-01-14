@@ -55,8 +55,9 @@
                                     <td data-bind="text: estabelecimentoNome"></td>
                                     <td>
                                         <button id="btnFinalizarAtendimento" type="button" class="btn btn-success waves-effect waves-light" title="Finalizar Atendimento" data-bind="value: atendimentoId, visible: situacao() == 'Pendente'"><i class="mdi mdi-check-bold"></i></button>
-                                        <button id="btnEditar" type="button" class="btn btn-warning waves-effect waves-light" title="Editar" data-bind="value: atendimentoId"><i class="mdi mdi-pencil-outline"></i></button>
-                                        <button id="btnExcluir" type="button" class="btn btn-danger waves-effect waves-light" title="Excluir" data-bind="value: atendimentoId"><i class="mdi mdi-trash-can-outline"></i></button>
+                                        <button id="btnVisualizar" type="button" class="btn btn-info waves-effect waves-light" title="Visualizar" data-bind="value: atendimentoId"><i class="mdi mdi-eye-outline"></i></button>
+                                        <button id="btnEditar" type="button" class="btn btn-warning waves-effect waves-light" title="Editar" data-bind="value: atendimentoId, visible: situacao() == 'Pendente'"><i class="mdi mdi-pencil-outline"></i></button>
+                                        <button id="btnExcluir" type="button" class="btn btn-danger waves-effect waves-light" title="Cancelar" data-bind="value: atendimentoId, visible: situacao() == 'Pendente'"><i class="mdi mdi-trash-can-outline"></i></button>
                                     </td>
                                 </tr>
                             </tbody>

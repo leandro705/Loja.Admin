@@ -64,7 +64,7 @@ pages.menu.viewModel = function () {
             return false;
         });
                 
-        self.exibeMenuEstabelecimentoContato = ko.computed(function () {
+        self.exibeMenuEstabelecimentoVisualizar = ko.computed(function () {
             if (self.usuarioLogado() && self.usuarioLogado().perfil() === service.EPerfil.CLIENTE)
                 return true;
 

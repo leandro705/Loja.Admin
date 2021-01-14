@@ -71,6 +71,11 @@ pages.usuario.viewModel = function () {
             window.location.href = "/Usuario/Edicao/" + usuarioId;
         };
 
+        self.visualizar = function (usuarioId) {
+            pages.dataServices.bloquearTela();
+            window.location.href = "/Usuario/Visualizar/" + usuarioId;
+        };
+
         self.excluir = function (usuarioId) {
             bootbox.dialog({
                 closeButton: false,
@@ -106,6 +111,11 @@ pages.usuario.viewModel = function () {
     };
 
     ko.applyBindings(viewModelUsuario, bindingBody);
+
+    $('#datatable-usuario tbody').on('click', '#btnVisualizar', function (event) {
+        var usuarioId = event.currentTarget.value;
+        viewModelUsuario.visualizar(usuarioId);
+    });
 
     $('#datatable-usuario tbody').on('click', '#btnEditar', function (event) {
         var usuarioId = event.currentTarget.value;

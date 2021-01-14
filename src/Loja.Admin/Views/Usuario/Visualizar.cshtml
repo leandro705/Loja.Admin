@@ -1,0 +1,102 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section contents {
+
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <h4 class="page-title">Visualizar Usuário</h4>
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item active">Visualizar Usuário</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body" data-bind="with:usuario">
+
+                <div class="form-row">
+                    <div class="form-group col-sm-6">
+                        <label>Nome:</label><br />
+                        <span class="text-muted" data-bind="text: nome"></span>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <label>E-mail:</label><br />
+                        <span class="text-muted" data-bind="text: email"></span>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-sm-6">
+                        <label>Celular:</label><br />
+                        <span class="text-muted" data-bind="text: celular"></span>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <label>Telefone:</label><br />
+                        <span class="text-muted" data-bind="text: telefone"></span>
+                    </div>
+                </div>
+
+                <h5 class="mb-3 text-uppercase p-2"> Endereço</h5>
+
+                <div class="form-group" data-bind="with:endereco">
+
+                    <div class="form-row">
+                        <div class="form-group col-sm-6">
+                            <label>Logradouro:</label><br />
+                            <span class="text-muted" data-bind="text: logradouro"></span>
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label>Número:</label><br />
+                            <span class="text-muted" data-bind="text: numero"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-sm-6">
+                            <label>CEP:</label><br />
+                            <span class="text-muted" data-bind="text: cep"></span>
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label>Bairro:</label><br />
+                            <span class="text-muted" data-bind="text: bairro"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-sm-6">
+                            <label>Estado:</label><br />
+                            <span class="text-muted" data-bind="text: estadoNome"></span>
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label>Município:</label><br />
+                            <span class="text-muted" data-bind="text: municipioNome"></span>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-sm-6">
+                            <label>Complemento:</label><br />
+                            <span class="text-muted" data-bind="text: complemento"></span>
+                        </div>                       
+                    </div>                   
+                </div>
+                <div class="form-group float-right">
+                    <button type="button" class="btn btn-secondary mr-1" data-bind="click: $parent.voltar">Voltar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script src="~/js/usuarioVisualizar.min.js"></script>
+}

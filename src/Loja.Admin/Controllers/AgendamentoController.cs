@@ -22,6 +22,11 @@ namespace Loja.Admin.Controllers
         public IActionResult Calendario()
         {
             return View();
-        }        
+        }
+
+        public IActionResult Visualizar()
+        {
+            return View();
+        }
     }
 }

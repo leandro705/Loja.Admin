@@ -19,7 +19,7 @@ namespace Loja.Admin.Controllers
             return View();
         }
 
-        public IActionResult Contato()
+        public IActionResult Visualizar()
         {
             return View();
         }

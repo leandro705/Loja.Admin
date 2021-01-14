@@ -43,7 +43,9 @@ pages.usuario.model = function () {
         self.bairro = ko.observable();
         self.complemento = ko.observable();
         self.municipioId = ko.observable();
+        self.municipioNome = ko.observable();
         self.estadoId = ko.observable();
+        self.estadoNome = ko.observable();
 
         if (endereco) {
             self.logradouro(endereco.logradouro);
@@ -52,7 +54,9 @@ pages.usuario.model = function () {
             self.bairro(endereco.bairro);
             self.complemento(endereco.complemento);
             self.municipioId(endereco.municipioId);
+            self.municipioNome(endereco.municipioNome);
             self.estadoId(endereco.estadoId);
+            self.estadoNome(endereco.estadoNome);
         }
 
     };  

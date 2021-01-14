@@ -18,5 +18,10 @@ namespace Loja.Admin.Controllers
         {
             return View();
         }
+
+        public IActionResult Visualizar()
+        {
+            return View();
+        }
     }
 }

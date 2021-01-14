@@ -1,0 +1,75 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section contents {
+
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <h4 class="page-title">Visualizar Estabelecimento</h4>
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item active">Visualizar Estabelecimento</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body" data-bind="with:estabelecimento">
+                <div class="form-row">
+                    <div class="form-group col-sm-6">
+                        <label>Estabelecimento:</label><br />
+                        <span class="text-muted" data-bind="text: nome"></span>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <label>E-mail:</label><br />
+                        <span class="text-muted" data-bind="text: email"></span>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-sm-6">
+                        <label>Celular:</label><br />
+                        <span class="text-muted" data-bind="text: celular"></span>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <label>Telefone:</label><br />
+                        <span class="text-muted" data-bind="text: telefone"></span>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-sm-6">
+                        <label>Instagram:</label><br />
+                        <span class="text-muted" data-bind="text: instagram"></span>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <label>Facebook:</label><br />
+                        <span class="text-muted" data-bind="text: facebook"></span>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-sm-12">
+                        <label>Descrição:</label><br />
+                        <span class="text-muted" data-bind="text: descricao"></span>
+                    </div>
+                </div>
+                <!-- ko if:  $parent.permiteVoltar() -->
+                <div class="form-group float-right">
+                    <button type="button" class="btn btn-secondary mr-1" data-bind="click: $parent.voltar">Voltar</button>
+                </div>
+                <!-- /ko-->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script src="~/js/estabelecimentoVisualizar.min.js"></script>
+}

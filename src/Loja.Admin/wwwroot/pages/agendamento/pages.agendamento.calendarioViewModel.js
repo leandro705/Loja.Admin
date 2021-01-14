@@ -184,7 +184,7 @@ pages.agendamento.calendarioViewModel = function () {
                     sucesso(clientes);
                 }).catch(function (result) {
                     console.log(result.data);
-                    falha([]);
+                    sucesso([]);
                 }).finally(function () {
                     pages.dataServices.desbloquearTela();
                 });
@@ -201,8 +201,8 @@ pages.agendamento.calendarioViewModel = function () {
                     });
                     sucesso(servicos);
                 }).catch(function (result) {
-                    console.log(result.data);
-                    falha([]);
+                    bootbox.alert(result.data);
+                    sucesso([]);
                 }).finally(function () {
                     pages.dataServices.desbloquearTela();
                 });
@@ -220,7 +220,7 @@ pages.agendamento.calendarioViewModel = function () {
                     sucesso();
                 }).catch(function (result) {
                     console.log(result.data);
-                    falha();
+                    sucesso([]);
                 }).finally(function () {
                     pages.dataServices.desbloquearTela();
                 });
@@ -346,6 +346,8 @@ pages.agendamento.calendarioViewModel = function () {
             self.evento(info.event);
             self.horariosDisponiveis([]);
             let agendamento = await self.obterAgendamentoPorId(info.event.extendedProps.agendamentoId);
+            if (!agendamento) return;
+
             var dataAtual = new Date(new Date().toDateString());
 
             if (new Date(agendamento.dataAgendamento) < dataAtual) {
