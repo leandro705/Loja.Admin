@@ -15,6 +15,7 @@ pages.menu.model = function () {
         self.estabelecimentoNomeUrl = ko.observable(usuarioLogado.estabelecimentoNomeUrl);
         self.isAdministrador = ko.observable(usuarioLogado.isAdministrador); 
         self.isGerente = ko.observable(usuarioLogado.role == "Gerente"); 
+        self.isCliente = ko.observable(usuarioLogado.role == "Cliente"); 
     };
 
     return {       

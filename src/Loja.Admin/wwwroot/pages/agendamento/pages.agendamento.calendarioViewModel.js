@@ -297,7 +297,8 @@ pages.agendamento.calendarioViewModel = function () {
                                         title: titulo,
                                         start: agendamento.dataAgendamento,
                                         end: agendamento.dataFinalAgendamento,
-                                        agendamentoId: agendamento.agendamentoId
+                                        agendamentoId: agendamento.agendamentoId,
+                                        backgroundColor: agendamento.situacao == service.ESituacao.FINALIZADO ? 'green' : ''
                                     };
                                 })
                             )

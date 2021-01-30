@@ -9,6 +9,14 @@ pages.agendamento.services = function () {
         CLIENTE: "Cliente"
     }; 
 
+    var ESituacao = {
+        ATIVO: "Ativo",
+        PENDENTE: "Pendente",
+        FINALIZADO: "Finalizado",
+        CANCELADO: "Cancelado",
+        INATIVO: "Inativo"
+    }; 
+
     var obterTodosEstabelecimentos = function () {
         var url = pages.metadata.actionUrl("/api/estabelecimentos");
         return pages.dataServices.get(url);
@@ -56,6 +64,7 @@ pages.agendamento.services = function () {
 
     return {  
         EPerfil,
+        ESituacao,
         obterTodosEstabelecimentos,
         obterTodosServicosPorEstabelecimentoId,
         obterTodosClientesPorEstabelecimentoId,
