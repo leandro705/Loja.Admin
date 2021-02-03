@@ -17,6 +17,7 @@ pages.estabelecimento.model = function () {
         self.facebook = ko.observable();
         self.dataCadastro = ko.observable();
         self.situacao = ko.observable();
+        self.urlCompleta = ko.observable();
 
         if (estabelecimento) {
             self.estabelecimentoId(estabelecimento.estabelecimentoId);
@@ -30,6 +31,7 @@ pages.estabelecimento.model = function () {
             self.facebook(estabelecimento.facebook);
             self.dataCadastro(estabelecimento.dataCadastro);
             self.situacao(estabelecimento.situacao);
+            self.urlCompleta(URL_SITE + '/Login/Index/' + estabelecimento.url);
         }
     };    
 

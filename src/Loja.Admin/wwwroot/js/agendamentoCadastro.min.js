@@ -87,7 +87,7 @@ pages.agendamento.model = function () {
                     self.horaInicial(splitDataHoraInicial[1]);
                     self.horaFinal(splitDataHoraFinal[1]);
                 }, 500);  
-            }, 500);                        
+            }, 800);                        
             
         };
 

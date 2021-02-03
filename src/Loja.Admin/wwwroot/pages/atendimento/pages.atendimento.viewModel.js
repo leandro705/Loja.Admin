@@ -39,7 +39,7 @@ pages.atendimento.viewModel = function () {
         self.inicializarDatatable = function () {
             var table = $('#datatable-atendimento').DataTable({
                 lengthChange: false,
-                order: [[0, 'asc']],
+                order: [[0, 'desc']],
                 responsive: true,
                 columnDefs: [                
                 {

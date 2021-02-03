@@ -351,7 +351,7 @@ pages.agendamento.calendarioViewModel = function () {
 
             var dataAtual = new Date(new Date().toDateString());
 
-            if (new Date(agendamento.dataAgendamento) < dataAtual) {
+            if (new Date(agendamento.dataAgendamento) < dataAtual || agendamento.situacao == service.ESituacao.FINALIZADO) {
                 self.agendamentoVisualizar(new model.vmAgendamento(agendamento));   
                 self.abrirModalVisualizar();
                 return;
