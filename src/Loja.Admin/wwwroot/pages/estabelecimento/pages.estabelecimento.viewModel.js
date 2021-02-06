@@ -51,15 +51,9 @@ pages.estabelecimento.viewModel = function () {
         self.inicializarDatatable = function () {
             var table = $('#datatable-estabelecimento').DataTable({
                 lengthChange: false,
-                order: [[1, 'asc']],
+                order: [[0, 'desc']],
                 responsive: true,
-                columnDefs: [
-                {
-                    targets: [0],
-                    orderable: false,
-                    searchable: false,
-                    visible: false
-                },
+                columnDefs: [               
                 {
                     targets: [6],
                     orderable: false,

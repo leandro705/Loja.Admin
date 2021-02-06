@@ -32,13 +32,32 @@ pages.agendamento.edicaoViewModel = function () {
             pages.dataServices.bloquearTela();
             service.obterPorId(agendamentoId).then(async function (result) {
 
-                let agendamento = new model.vmAgendamento(result.data, self.adicionarHorarioDisponivel);
+                let agendamento = new model.vmAgendamento(result.data);
                 
                 await self.obterTodosServicosPorEstabelecimentoId(result.data.estabelecimentoId);
                 await self.obterTodosClientesPorEstabelecimentoId(result.data.estabelecimentoId);
                 await self.obterHorariosDisponiveis(result.data.dataAgendamentoStr, result.data.estabelecimentoId, result.data.servicoId);              
 
                 self.agendamento(agendamento);
+
+                if (self.agendamento().carregamentoEdicao()) {
+                    self.agendamento().servicoId(self.agendamento().servicoIdEdicao());
+                    self.agendamento().userId(self.agendamento().userIdEdicao());
+                    self.agendamento().carregamentoEdicao(false);
+                }
+
+                if (self.agendamento().carregamentoHorarioEdicao()) {
+
+                    self.adicionarHorarioDisponivel(new model.vmHorarioDisponivel({
+                        horarioInicial: self.agendamento().horaInicialEdicao(),
+                        horarioFinal: self.agendamento().horaFinalEdicao()
+                    }));
+
+                    self.agendamento().horaInicial(self.agendamento().horaInicialEdicao());
+                    self.agendamento().horaFinal(self.agendamento().horaFinalEdicao());
+                    self.agendamento().carregamentoHorarioEdicao(false);
+                }
+
 
                 if (self.usuarioLogado().isAdministrador()) {
                     await self.obterTodosEstabelecimentos();
@@ -74,6 +93,8 @@ pages.agendamento.edicaoViewModel = function () {
 
                     if ((!self.agendamento().estabelecimentoId() && !self.usuarioLogado().estabelecimentoId()) || !self.agendamento().dataAgendamentoStr() || !self.agendamento().servicoId()) return;
 
+                    self.horariosDisponiveis([]);
+                  
                     let estabelecimentoId = self.agendamento().estabelecimentoId() || self.usuarioLogado().estabelecimentoId();
                     self.obterHorariosDisponiveis(self.agendamento().dataAgendamentoStr(), estabelecimentoId, self.agendamento().servicoId());
 
@@ -141,7 +162,7 @@ pages.agendamento.edicaoViewModel = function () {
         self.obterHorariosDisponiveis = function (dataAgendamento, estabelecimentoId, servicoId) {
             return new Promise(function (sucesso, falha) {
                 pages.dataServices.bloquearTela();
-                self.horariosDisponiveis([]);
+                
                 service.obterHorariosDisponiveis(dataAgendamento, estabelecimentoId, servicoId).then(function (result) {
                     result.data.forEach(function (item) {
                         self.horariosDisponiveis.push(new model.vmHorarioDisponivel(item));

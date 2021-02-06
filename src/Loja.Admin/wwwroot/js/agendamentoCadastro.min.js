@@ -53,10 +53,29 @@ pages.agendamento.model = function () {
         self.estabelecimentoId = ko.observable();
         self.estabelecimentoNome = ko.observable();      
         self.possuiAtendimento = ko.observable(); 
+        self.carregamentoEdicao = ko.observable(false);
+        self.carregamentoHorarioEdicao = ko.observable(false);
+        self.userIdEdicao = ko.observable();
+        self.servicoIdEdicao = ko.observable(); 
+        self.horaInicialEdicao = ko.observable();
+        self.horaFinalEdicao = ko.observable(); 
 
-        self.iniciar = function (agendamento, adicionarHorarioDisponivel) {
+        self.iniciar = function (agendamento) {
+            
             let splitDataHoraInicial = agendamento.dataAgendamentoStr.split(' ');
             let splitDataHoraFinal = agendamento.dataFinalAgendamentoStr.split(' ');
+
+            self.carregamentoEdicao(true);
+            self.carregamentoHorarioEdicao(true);
+            self.userIdEdicao(agendamento.userId);
+            self.servicoIdEdicao(agendamento.servicoId);  
+            self.horaInicialEdicao(splitDataHoraInicial[1]);
+            self.horaFinalEdicao(splitDataHoraFinal[1]);
+
+            self.servicoNome(agendamento.servicoNome);            
+            self.usuarioNome(agendamento.usuarioNome);
+            self.horaInicial(splitDataHoraInicial[1]);
+            self.horaFinal(splitDataHoraFinal[1]);
 
             self.estabelecimentoId(agendamento.estabelecimentoId);
             self.estabelecimentoNome(agendamento.estabelecimentoNome);
@@ -71,23 +90,6 @@ pages.agendamento.model = function () {
             self.dataCadastro(agendamento.dataCadastro);
             self.situacao(agendamento.situacao);
             self.possuiAtendimento(agendamento.possuiAtendimento);
-
-            setTimeout(function () {
-                self.servicoId(agendamento.servicoId);
-                self.servicoNome(agendamento.servicoNome);
-                self.userId(agendamento.userId);
-                self.usuarioNome(agendamento.usuarioNome);
-                setTimeout(function () {
-                    if (adicionarHorarioDisponivel) {
-                        adicionarHorarioDisponivel(new vmHorarioDisponivel({
-                            horarioInicial: splitDataHoraInicial[1],
-                            horarioFinal: splitDataHoraFinal[1]
-                        }))
-                    }
-                    self.horaInicial(splitDataHoraInicial[1]);
-                    self.horaFinal(splitDataHoraFinal[1]);
-                }, 500);  
-            }, 800);                        
             
         };
 

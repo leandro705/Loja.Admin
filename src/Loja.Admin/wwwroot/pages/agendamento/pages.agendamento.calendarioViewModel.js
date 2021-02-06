@@ -84,6 +84,12 @@ pages.agendamento.calendarioViewModel = function () {
                         self.servicosCadastro(servicos);
                         self.clientesCadastro(clientes);
 
+                        if (self.agendamento().carregamentoEdicao()) {
+                            self.agendamento().servicoId(self.agendamento().servicoIdEdicao());                            
+                            self.agendamento().userId(self.agendamento().userIdEdicao());     
+                            self.agendamento().carregamentoEdicao(false);
+                        }
+
                     });                    
 
                     self.usuarioIdFiltro.subscribe(function (usuarioId) {
@@ -139,8 +145,22 @@ pages.agendamento.calendarioViewModel = function () {
 
                 if (!self.agendamento().estabelecimentoId() || !self.agendamento().dataAgendamentoStr() || !self.agendamento().servicoId()) return;
 
-                await self.obterHorariosDisponiveis(self.agendamento().dataAgendamentoStr(), self.agendamento().estabelecimentoId(), self.agendamento().servicoId());
+                self.horariosDisponiveis([]);
 
+                if (self.agendamento().carregamentoHorarioEdicao()) {
+
+                    self.adicionarHorarioDisponivel(new model.vmHorarioDisponivel({
+                        horarioInicial: self.agendamento().horaInicialEdicao(),
+                        horarioFinal: self.agendamento().horaFinalEdicao()
+                    }));
+
+                    self.agendamento().horaInicial(self.agendamento().horaInicialEdicao());
+                    self.agendamento().horaFinal(self.agendamento().horaFinalEdicao());
+                    self.agendamento().carregamentoHorarioEdicao(false);
+                }
+
+                await self.obterHorariosDisponiveis(self.agendamento().dataAgendamentoStr(), self.agendamento().estabelecimentoId(), self.agendamento().servicoId());
+                
             });
 
             self.inicializarCalendario();  
@@ -212,7 +232,7 @@ pages.agendamento.calendarioViewModel = function () {
         self.obterHorariosDisponiveis = function (dataAgendamento, estabelecimentoId, servicoId) {
             return new Promise(function (sucesso, falha) {
                 pages.dataServices.bloquearTela();
-                self.horariosDisponiveis([]);
+                
                 service.obterHorariosDisponiveis(dataAgendamento, estabelecimentoId, servicoId).then(function (result) {
                     result.data.forEach(function (item) {
                         self.horariosDisponiveis.push(new model.vmHorarioDisponivel(item));
@@ -357,7 +377,7 @@ pages.agendamento.calendarioViewModel = function () {
                 return;
             }
 
-            await self.agendamento().iniciar(agendamento, self.adicionarHorarioDisponivel);
+            await self.agendamento().iniciar(agendamento);
             
             self.modalAgendamento(true);
         };

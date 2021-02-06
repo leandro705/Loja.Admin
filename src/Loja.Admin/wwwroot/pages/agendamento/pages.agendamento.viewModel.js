@@ -39,15 +39,9 @@ pages.agendamento.viewModel = function () {
         self.inicializarDatatable = function () {
             var table = $('#datatable-agendamento').DataTable({
                 lengthChange: false,
-                order: [[1, 'asc']],
+                order: [[0, 'desc']],
                 responsive: true,
-                columnDefs: [
-                {
-                    targets: [0],
-                    orderable: false,
-                    searchable: false,
-                    visible: false
-                },
+                columnDefs: [                
                 {
                     targets: [7],
                     orderable: false,
