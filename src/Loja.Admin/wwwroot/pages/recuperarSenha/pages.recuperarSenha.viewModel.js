@@ -12,6 +12,7 @@ pages.recuperarSenha.viewModel = function () {
     ko.applyBindings(new function () {
         var self = this;               
 
+        var nomeUrl = pages.utils.getUrlParameter('nomeUrl');
         pages.utils.initDataPassword();
         self.senha = ko.observable();
         self.confirmarSenha = ko.observable();   
@@ -46,7 +47,7 @@ pages.recuperarSenha.viewModel = function () {
             pages.dataServices.bloquearTela();
             service.recuperarSenha(parametro).then(function () {
                 bootbox.alert("Senha alterada com sucesso!", function () {
-                    window.location.href = URL_SITE;
+                    window.location.href = URL_SITE + "/Login/Index/" + nomeUrl;                    
                 });                
             }).catch(function (result) {
                 if (result.exibeMensagem)
@@ -56,5 +57,5 @@ pages.recuperarSenha.viewModel = function () {
             });
         };       
 
-    }, binding);
+    }, bindingBody);
 }();
